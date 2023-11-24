@@ -11,13 +11,14 @@ from .services import sign_out_user
 from .models import User
 from user.models import UserProfile
 from user.serializer import InitialUserProfileSerializer
+from get_buff.permission import IsPostOnly
 
 
 # Create your views here.
 class UserCreateViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny, IsPostOnly]
     authentication_classes=[]
 
     def create(self, request):

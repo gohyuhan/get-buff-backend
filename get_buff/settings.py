@@ -108,6 +108,10 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = 'account.User'
 
+REST_AUTH_SERIALIZERS = {     
+    'USER_DETAILS_SERIALIZER':'account.serializer.UserSerializer' 
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
