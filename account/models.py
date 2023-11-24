@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-from django.utils import timezone
 import importlib
 
 
@@ -31,10 +30,16 @@ class UserManager(BaseUserManager):
         user_profile = getattr(
             user_models, "UserProfile"
         )
-        if user_profile:
+        training_setting = getattr(
+            user_models, "TrainingSetting"
+        )
+        if user_profile and training_setting:
             user_profile.objects.create(
                 user=user,
                 gender = "male",
+            )
+            training_setting.objects.create(
+                user_profile=user_profile
             )
 
         return user
