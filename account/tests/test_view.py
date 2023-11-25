@@ -3,7 +3,6 @@ from rest_framework.authtoken.models import Token
 
 from rest_framework.test import APITestCase
 from rest_framework import status
-from account.models import User
 from user.models import UserProfile
 
 

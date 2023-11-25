@@ -37,6 +37,10 @@ class Exercise(BaseModel):
         MuscleCategory,
         help_text="to show what muscle categories is this excercise belong to, could be more than 1"
     )
+    min_count = models.PositiveIntegerField(
+        help_text="minimum number of reps or seconds need to init for this exercise",
+        default=0
+    )
 
     def __str__(self):
         self.name
@@ -54,6 +58,10 @@ class PresetTrainingSet(BaseModel):
         null=True,
         on_delete=models.PROTECT
     )
+
+    @property
+    def preset_training_exercise(self):
+        return PresetTrainingExercise.objects.filter(belong_to_training_set=self).order_by("order")
 
     def __str__(self):
         return f"{self.name} - {self.level}"
@@ -116,11 +124,16 @@ class CustomTrainingSet(BaseModel):
     )
     created = models.DateTimeField(auto_now_add=True)
     valid_till = models.DateTimeField()
-    type = EnumField(
+    training_type = EnumField(
         TrainingType,
         max_length=3,
         help_text = "to indicate if this training set is created base on our preset Training set or user custom training set"
     )
+    min_count = models.PositiveIntegerField(default=5)
+
+    @property
+    def custom_preset_training_exercise(self):
+        return CustomTrainingExercise.objects.filter(belong_to_custom_training_set=self).order_by("order")
 
     def __str__(self):
         return (
