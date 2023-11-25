@@ -1,0 +1,2 @@
+class TrainingSetError(Exception):
+    pass

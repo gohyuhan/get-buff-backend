@@ -34,12 +34,12 @@ class UserManager(BaseUserManager):
             user_models, "TrainingSetting"
         )
         if user_profile and training_setting:
-            user_profile.objects.create(
+            user_prof = user_profile.objects.create(
                 user=user,
                 gender = "male",
             )
             training_setting.objects.create(
-                user_profile=user_profile
+                user_profile=user_prof
             )
 
         return user

@@ -11,6 +11,9 @@ from muscle.serializer import (
     MuscleSerializer,
     MuscleCategorySerializer
 )
+from user.serializer import UserProfileSerializer
+
+
 
 class ExerciseSerializer(serializers.ModelSerializer):
     muscle = MuscleSerializer(many=True)
@@ -73,3 +76,55 @@ class PresetTrainingSetSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation['level'] = instance.get_level_display()
         return representation
+    
+
+class CustomTrainingExerciseSerializer(serializers.ModelSerializer):
+    exercise = ExerciseSerializer(many=False)
+    class Meta:
+        model = CustomTrainingExercise
+        fields = (
+            "id",
+            "calculate_in", 
+            "required_value",
+            "level",
+            "exercise",
+            "order",
+            "status"
+        )
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['calculate_in'] = instance.get_calculate_in_display()
+        representation['level'] = instance.get_level_display()
+        representation['status'] = instance.get_status_display()
+        return representation
+
+
+class CustomTrainingSetSerializer(serializers.ModelSerializer):
+    exercise = CustomTrainingExerciseSerializer(source="custom_preset_training_exercise", many=True)
+    muscle_category = MuscleCategorySerializer(many=False)
+    user_profile = UserProfileSerializer(many=False)
+
+    class Meta:
+        model = CustomTrainingSet
+        fields = (
+            "id",
+            "user_profile",
+            "name",
+            "level",
+            "muscle_category",
+            "status",
+            "training_type",
+            "exercise"
+        )
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['level'] = instance.get_level_display()
+        representation['status'] = instance.get_status_display()
+        representation['training_type'] = instance.get_training_type_display()
+        return representation
+    
+    
+
+
