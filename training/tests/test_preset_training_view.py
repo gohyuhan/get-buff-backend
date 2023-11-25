@@ -1,12 +1,6 @@
 from django.urls import reverse
 
 from rest_framework.test import APITestCase
-from rest_framework import status
-from training.models import (
-    Exercise,
-    PresetTrainingSet,
-    PresetTrainingExercise
-)
 from .factories import (
     ExerciseFactory,
     PresetTrainingExerciseFactory,
@@ -18,9 +12,7 @@ from muscle.tests.factories import (
 )
 from training.enums import (
     TrainingLevel, 
-    CalculatedIn, 
-    TrainingStatus, 
-    TrainingType
+    CalculatedIn
 )
 
 

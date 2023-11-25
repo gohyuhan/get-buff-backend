@@ -4,6 +4,7 @@ class TrainingLevel(ChoiceEnum):
     BEGINNER = ("BEG","beginner")
     INTERMEDIATE = ("INT","intermediate")
     ADVANCED = ("ADV","advanced")
+    CUSTOM = ("CUS", "custom")
 
 
 class TrainingType(ChoiceEnum):

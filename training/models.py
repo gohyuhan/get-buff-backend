@@ -105,7 +105,7 @@ class CustomTrainingSet(BaseModel):
         on_delete=models.CASCADE
     )
     name = models.CharField(max_length=255)
-    EnumField(
+    level = EnumField(
         TrainingLevel, 
         default=None, 
         null=True, 
@@ -120,16 +120,14 @@ class CustomTrainingSet(BaseModel):
     )
     status = EnumField(
         TrainingStatus, 
-        max_length=3
+        max_length=3,
+        default=TrainingStatus.ONGOING
     )
-    created = models.DateTimeField(auto_now_add=True)
-    valid_till = models.DateTimeField()
     training_type = EnumField(
         TrainingType,
         max_length=3,
         help_text = "to indicate if this training set is created base on our preset Training set or user custom training set"
     )
-    min_count = models.PositiveIntegerField(default=5)
 
     @property
     def custom_preset_training_exercise(self):
@@ -165,7 +163,8 @@ class CustomTrainingExercise(BaseModel):
     )
     status = EnumField(
         TrainingStatus,
-        max_length=3
+        max_length=3,
+        default=TrainingStatus.ONGOING
     )
 
     def __str__(self):

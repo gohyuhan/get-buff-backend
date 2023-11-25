@@ -3,7 +3,9 @@ from factory.django import DjangoModelFactory
 from training.models import (
     Exercise,
     PresetTrainingSet,
-    PresetTrainingExercise
+    PresetTrainingExercise,
+    CustomTrainingSet,
+    CustomTrainingExercise
 )
 
 
@@ -20,3 +22,13 @@ class PresetTrainingSetFactory(DjangoModelFactory):
 class PresetTrainingExerciseFactory(DjangoModelFactory):
     class Meta:
         model = PresetTrainingExercise
+
+
+class CustomTrainingSetFactory(DjangoModelFactory):
+    class Meta:
+        model = CustomTrainingSet
+
+
+class CustomTrainingExerciseFactory(DjangoModelFactory):
+    class Meta:
+        model = CustomTrainingExercise
