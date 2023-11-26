@@ -14,7 +14,8 @@ from muscle.tests.factories import (
 )
 from training.enums import (
     TrainingLevel, 
-    CalculatedIn
+    CalculatedIn,
+    TrainingStatus
 )
 from training.models import(
     CustomTrainingSet,
@@ -336,6 +337,11 @@ class TrainingTest(APITestCase):
             5
         )
 
+        # retrieve as other user which didn't have any customtrainingset
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token2.key}')
+        resp = self.client.get(self.URL)
+        self.assertEqual(resp.json(), [])
+
     def test_exercise_less_than_default_minimum_error_api_view(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         data={
@@ -463,4 +469,80 @@ class TrainingTest(APITestCase):
         resp = self.client.post(self.URL2, data, format='json')
         self.assertEqual(resp.status_code, 400)
         self.assertEqual(resp.json()['message'], "Error on authentication, please logout and login again ")
-    
+
+    def test_pause_training_set(self):
+        # create training set and exercise first
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        data={
+            "profile":self.user_profile.id,
+            "name":"test customize training set",
+            "exercise":[
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                }
+            ]
+        }
+
+        self.client.post(self.URL2, data, format='json')
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.ONGOING)),
+            5
+        )
+
+        custom_training_set = CustomTrainingSet.objects.all().first()
+        custom_training_exercise_id = [exe.id for exe in CustomTrainingExercise.objects.all()]
+
+        data={
+            "profile":self.user_profile.id,
+            "custom_training_set":custom_training_set.id,
+            "exercise":[
+                {
+                    "id":custom_training_exercise_id[0],
+                    "status":"completed"
+                },
+                {
+                    "id":custom_training_exercise_id[1],
+                    "status":"completed"
+                },
+                {
+                    "id":custom_training_exercise_id[2],
+                    "status":"completed"
+                },
+                {
+                    "id":custom_training_exercise_id[3],
+                    "status":"ongoing"
+                },
+                {
+                    "id":custom_training_exercise_id[4],
+                    "status":"ongoing"
+                }
+            ]
+        }
+
+        resp = self.client.post(reverse("api:training:training_pause"), data, format='json')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.COMPLETED)),
+            3
+        )
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.ONGOING)),
+            2
+        )
