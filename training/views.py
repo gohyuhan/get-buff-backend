@@ -11,8 +11,13 @@ from training.models import (
     PresetTrainingSet, 
     CustomTrainingSet
 )
-from .services import create_custom_preset_training_set
+from .services import (
+    create_custom_preset_training_set, 
+    create_custom_training_set
+)
 from .exceptions import TrainingSetError
+from user.exceptions import UserProfileError
+from get_buff.permission import IsPostOnly
 
 
 # Create your views here.
@@ -39,6 +44,27 @@ class CustomPresetTrainingSetViewSet(ModelViewSet):
             return Response(data, status = status.HTTP_201_CREATED)
         except TrainingSetError as e:
             return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except UserProfileError as e:
+            return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CustomTrainingSetViewSet(ModelViewSet):
+    """
+    the endpoint for creating training assiociate to user profile based on user customization.
+    This endpoint is only responsible for creation of customize training set, 
+    for retrieve use CustomPresetTrainingViewSet endpoint, as the model are the same but the post request
+    return data is in different structure
+    """
+    queryset = CustomTrainingSet.objects.all().order_by('-created')
+    serializer_class = CustomTrainingSetSerializer
+    permission_classes = [IsAuthenticated, IsPostOnly]
 
+    def create(self, request, *args, **kwargs):
+        try:
+            custom_training_set = create_custom_training_set(request)
+            data = CustomTrainingSetSerializer(custom_training_set).data
+            return Response(data, status = status.HTTP_201_CREATED)
+        except TrainingSetError as e:
+            return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except UserProfileError as e:
+            return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)

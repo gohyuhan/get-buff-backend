@@ -3,7 +3,8 @@ from django.conf import settings
 from training.models import (
     PresetTrainingExercise,
     CustomTrainingSet,
-    CustomTrainingExercise
+    CustomTrainingExercise,
+    Exercise
 )
 from muscle.models import MuscleCategory
 from training.enums import (
@@ -13,10 +14,14 @@ from training.enums import (
 )
 from user.models import UserProfile
 from .exceptions import TrainingSetError
+from user.exceptions import UserProfileError
 
 
 def create_custom_preset_training_set(request):
+    user = request.user
     profile_id = request.data.pop('profile')
+    if not user.is_authenticated or not UserProfile.objects.filter(user=user, id=profile_id).exists():
+        raise UserProfileError("Error on authentication, please logout and login again ")
     preset_exercise = request.data.pop('exercise')
     lvl = request.data.get('level')
     if len(preset_exercise)< settings.TRAINING_EXERCISE_MIN_COUNT:
@@ -52,10 +57,50 @@ def create_custom_preset_training_set(request):
                 level = exe.level,
                 belong_to_custom_training_set = custom_training_set,
                 exercise = exe.exercise,
-                order = i,
+                order = i+1,
                 status = TrainingStatus.ONGOING,
             )
         except PresetTrainingExercise.DoesNotExist:
             pass
 
     return custom_training_set
+
+
+def create_custom_training_set(request):
+    """
+    use to create custom training set based on user customization
+    """
+    user = request.user
+    profile_id = request.data.pop('profile')
+    if not user.is_authenticated or not UserProfile.objects.filter(user=user, id=profile_id).exists():
+        raise UserProfileError("Error on authentication, please logout and login again ")
+    custom_exercise = request.data.pop('exercise')
+    if len(custom_exercise)< settings.TRAINING_EXERCISE_MIN_COUNT:
+        raise TrainingSetError("Exercise count should more than or equal 5")
+    
+    custom_training_set = CustomTrainingSet.objects.create(
+        user_profile=UserProfile.objects.get(id=profile_id),
+        name=request.data.get('name'),
+        level=TrainingLevel.CUSTOM,
+        status=TrainingStatus.ONGOING,
+        training_type=TrainingType.CUSTOM
+    )
+    for i, exercise_set in enumerate(custom_exercise):
+        try:
+            exe = Exercise.objects.get(id=exercise_set['id'])
+            CustomTrainingExercise.objects.create(
+                calculate_in = exe.calculate_in,
+                required_value = exercise_set['count'],
+                level = TrainingLevel.CUSTOM,
+                belong_to_custom_training_set = custom_training_set,
+                exercise = exe,
+                order = i+1,
+                status = TrainingStatus.ONGOING,
+            )
+        except Exercise.DoesNotExist:
+            pass
+
+    return custom_training_set
+
+
+
