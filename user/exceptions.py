@@ -1,0 +1,2 @@
+class UserProfileError(Exception):
+    pass

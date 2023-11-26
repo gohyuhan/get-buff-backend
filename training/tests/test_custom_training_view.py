@@ -26,6 +26,7 @@ from user.models import UserProfile
 
 class TrainingTest(APITestCase):
     URL = reverse("api:training:custom_preset_training_set-list")
+    URL2 = reverse("api:training:custom_training_set-list")
     def setUp(self):
         url = reverse('api:account:user_sign_up-list')
         data = {
@@ -36,11 +37,22 @@ class TrainingTest(APITestCase):
             "gender":"male",
             "weight_in_kg":50.10,
             "height_in_cm":173
-        }
+        } 
         self.client.post(url, data)
         self.user_profile = UserProfile.objects.all().first()
-        token = Token.objects.all().first()
-        self.client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
+        self.token = Token.objects.all().first()
+        url = reverse('api:account:user_sign_up-list')
+        data2 = {
+            "email": "uncleben2@gmail.com", 
+            "password": "JustPassword",
+            "first_name": "Uncle2",
+            "last_name": "Ben2",
+            "gender":"male",
+            "weight_in_kg":52.10,
+            "height_in_cm":172        
+        }
+        self.client.post(url, data2)
+        self.token2 = Token.objects.all().order_by('user__id').last()
 
         self.muscle_category={
             "shoulder_and_back":MuscleCategoryFactory(
@@ -142,6 +154,7 @@ class TrainingTest(APITestCase):
         }
 
     def test_create_list_retrieve_training_set(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         data={
             "profile":self.user_profile.id,
             "name":"test custom training set",
@@ -324,6 +337,7 @@ class TrainingTest(APITestCase):
         )
 
     def test_exercise_less_than_default_minimum_error_api_view(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         data={
             "profile":self.user_profile.id,
             "name":"test custom training set",
@@ -370,3 +384,83 @@ class TrainingTest(APITestCase):
         resp = self.client.post(self.URL, data, format='json')
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(resp.json()['message'], "Exercise count should more than or equal 5")
+
+    def test_customization_training_view_set(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        data={
+            "profile":self.user_profile.id,
+            "name":"test customize training set",
+            "exercise":[
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                }
+            ]
+        }
+
+        resp = self.client.post(self.URL2, data, format='json')
+        self.assertEqual(resp.status_code, 201)
+
+        self.assertEqual(
+            len(CustomTrainingSet.objects.all()),
+            1
+        )
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.all()),
+            5
+        )
+
+    def test_customization_training_view_set_get_permission_not_allowed(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        resp = self.client.get(self.URL2)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_customization_training_view_set_auth_user_and_profile_not_match(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token2.key}')
+        data={
+            "profile":self.user_profile.id,
+            "name":"test customize training set",
+            "exercise":[
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                }
+            ]
+        }
+
+        resp = self.client.post(self.URL2, data, format='json')
+        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(resp.json()['message'], "Error on authentication, please logout and login again ")
+    
