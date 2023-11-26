@@ -15,7 +15,9 @@ from training.models import (
 from .services import (
     create_custom_preset_training_set, 
     create_custom_training_set,
-    pause_training_set
+    pause_training_set,
+    conclude_training_set,
+    give_up_training_set
 )
 from .exceptions import TrainingSetError
 from user.exceptions import UserProfileError
@@ -88,5 +90,37 @@ class TrainingSetPauseView(APIView):
     permission_classes = [IsAuthenticated, IsPostOnly]
 
     def post(self, request, *args, **kwargs):
-        pause_training_set(request)
-        return Response(status = status.HTTP_200_OK)
+        try:
+            pause_training_set(request)
+            return Response(status = status.HTTP_200_OK)
+        except:
+            return Response(status = status.HTTP_400_BAD_REQUEST)
+
+
+class TrainingSetConcludeView(APIView):
+    """
+    endpoint for concluding a training set,
+    NOTE: the badges progress conclude should also be include in this endpoint in the future
+    """
+    permission_classes = [IsAuthenticated, IsPostOnly]
+
+    def post(self, request, *args, **kwargs):
+        try:
+            conclude_training_set(request)
+            return Response(status = status.HTTP_200_OK)
+        except:
+            return Response(status = status.HTTP_400_BAD_REQUEST)
+    
+
+class TrainingSetGiveUpView(APIView):
+    """
+    endpoint for giving up a training set
+    """
+    permission_classes = [IsAuthenticated, IsPostOnly]
+
+    def post(self, request, *args, **kwargs):
+        try:
+            give_up_training_set(request)
+            return Response(status = status.HTTP_200_OK)
+        except:
+            return Response(status = status.HTTP_400_BAD_REQUEST)

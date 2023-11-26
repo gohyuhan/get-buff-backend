@@ -109,7 +109,10 @@ def pause_training_set(request):
     if not user.is_authenticated or not UserProfile.objects.filter(user=user, id=profile_id).exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
     custom_training_set_id = request.data.get('custom_training_set')
-    custom_training_set = CustomTrainingSet.objects.get(id= custom_training_set_id)
+    custom_training_set = CustomTrainingSet.objects.get(
+        id= custom_training_set_id,
+        user_profile__user = user
+    )
     custom_exercise = request.data.pop('exercise')
     for exercise_set in custom_exercise:
         try:
@@ -121,6 +124,46 @@ def pause_training_set(request):
             exe.save()
         except CustomTrainingExercise.DoesNotExist:
             pass
+
+
+def conclude_training_set(request):
+    user = request.user
+    profile_id = request.data.pop('profile')
+    if not user.is_authenticated or not UserProfile.objects.filter(user=user, id=profile_id).exists():
+        raise UserProfileError("Error on authentication, please logout and login again ")
+    custom_training_set_id = request.data.get('custom_training_set')
+    custom_training_set = CustomTrainingSet.objects.get(
+        id= custom_training_set_id,
+        user_profile__user = user
+    )
+    CustomTrainingExercise.objects.filter(
+        status = TrainingStatus.ONGOING,
+        belong_to_custom_training_set=custom_training_set
+    ).update(
+        status = TrainingStatus.COMPLETED
+    )
+    custom_training_set.status = TrainingStatus.COMPLETED
+    custom_training_set.save()
+
+
+def give_up_training_set(request):
+    user = request.user
+    profile_id = request.data.pop('profile')
+    if not user.is_authenticated or not UserProfile.objects.filter(user=user, id=profile_id).exists():
+        raise UserProfileError("Error on authentication, please logout and login again ")
+    custom_training_set_id = request.data.get('custom_training_set')
+    custom_training_set = CustomTrainingSet.objects.get(
+        id= custom_training_set_id,
+        user_profile__user = user
+    )
+    CustomTrainingExercise.objects.filter(
+        status = TrainingStatus.ONGOING,
+        belong_to_custom_training_set=custom_training_set
+    ).update(
+        status = TrainingStatus.GIVEUP
+    )
+    custom_training_set.status = TrainingStatus.GIVEUP
+    custom_training_set.save()
 
 
 def return_training_status(status):

@@ -546,3 +546,207 @@ class TrainingTest(APITestCase):
             len(CustomTrainingExercise.objects.filter(status = TrainingStatus.ONGOING)),
             2
         )
+
+    def test_conclude_training_set(self):
+        # create training set and exercise first
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        data={
+            "profile":self.user_profile.id,
+            "name":"test customize training set",
+            "exercise":[
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                }
+            ]
+        }
+
+        self.client.post(self.URL2, data, format='json')
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.ONGOING)),
+            5
+        )
+
+        custom_training_set = CustomTrainingSet.objects.all().first()
+
+        data={
+            "profile":self.user_profile.id,
+            "custom_training_set":custom_training_set.id,
+        }
+        resp = self.client.post(reverse("api:training:training_conclude"), data, format='json')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.COMPLETED)),
+            5
+        )
+        self.assertEqual(
+            len(CustomTrainingSet.objects.filter(status = TrainingStatus.COMPLETED)),
+            1
+        )
+
+    def test_give_up_brand_new_training_set(self):
+        # create training set and exercise first
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        data={
+            "profile":self.user_profile.id,
+            "name":"test customize training set",
+            "exercise":[
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                }
+            ]
+        }
+
+        self.client.post(self.URL2, data, format='json')
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.ONGOING)),
+            5
+        )
+
+        custom_training_set = CustomTrainingSet.objects.all().first()
+
+        data={
+            "profile":self.user_profile.id,
+            "custom_training_set":custom_training_set.id,
+        }
+        resp = self.client.post(reverse("api:training:training_give_up"), data, format='json')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.GIVEUP)),
+            5
+        )
+        self.assertEqual(
+            len(CustomTrainingSet.objects.filter(status = TrainingStatus.GIVEUP)),
+            1
+        )
+
+    def test_give_up_in_progress_training_set(self):
+        # create training set and exercise first
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        data={
+            "profile":self.user_profile.id,
+            "name":"test customize training set",
+            "exercise":[
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":8
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":15
+                }
+            ]
+        }
+
+        self.client.post(self.URL2, data, format='json')
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.ONGOING)),
+            5
+        )
+
+        custom_training_set = CustomTrainingSet.objects.all().first()
+        custom_training_exercise_id = [exe.id for exe in CustomTrainingExercise.objects.all()]
+
+        data={
+            "profile":self.user_profile.id,
+            "custom_training_set":custom_training_set.id,
+            "exercise":[
+                {
+                    "id":custom_training_exercise_id[0],
+                    "status":"completed"
+                },
+                {
+                    "id":custom_training_exercise_id[1],
+                    "status":"completed"
+                },
+                {
+                    "id":custom_training_exercise_id[2],
+                    "status":"completed"
+                },
+                {
+                    "id":custom_training_exercise_id[3],
+                    "status":"ongoing"
+                },
+                {
+                    "id":custom_training_exercise_id[4],
+                    "status":"ongoing"
+                }
+            ]
+        }
+
+        resp = self.client.post(reverse("api:training:training_pause"), data, format='json')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.COMPLETED)),
+            3
+        )
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.ONGOING)),
+            2
+        )
+
+        data={
+            "profile":self.user_profile.id,
+            "custom_training_set":custom_training_set.id,
+        }
+
+        resp = self.client.post(reverse("api:training:training_give_up"), data, format='json')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.COMPLETED)),
+            3
+        )
+        print(CustomTrainingExercise.objects.filter(status = TrainingStatus.GIVEUP))
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.filter(status = TrainingStatus.GIVEUP)),
+            2
+        )
+        self.assertEqual(
+            len(CustomTrainingSet.objects.filter(status = TrainingStatus.GIVEUP)),
+            1
+        )

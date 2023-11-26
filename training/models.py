@@ -64,7 +64,7 @@ class PresetTrainingSet(BaseModel):
         return PresetTrainingExercise.objects.filter(belong_to_training_set=self).order_by("order")
 
     def __str__(self):
-        return f"{self.name} - {self.level}"
+        return f"{self.name} - {self.level.value}"
     
 
 class PresetTrainingExercise(BaseModel):
@@ -91,7 +91,7 @@ class PresetTrainingExercise(BaseModel):
     )
 
     def __str__(self):
-        return f"{self.exercise.name} - {self.level} - belong to: {self.belong_to_training_set.name}"
+        return f"{self.exercise.name} - {self.level.value} - belong to: {self.belong_to_training_set.name}"
 
     
 class CustomTrainingSet(BaseModel):
@@ -135,7 +135,7 @@ class CustomTrainingSet(BaseModel):
 
     def __str__(self):
         return (
-            f"{self.user_profile.user.first_name} {self.user_profile.user.last_name} - {self.name} - {self.type} - {self.status}"
+            f"{self.user_profile.user.first_name} {self.user_profile.user.last_name} - {self.name} - {self.training_type.value} - {self.status.value}"
         )
     
 
@@ -168,5 +168,5 @@ class CustomTrainingExercise(BaseModel):
     )
 
     def __str__(self):
-        return f"{self.exercise.name} - {self.status}"
+        return f"{self.exercise.name} - {self.status.value}"
 

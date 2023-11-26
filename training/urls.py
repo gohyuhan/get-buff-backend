@@ -5,7 +5,9 @@ from .views import (
     PresetTrainingSetViewSet,
     CustomPresetTrainingSetViewSet,
     CustomTrainingSetViewSet,
-    TrainingSetPauseView
+    TrainingSetPauseView,
+    TrainingSetConcludeView,
+    TrainingSetGiveUpView
 )
 
 
@@ -19,5 +21,7 @@ router.register('custom-training-set', CustomTrainingSetViewSet, basename='custo
 
 urlpatterns=[
     path('training-pause', TrainingSetPauseView.as_view(), name='training_pause'),
+    path('training-conclude', TrainingSetConcludeView.as_view(), name='training_conclude'),
+    path('training-give-up', TrainingSetGiveUpView.as_view(), name='training_give_up'),
 ]
 urlpatterns += router.urls
