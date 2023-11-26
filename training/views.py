@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.views import APIView
 
 from training.serializer import (
     PresetTrainingSetSerializer,
@@ -13,18 +14,23 @@ from training.models import (
 )
 from .services import (
     create_custom_preset_training_set, 
-    create_custom_training_set
+    create_custom_training_set,
+    pause_training_set
 )
 from .exceptions import TrainingSetError
 from user.exceptions import UserProfileError
-from get_buff.permission import IsPostOnly
+from get_buff.permission import IsPostOnly, NoPutDeletePermission
 
+
+"""
+NOTE: we are not allowing update or delete request for any training related request
+"""
 
 # Create your views here.
 class PresetTrainingSetViewSet(ReadOnlyModelViewSet):
     queryset = PresetTrainingSet.objects.all().order_by('id')
     serializer_class = PresetTrainingSetSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny, NoPutDeletePermission]
     authentication_classes = []
 
 
@@ -35,7 +41,12 @@ class CustomPresetTrainingSetViewSet(ModelViewSet):
     """
     queryset = CustomTrainingSet.objects.all().order_by('-created')
     serializer_class = CustomTrainingSetSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, NoPutDeletePermission]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            user_profile__user = self.request.user
+        )
 
     def create(self, request, *args, **kwargs):
         try:
@@ -68,3 +79,14 @@ class CustomTrainingSetViewSet(ModelViewSet):
             return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except UserProfileError as e:
             return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class TrainingSetPauseView(APIView):
+    """
+    endpoint for saving the progress of a training set that is completed yet, the training is put to a hold
+    """
+    permission_classes = [IsAuthenticated, IsPostOnly]
+
+    def post(self, request, *args, **kwargs):
+        pause_training_set(request)
+        return Response(status = status.HTTP_200_OK)

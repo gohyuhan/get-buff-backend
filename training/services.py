@@ -103,4 +103,30 @@ def create_custom_training_set(request):
     return custom_training_set
 
 
+def pause_training_set(request):
+    user = request.user
+    profile_id = request.data.pop('profile')
+    if not user.is_authenticated or not UserProfile.objects.filter(user=user, id=profile_id).exists():
+        raise UserProfileError("Error on authentication, please logout and login again ")
+    custom_training_set_id = request.data.get('custom_training_set')
+    custom_training_set = CustomTrainingSet.objects.get(id= custom_training_set_id)
+    custom_exercise = request.data.pop('exercise')
+    for exercise_set in custom_exercise:
+        try:
+            exe = CustomTrainingExercise.objects.get(
+                id = exercise_set['id'],
+                belong_to_custom_training_set = custom_training_set
+            )
+            exe.status = return_training_status(exercise_set['status'])
+            exe.save()
+        except CustomTrainingExercise.DoesNotExist:
+            pass
 
+
+def return_training_status(status):
+    if status == TrainingStatus.COMPLETED.label:
+        return TrainingStatus.COMPLETED
+    elif status == TrainingStatus.GIVEUP.label:
+        return TrainingStatus.GIVEUP
+    else:
+        return TrainingStatus.ONGOING
