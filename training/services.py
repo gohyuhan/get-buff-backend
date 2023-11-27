@@ -12,7 +12,10 @@ from training.enums import (
     TrainingStatus, 
     TrainingType
 )
-from user.models import UserProfile
+from user.models import (
+    UserProfile,
+    TrainingSetCompletedRecord
+)
 from .exceptions import TrainingSetError
 from user.exceptions import UserProfileError
 
@@ -144,6 +147,10 @@ def conclude_training_set(request):
     )
     custom_training_set.status = TrainingStatus.COMPLETED
     custom_training_set.save()
+    TrainingSetCompletedRecord.objects.create(
+        user_profile = UserProfile.objects.get(id=profile_id),
+        training_set = custom_training_set
+    )
 
 
 def give_up_training_set(request):

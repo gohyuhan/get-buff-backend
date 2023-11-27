@@ -75,7 +75,12 @@ class TrainingSetCompletedRecord(models.Model):
         UserProfile, null=False, blank=False, on_delete=models.CASCADE
     )
     completed_date_time = models.DateTimeField(auto_now=True)
-    training_set = ""
+    training_set = models.ForeignKey(
+        "training.CustomTrainingSet",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return (
@@ -96,7 +101,7 @@ class TrainingSetting(models.Model):
     class Meta:
         constraints = [
             CheckConstraint(
-                check=models.Q(rest_time__gt=0,
+                check=models.Q(rest_time__gt=5,
                                rest_time__lt=120),
                 name='rest_time_range_check'
             ),

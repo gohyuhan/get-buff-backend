@@ -38,7 +38,8 @@ class UserCreateViewSet(ModelViewSet):
                     user_profile.update(
                         gender=serializer.data['gender'],
                         weight_in_kg=serializer.data['weight_in_kg'],
-                        height_in_cm=serializer.data['height_in_cm']
+                        height_in_cm=serializer.data['height_in_cm'],
+                        target_weight_in_kg=serializer.data['weight_in_kg']
                     )
             return Response(token.key, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
