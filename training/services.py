@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.db import transaction
 
 from training.models import (
     PresetTrainingExercise,
@@ -16,14 +17,17 @@ from user.models import (
     UserProfile,
     TrainingSetCompletedRecord
 )
-from .exceptions import TrainingSetError
+from .exceptions import (
+    TrainingSetError,
+    TrainingExerciseError
+)
 from user.exceptions import UserProfileError
 
 
 def create_custom_preset_training_set(request):
     user = request.user
-    profile_id = request.data.pop('profile')
-    if not user.is_authenticated or not UserProfile.objects.filter(user=user, id=profile_id).exists():
+    profile_uuid = request.data.pop('profile')
+    if not user.is_authenticated or not UserProfile.objects.filter(user=user, uuid=profile_uuid).exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
     preset_exercise = request.data.pop('exercise')
     lvl = request.data.get('level')
@@ -42,7 +46,7 @@ def create_custom_preset_training_set(request):
         level=TrainingLevel.ADVANCED
 
     custom_training_set = CustomTrainingSet.objects.create(
-        user_profile=UserProfile.objects.get(id=profile_id),
+        user_profile=UserProfile.objects.get(uuid=profile_uuid),
         name=request.data.get('name'),
         level=level,
         muscle_category=muscle_category,
@@ -74,42 +78,45 @@ def create_custom_training_set(request):
     use to create custom training set based on user customization
     """
     user = request.user
-    profile_id = request.data.pop('profile')
-    if not user.is_authenticated or not UserProfile.objects.filter(user=user, id=profile_id).exists():
+    profile_uuid = request.data.pop('profile')
+    if not user.is_authenticated or not UserProfile.objects.filter(user=user, uuid=profile_uuid).exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
     custom_exercise = request.data.pop('exercise')
     if len(custom_exercise)< settings.TRAINING_EXERCISE_MIN_COUNT:
         raise TrainingSetError("Exercise count should more than or equal 5")
     
-    custom_training_set = CustomTrainingSet.objects.create(
-        user_profile=UserProfile.objects.get(id=profile_id),
-        name=request.data.get('name'),
-        level=TrainingLevel.CUSTOM,
-        status=TrainingStatus.ONGOING,
-        training_type=TrainingType.CUSTOM
-    )
-    for i, exercise_set in enumerate(custom_exercise):
-        try:
-            exe = Exercise.objects.get(id=exercise_set['id'])
-            CustomTrainingExercise.objects.create(
-                calculate_in = exe.calculate_in,
-                required_value = exercise_set['count'],
-                level = TrainingLevel.CUSTOM,
-                belong_to_custom_training_set = custom_training_set,
-                exercise = exe,
-                order = i+1,
-                status = TrainingStatus.ONGOING,
-            )
-        except Exercise.DoesNotExist:
-            pass
+    with transaction.atomic():
+        custom_training_set = CustomTrainingSet.objects.create(
+            user_profile=UserProfile.objects.get(uuid=profile_uuid),
+            name=request.data.get('name'),
+            level=TrainingLevel.CUSTOM,
+            status=TrainingStatus.ONGOING,
+            training_type=TrainingType.CUSTOM
+        )
+        for i, exercise_set in enumerate(custom_exercise):
+            try:
+                exe = Exercise.objects.get(id=exercise_set['id'])
+                if exercise_set['count']<exe.min_count:
+                    raise TrainingExerciseError("Please make sure all exercise in you custom training meets the minimun reps/seconds")
+                CustomTrainingExercise.objects.create(
+                    calculate_in = exe.calculate_in,
+                    required_value = exercise_set['count'],
+                    level = TrainingLevel.CUSTOM,
+                    belong_to_custom_training_set = custom_training_set,
+                    exercise = exe,
+                    order = i+1,
+                    status = TrainingStatus.ONGOING,
+                )
+            except Exercise.DoesNotExist:
+                pass
 
     return custom_training_set
 
 
 def pause_training_set(request):
     user = request.user
-    profile_id = request.data.pop('profile')
-    if not user.is_authenticated or not UserProfile.objects.filter(user=user, id=profile_id).exists():
+    profile_uuid = request.data.pop('profile')
+    if not user.is_authenticated or not UserProfile.objects.filter(user=user, uuid=profile_uuid).exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
     custom_training_set_id = request.data.get('custom_training_set')
     custom_training_set = CustomTrainingSet.objects.get(
@@ -131,8 +138,8 @@ def pause_training_set(request):
 
 def conclude_training_set(request):
     user = request.user
-    profile_id = request.data.pop('profile')
-    if not user.is_authenticated or not UserProfile.objects.filter(user=user, id=profile_id).exists():
+    profile_uuid = request.data.pop('profile')
+    if not user.is_authenticated or not UserProfile.objects.filter(user=user, uuid=profile_uuid).exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
     custom_training_set_id = request.data.get('custom_training_set')
     custom_training_set = CustomTrainingSet.objects.get(
@@ -148,15 +155,15 @@ def conclude_training_set(request):
     custom_training_set.status = TrainingStatus.COMPLETED
     custom_training_set.save()
     TrainingSetCompletedRecord.objects.create(
-        user_profile = UserProfile.objects.get(id=profile_id),
+        user_profile = UserProfile.objects.get(uuid=profile_uuid),
         training_set = custom_training_set
     )
 
 
 def give_up_training_set(request):
     user = request.user
-    profile_id = request.data.pop('profile')
-    if not user.is_authenticated or not UserProfile.objects.filter(user=user, id=profile_id).exists():
+    profile_uuid = request.data.pop('profile')
+    if not user.is_authenticated or not UserProfile.objects.filter(user=user, uuid=profile_uuid).exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
     custom_training_set_id = request.data.get('custom_training_set')
     custom_training_set = CustomTrainingSet.objects.get(

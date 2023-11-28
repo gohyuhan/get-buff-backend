@@ -1,9 +1,11 @@
 from decimal import Decimal
 
 from rest_framework import serializers
-from enumfields import EnumField
 
-from .models import UserProfile
+from .models import (
+    UserProfile,
+    TrainingSetting
+)
 
 
 def _weight_in_kg_validate(value):
@@ -11,17 +13,17 @@ def _weight_in_kg_validate(value):
 
     decimal_places = decimal_value.as_tuple().exponent
 
-    if decimal_places >= -2 and value>0 and value<500:
+    if decimal_places >= -2 and value>0 and value<=500:
         return decimal_value
-    elif decimal_places < -2 and value>0 and value <500:
+    elif decimal_places < -2 and value>0 and value <=500:
         return decimal_value.quantize(Decimal('0.00'))
-    elif value<0 or value>500:
+    elif value<1 or value>500:
         return 60
 
 
 def _height_in_cm_validate(value):
     # return 170 if user enter anything <0 or >350
-    if value<=0 or value>=350:
+    if value<1 or value>350:
         return 170
     return value
 
@@ -68,13 +70,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = (
             "first_name",
             "last_name",
+            "uuid",
             "gender",
             "weight_in_kg",
             "height_in_cm",
             "target_weight_in_kg",
             "weight_target_status"
         )
-        read_only_fields = ("first_name", "last_name", "weight_target_status",)
+        read_only_fields = ("first_name", "last_name", "uuid","weight_target_status",)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -95,3 +98,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
     def validate_target_weight_in_kg(self, value):
         return _weight_in_kg_validate(value)
+
+
+class TrainingSettingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrainingSetting
+        fields=("rest_time",)
+
+    def validate_rest_time(self, value):
+        if value<5 or value>120:
+            return 25
+        return value
