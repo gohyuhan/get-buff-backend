@@ -36,7 +36,7 @@ class UserTest(APITestCase):
         }
         response = self.client.post(url, data)
         self.assertEqual(len(UserProfile.objects.all()), 1)
-        self.assertEqual(UserProfile.objects.all().first().height_in_cm, 1)
+        self.assertEqual(UserProfile.objects.all().first().height_in_cm, 170)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_user_login(self):

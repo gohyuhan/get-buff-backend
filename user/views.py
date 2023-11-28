@@ -27,7 +27,7 @@ class UserProfileViewSet(ModelViewSet):
     def create(self,request):
         updated = update_user_profile(request)
         if updated:
-            user_profile = self.get_queryset()
-            serializer = UserProfileSerializer(user_profile)
+            user_profile = UserProfile.objects.get(user=request.user)
+            serializer = UserProfileSerializer(user_profile, many=False)
             return Response(serializer.data, status = status.HTTP_200_OK)
         return Response(status = status.HTTP_400_BAD_REQUEST)

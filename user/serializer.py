@@ -6,10 +6,34 @@ from enumfields import EnumField
 from .models import UserProfile
 
 
-# fields 
-class TargetStatusField(EnumField):
-    def to_representation(self, instance):
-        return instance.label
+def _weight_in_kg_validate(value):
+    decimal_value = Decimal(str(value))
+
+    decimal_places = decimal_value.as_tuple().exponent
+
+    if decimal_places >= -2 and value>0 and value<500:
+        return decimal_value
+    elif decimal_places < -2 and value>0 and value <500:
+        return decimal_value.quantize(Decimal('0.00'))
+    elif value<0 or value>500:
+        return 60
+
+
+def _height_in_cm_validate(value):
+    # return 170 if user enter anything <0 or >350
+    if value<=0 or value>=350:
+        return 170
+    return value
+
+
+def _gender_validate(value):
+    if str(value) == "male":
+        return str(value)
+    elif str(value) == "female":
+        return str(value)
+    else:
+        return "male"
+        
 
 
 # serializer
@@ -26,24 +50,24 @@ class InitialUserProfileSerializer(serializers.ModelSerializer):
         extra_kwargs = {'allow_extra_fields': True}
     
     def validate_gender(self,value):
-        return __validate_gender(value)
+        return _gender_validate(value)
 
     def validate_weight_in_kg(self, value):
-        return __validate_weight_in_kg(value)
+        return _weight_in_kg_validate(value)
 
     def validate_height_in_cm(self,value):
-        return __validate_height_in_cm(value)
+        return _height_in_cm_validate(value)
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    first_name = serializers.CharField(source='user.first_name')
-    last_name = serializers.CharField(source='user.last_name')
+    first_name = serializers.CharField(source="user.first_name", read_only=True)
+    last_name = serializers.CharField(source="user.last_name",read_only=True)
 
     class Meta:
         model = UserProfile
         fields = (
-            'first_name',
-            'last_name',
+            "first_name",
+            "last_name",
             "gender",
             "weight_in_kg",
             "height_in_cm",
@@ -54,58 +78,20 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['weight_target_status'] = instance.get_weight_target_status_display()
+        try:
+            representation['weight_target_status'] = instance.get_weight_target_status_display()
+        except:
+            pass
         return representation
 
-    
     def validate_gender(self,value):
-        return __validate_gender(value)
+        return _gender_validate(value)
     
     def validate_weight_in_kg(self, value):
-        return __validate_weight_in_kg(value)
+        return _weight_in_kg_validate(value)
 
     def validate_height_in_cm(self,value):
-        return __validate_height_in_cm(value)
+        return _height_in_cm_validate(value)
     
     def validate_target_weight_in_kg(self, value):
-        return __validate_weight_in_kg(value)
-
-
-
-
-def __validate_weight_in_kg(value):
-         # return 170 if user enter anything other than integer/float
-        if isinstance(value, int) or isinstance(value, float):
-            decimal_value = Decimal(str(value))
-
-            decimal_places = decimal_value.as_tuple().exponent
-
-            if decimal_places >= -2 and value>0:
-                return decimal_value
-            elif decimal_places < -2 and value>0:
-                return decimal_value.quantize(Decimal('0.00'))
-            elif value<0:
-                return 0.01
-            else:
-                return 499.99
-        else:
-            return 60
-
-def __validate_height_in_cm(value):
-    # return 170 if user enter anything other than integer
-    if isinstance(value, int):
-        if value<=0:
-            return 1
-        else:
-            return 349
-    return 170
-
-
-def __validate_gender(value):
-    if str(value) == "male":
-        return str(value)
-    elif str(value) == "female":
-        return str(value)
-    else:
-        return "male"
-        
+        return _weight_in_kg_validate(value)
