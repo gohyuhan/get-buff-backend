@@ -1,7 +1,8 @@
+import uuid
+
 from django.db import models
 from django.db.models.constraints import CheckConstraint
 
-import pytz
 from enumfields import EnumField
 
 from account.models import User
@@ -25,22 +26,25 @@ class BaseModel(models.Model):
 
 class UserProfile(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default="male")
     weight_in_kg = models.DecimalField(
         null=True,
         blank=True, 
         max_digits=5, 
-        decimal_places=2
+        decimal_places=2,
+        default=60.00
     )
     height_in_cm = models.PositiveIntegerField(
         null=True,
         blank=True,
+        default=170
     )
     target_weight_in_kg = models.DecimalField(
         null=True,
         blank=True,
         max_digits=5,
-        decimal_places=2
+        decimal_places=2,
     )
     weight_target_status = EnumField(
         TargetStatus, 
@@ -51,17 +55,17 @@ class UserProfile(BaseModel):
         constraints = [
             CheckConstraint(
                 check=models.Q(height_in_cm__gt=0,
-                               height_in_cm__lt=350),
+                               height_in_cm__lte=350),
                 name='height_in_cm_range_check'
             ),
             CheckConstraint(
                 check=models.Q(weight_in_kg__gt=0.00,
-                               weight_in_kg__lt=500.00),
+                               weight_in_kg__lte=500.00),
                 name='weight_in_kg_range_check'
             ),
             CheckConstraint(
                 check=models.Q(weight_in_kg__gt=0.00,
-                               weight_in_kg__lt=500.00),
+                               weight_in_kg__lte=500.00),
                 name='target_weight_in_kg_range_check'
             ),
         ]
@@ -101,8 +105,8 @@ class TrainingSetting(models.Model):
     class Meta:
         constraints = [
             CheckConstraint(
-                check=models.Q(rest_time__gt=5,
-                               rest_time__lt=120),
+                check=models.Q(rest_time__gte=5,
+                               rest_time__lte=120),
                 name='rest_time_range_check'
             ),
         ]

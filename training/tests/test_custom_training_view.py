@@ -157,7 +157,7 @@ class TrainingTest(APITestCase):
     def test_create_list_retrieve_training_set(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "name":"test custom training set",
             "level":"advance",
             "muscle_category":{
@@ -345,7 +345,7 @@ class TrainingTest(APITestCase):
     def test_exercise_less_than_default_minimum_error_api_view(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "name":"test custom training set",
             "level":"advance",
             "muscle_category":{
@@ -394,7 +394,7 @@ class TrainingTest(APITestCase):
     def test_customization_training_view_set(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "name":"test customize training set",
             "exercise":[
                 {
@@ -432,6 +432,48 @@ class TrainingTest(APITestCase):
             5
         )
 
+
+    def test_customization_training_view_min_requirement_not_reach_set(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        data={
+            "profile":self.user_profile.uuid,
+            "name":"test customize training set",
+            "exercise":[
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":1
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":1
+                },
+                {
+                    "id":self.exercise['exercise_2'].id,
+                    "count":1
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":1
+                },
+                {
+                    "id":self.exercise['exercise_1'].id,
+                    "count":1
+                }
+            ]
+        }
+
+        resp = self.client.post(self.URL2, data, format='json')
+        self.assertEqual(resp.status_code, 400)
+
+        self.assertEqual(
+            len(CustomTrainingSet.objects.all()),
+            0
+        )
+        self.assertEqual(
+            len(CustomTrainingExercise.objects.all()),
+            0
+        )
+
     def test_customization_training_view_set_get_permission_not_allowed(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         resp = self.client.get(self.URL2)
@@ -440,7 +482,7 @@ class TrainingTest(APITestCase):
     def test_customization_training_view_set_auth_user_and_profile_not_match(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token2.key}')
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "name":"test customize training set",
             "exercise":[
                 {
@@ -474,7 +516,7 @@ class TrainingTest(APITestCase):
         # create training set and exercise first
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "name":"test customize training set",
             "exercise":[
                 {
@@ -510,7 +552,7 @@ class TrainingTest(APITestCase):
         custom_training_exercise_id = [exe.id for exe in CustomTrainingExercise.objects.all()]
 
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "custom_training_set":custom_training_set.id,
             "exercise":[
                 {
@@ -551,7 +593,7 @@ class TrainingTest(APITestCase):
         # create training set and exercise first
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "name":"test customize training set",
             "exercise":[
                 {
@@ -586,7 +628,7 @@ class TrainingTest(APITestCase):
         custom_training_set = CustomTrainingSet.objects.all().first()
 
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "custom_training_set":custom_training_set.id,
         }
         resp = self.client.post(reverse("api:training:training_conclude"), data, format='json')
@@ -604,7 +646,7 @@ class TrainingTest(APITestCase):
         # create training set and exercise first
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "name":"test customize training set",
             "exercise":[
                 {
@@ -639,7 +681,7 @@ class TrainingTest(APITestCase):
         custom_training_set = CustomTrainingSet.objects.all().first()
 
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "custom_training_set":custom_training_set.id,
         }
         resp = self.client.post(reverse("api:training:training_give_up"), data, format='json')
@@ -657,7 +699,7 @@ class TrainingTest(APITestCase):
         # create training set and exercise first
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "name":"test customize training set",
             "exercise":[
                 {
@@ -693,7 +735,7 @@ class TrainingTest(APITestCase):
         custom_training_exercise_id = [exe.id for exe in CustomTrainingExercise.objects.all()]
 
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "custom_training_set":custom_training_set.id,
             "exercise":[
                 {
@@ -731,7 +773,7 @@ class TrainingTest(APITestCase):
         )
 
         data={
-            "profile":self.user_profile.id,
+            "profile":self.user_profile.uuid,
             "custom_training_set":custom_training_set.id,
         }
 
@@ -741,7 +783,6 @@ class TrainingTest(APITestCase):
             len(CustomTrainingExercise.objects.filter(status = TrainingStatus.COMPLETED)),
             3
         )
-        print(CustomTrainingExercise.objects.filter(status = TrainingStatus.GIVEUP))
         self.assertEqual(
             len(CustomTrainingExercise.objects.filter(status = TrainingStatus.GIVEUP)),
             2

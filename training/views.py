@@ -19,7 +19,10 @@ from .services import (
     conclude_training_set,
     give_up_training_set
 )
-from .exceptions import TrainingSetError
+from .exceptions import (
+    TrainingSetError,
+    TrainingExerciseError 
+)
 from user.exceptions import UserProfileError
 from get_buff.permission import IsPostOnly, NoPutDeletePermission
 
@@ -78,6 +81,8 @@ class CustomTrainingSetViewSet(ModelViewSet):
             data = CustomTrainingSetSerializer(custom_training_set).data
             return Response(data, status = status.HTTP_201_CREATED)
         except TrainingSetError as e:
+            return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except TrainingExerciseError as e:
             return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except UserProfileError as e:
             return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)

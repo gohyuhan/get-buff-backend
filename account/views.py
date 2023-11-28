@@ -49,6 +49,17 @@ class ObtainAuthTokenView(ObtainAuthToken):
     permission_classes = [AllowAny]
     authentication_classes=[]
 
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        try:
+            UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotFound:
+            UserProfile.objects.create(user=user)
+        return Response({'token': token.key})
+
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
