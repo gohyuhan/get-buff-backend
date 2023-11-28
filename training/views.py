@@ -24,7 +24,11 @@ from .exceptions import (
     TrainingExerciseError 
 )
 from user.exceptions import UserProfileError
-from get_buff.permission import IsPostOnly, NoPutDeletePermission
+from get_buff.permission import (
+    IsPostOnly, 
+    NoPutDeletePermission,
+    IsGetOnly
+)
 
 
 """
@@ -35,7 +39,7 @@ NOTE: we are not allowing update or delete request for any training related requ
 class PresetTrainingSetViewSet(ReadOnlyModelViewSet):
     queryset = PresetTrainingSet.objects.all().order_by('id')
     serializer_class = PresetTrainingSetSerializer
-    permission_classes = [AllowAny, NoPutDeletePermission]
+    permission_classes = [AllowAny, IsGetOnly]
     authentication_classes = []
 
 
