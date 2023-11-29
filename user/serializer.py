@@ -6,6 +6,9 @@ from .models import (
     UserProfile,
     TrainingSetting
 )
+from training.models import (
+    CustomTrainingSet
+)
 
 
 def _weight_in_kg_validate(value):
@@ -109,3 +112,26 @@ class TrainingSettingSerializer(serializers.ModelSerializer):
         if value<5 or value>120:
             return 25
         return value
+    
+
+class TrainingSetHistorySerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CustomTrainingSet
+        fields = ('name', 'image_url', 'status', )
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['status'] = instance.get_status_display()
+        return representation
+
+    def get_image_url(self, instance):
+        muscle_category = getattr(instance, 'muscle_category', None)
+
+        if muscle_category:
+            return muscle_category.image_url
+        else:
+            "return a image to indicate it was a custom training set"
+            return None
+    

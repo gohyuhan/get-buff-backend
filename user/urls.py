@@ -3,7 +3,8 @@ from rest_framework import routers
 
 from user.views import (
     UserProfileViewSet,
-    UserTrainingSettingView
+    UserTrainingSettingView,
+    TrainingSetHistoryView
 )
 
 app_name = 'user'
@@ -12,7 +13,8 @@ router = routers.DefaultRouter()
 router.register('user-profile', UserProfileViewSet, basename='user_profile')
 
 urlpatterns=[
-    path('training-setting', UserTrainingSettingView.as_view(), name="training_setting")
+    path('training-setting', UserTrainingSettingView.as_view(), name="training_setting"),
+    path('training-record', TrainingSetHistoryView.as_view(), name='training_history')
 ]
 
 urlpatterns += router.urls
