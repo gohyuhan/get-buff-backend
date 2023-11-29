@@ -173,4 +173,7 @@ class TestUserProfile(APITestCase):
         resp = self.client.get(
             urljoin(self.TRAINING_HISTORY, "?date=2023-11-30")
         )
-        print(resp.json())
+        self.assertEqual(
+            resp.status_code, 
+            200
+        )
