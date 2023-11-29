@@ -75,11 +75,14 @@ class UserProfile(BaseModel):
     
 
 class TrainingSetCompletedRecord(models.Model):
+    """
+    Act like a record for completed training set, not really being use 
+    """
     user_profile = models.ForeignKey(
         UserProfile, null=False, blank=False, on_delete=models.CASCADE
     )
-    completed_date_time = models.DateTimeField(auto_now=True)
-    training_set = models.ForeignKey(
+    completed_date_time = models.DateTimeField(auto_now_add=True)
+    training_set = models.OneToOneField(
         "training.CustomTrainingSet",
         blank=True,
         null=True,

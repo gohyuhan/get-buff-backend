@@ -1,11 +1,24 @@
 from urllib.parse import urljoin
 from django.urls import reverse
 
+from freezegun import freeze_time
+
 from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
 from user.models import (
     UserProfile,
     TrainingSetting
+)
+from training.models import(
+    CustomTrainingSet,
+)
+from muscle.models import (
+    MuscleCategory
+)
+from training.enums import (
+    TrainingLevel,
+    TrainingType,
+    TrainingStatus
 )
 
 
@@ -13,6 +26,7 @@ class TestUserProfile(APITestCase):
     SIGN_UP_USER_URL = reverse('api:account:user_sign_up-list')
     USER_PROFILE_URL = reverse('api:user:user_profile-list')
     TRAINING_SETTING_URL = reverse('api:user:training_setting')
+    TRAINING_HISTORY = reverse('api:user:training_history')
 
     def setUp(self):
         url = reverse('api:account:user_sign_up-list')
@@ -136,3 +150,27 @@ class TestUserProfile(APITestCase):
         resp = self.client.post(self.TRAINING_SETTING_URL, data, format='json')
         self.assertEqual(resp.status_code, 400)
         self.assertEqual(resp.json()['message'],"Error on authentication, please logout and login again")
+
+    @freeze_time("2023-11-21 12:00:00")
+    def test_training_history_view(self):
+        muscle_cat = MuscleCategory.objects.create(name="test category", image_url="http://test")
+        CustomTrainingSet.objects.create(
+            user_profile = UserProfile.objects.all().first(),
+            name = "test custom preset",
+            level =TrainingLevel.ADVANCED,
+            muscle_category = muscle_cat,
+            status = TrainingStatus.COMPLETED,
+            training_type = TrainingType.PRESET
+        )
+        CustomTrainingSet.objects.create(
+            user_profile = UserProfile.objects.all().first(),
+            name = "test custom ",
+            level =TrainingLevel.ADVANCED,
+            status = TrainingStatus.GIVEUP,
+            training_type = TrainingType.CUSTOM
+        )
+
+        resp = self.client.get(
+            urljoin(self.TRAINING_HISTORY, "?date=2023-11-30")
+        )
+        print(resp.json())
