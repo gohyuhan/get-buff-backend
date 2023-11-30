@@ -7,7 +7,8 @@ from .views import (
     CustomTrainingSetViewSet,
     TrainingSetPauseView,
     TrainingSetConcludeView,
-    TrainingSetGiveUpView
+    TrainingSetGiveUpView,
+    ExerciseViewSet
 )
 
 
@@ -15,6 +16,7 @@ app_name = 'training'
 
 router = routers.DefaultRouter()
 
+router.register('exercise', ExerciseViewSet, basename='exercise')
 router.register('preset-training-set', PresetTrainingSetViewSet, basename='preset_training_set')
 router.register('custom-preset-training-set', CustomPresetTrainingSetViewSet, basename='custom_preset_training_set')
 router.register('custom-training-set', CustomTrainingSetViewSet, basename='custom_training_set')

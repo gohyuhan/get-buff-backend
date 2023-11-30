@@ -16,7 +16,7 @@ from training.enums import (
 )
 
 
-class TrainingTest(APITestCase):
+class TestPresetTraining(APITestCase):
     URL = reverse("api:training:preset_training_set-list")
     def setUp(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'')

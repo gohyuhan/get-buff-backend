@@ -6,11 +6,13 @@ from rest_framework.views import APIView
 
 from training.serializer import (
     PresetTrainingSetSerializer,
-    CustomTrainingSetSerializer
+    CustomTrainingSetSerializer,
+    ExerciseSerializer
 )
 from training.models import (
     PresetTrainingSet, 
-    CustomTrainingSet
+    CustomTrainingSet,
+    Exercise
 )
 from .services import (
     create_custom_preset_training_set, 
@@ -29,6 +31,7 @@ from get_buff.permission import (
     NoPutDeletePermission,
     IsGetOnly
 )
+from get_buff.pagination import CustomPagination
 
 
 """
@@ -36,6 +39,14 @@ NOTE: we are not allowing update or delete request for any training related requ
 """
 
 # Create your views here.
+class  ExerciseViewSet(ReadOnlyModelViewSet):
+    queryset = Exercise.objects.all().order_by('name')
+    permission_classes=[AllowAny, IsGetOnly]
+    authentication_classes=[]
+    pagination_class = CustomPagination
+    serializer_class = ExerciseSerializer
+
+
 class PresetTrainingSetViewSet(ReadOnlyModelViewSet):
     queryset = PresetTrainingSet.objects.all().order_by('id')
     serializer_class = PresetTrainingSetSerializer
