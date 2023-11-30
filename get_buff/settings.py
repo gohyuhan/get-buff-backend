@@ -104,6 +104,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_PAGINATION_CLASS': 'get_buff.pagination.CustomPagination',
+    'PAGE_SIZE': 100
 }
 
 AUTH_USER_MODEL = 'account.User'
