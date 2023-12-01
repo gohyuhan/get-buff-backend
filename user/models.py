@@ -28,6 +28,7 @@ class UserProfile(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default="male")
+    dob = models.DateField(null=True, blank=True)
     weight_in_kg = models.DecimalField(
         null=True,
         blank=True, 
@@ -97,7 +98,7 @@ class TrainingSetCompletedRecord(models.Model):
     
 
 class TrainingSetting(models.Model):
-    user_profile = models.ForeignKey(
+    user_profile = models.OneToOneField(
         UserProfile, null=False, blank=False, on_delete=models.CASCADE
     )
     rest_time = models.PositiveIntegerField(

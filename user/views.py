@@ -20,7 +20,8 @@ from .serializer import (
 )
 from .services import (
     update_user_profile,
-    update_user_training_setting
+    update_user_training_setting,
+    calories_calculator
 )
 from .exceptions import UserProfileError
 
@@ -98,3 +99,15 @@ class TrainingSetHistoryView(APIView):
         else:
             # Handle the case where no date parameter is provided
             return Response({'error': 'Date parameter is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class CaloriesView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            kg_gain_lost = request.GET.get("kg_gain_lost",0.5)
+            calories = calories_calculator(request.user, kg_gain_lost)
+            return Response({"calories":calories}, status=status.HTTP_200_OK)
+        except UserProfileError as e:
+            return Response({'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
