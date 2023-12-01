@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from urllib.parse import urljoin
 from django.urls import reverse
 
@@ -7,7 +9,8 @@ from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
 from user.models import (
     UserProfile,
-    TrainingSetting
+    TrainingSetting,
+    TrainingSetCompletedRecord
 )
 from training.models import(
     CustomTrainingSet,
@@ -20,6 +23,7 @@ from training.enums import (
     TrainingType,
     TrainingStatus
 )
+from user.enums import TargetStatus
 
 
 class TestUserProfile(APITestCase):
@@ -27,6 +31,7 @@ class TestUserProfile(APITestCase):
     USER_PROFILE_URL = reverse('api:user:user_profile-list')
     TRAINING_SETTING_URL = reverse('api:user:training_setting')
     TRAINING_HISTORY = reverse('api:user:training_history')
+    CALORIES = reverse('api:user:calories')
 
     def setUp(self):
         url = reverse('api:account:user_sign_up-list')
@@ -177,3 +182,33 @@ class TestUserProfile(APITestCase):
             resp.status_code, 
             200
         )
+
+    def test_calories_view_error(self):
+        resp = self.client.get(self.CALORIES)
+        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(
+            resp.json()['error'],
+            "Please provide your weight(kg), height(cm), gender and date of birth to calculate your calories needed"
+        )
+
+    @freeze_time("2023-12-01 12:00:00")
+    def test_calories_view(self):
+        user_profile = UserProfile.objects.all().first()
+        user_profile.dob = datetime.strptime("2000-01-01", '%Y-%m-%d')
+        user_profile.weight_target_status = TargetStatus.GAIN
+        user_profile.save()
+        for i in range(5):
+            cts = CustomTrainingSet.objects.create(
+                user_profile=user_profile,
+                name=f'custom-training-{i+1}',
+                status = TrainingStatus.COMPLETED, 
+                training_type =TrainingType.PRESET
+            )
+            TrainingSetCompletedRecord.objects.create(
+                user_profile= user_profile,
+                training_set = cts
+            )
+        resp = self.client.get(urljoin(self.CALORIES, "?kg_gain_lost=1"))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.json()['calories'], 3382)
+        

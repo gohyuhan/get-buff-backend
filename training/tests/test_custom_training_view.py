@@ -21,6 +21,7 @@ from training.models import(
     CustomTrainingSet,
     CustomTrainingExercise
 )
+from user.models import TrainingSetCompletedRecord 
 from user.models import UserProfile
 
 
@@ -620,26 +621,38 @@ class TrainingTest(APITestCase):
         }
 
         self.client.post(self.URL2, data, format='json')
+        self.client.post(self.URL2, data, format='json')
         self.assertEqual(
             len(CustomTrainingExercise.objects.filter(status = TrainingStatus.ONGOING)),
-            5
+            10
         )
 
-        custom_training_set = CustomTrainingSet.objects.all().first()
+        custom_training_set_1 = CustomTrainingSet.objects.all().order_by('id').first()
+        custom_training_set_2 = CustomTrainingSet.objects.all().order_by('-id').first()
 
-        data={
+        data_1={
             "profile":self.user_profile.uuid,
-            "custom_training_set":custom_training_set.id,
+            "custom_training_set":custom_training_set_1.id,
         }
-        resp = self.client.post(reverse("api:training:training_conclude"), data, format='json')
+        data_2={
+            "profile":self.user_profile.uuid,
+            "custom_training_set":custom_training_set_2.id,
+        }
+        resp = self.client.post(reverse("api:training:training_conclude"), data_1, format='json')
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.post(reverse("api:training:training_conclude"), data_2, format='json')
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
             len(CustomTrainingExercise.objects.filter(status = TrainingStatus.COMPLETED)),
-            5
+            10
         )
         self.assertEqual(
             len(CustomTrainingSet.objects.filter(status = TrainingStatus.COMPLETED)),
-            1
+            2
+        )
+        self.assertEqual(
+            len(TrainingSetCompletedRecord.objects.all()),
+            2
         )
 
     def test_give_up_brand_new_training_set(self):
