@@ -42,28 +42,6 @@ def _gender_validate(value):
 
 
 # serializer
-class InitialUserProfileSerializer(serializers.ModelSerializer):
-    # a serializer use only for user sign up view only
-    # it was use in sign up page, there are also other field in request.data
-    class Meta:
-        model = UserProfile
-        fields = [
-            "gender",
-            "weight_in_kg",
-            "height_in_cm"
-        ]
-        extra_kwargs = {'allow_extra_fields': True}
-    
-    def validate_gender(self,value):
-        return _gender_validate(value)
-
-    def validate_weight_in_kg(self, value):
-        return _weight_in_kg_validate(value)
-
-    def validate_height_in_cm(self,value):
-        return _height_in_cm_validate(value)
-
-
 class UserProfileSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source="user.first_name", read_only=True)
     last_name = serializers.CharField(source="user.last_name",read_only=True)

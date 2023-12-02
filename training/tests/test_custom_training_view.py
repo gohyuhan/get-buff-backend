@@ -33,7 +33,7 @@ class TrainingTest(APITestCase):
         url = reverse('api:account:user_sign_up-list')
         data = {
             "email": "uncleben@gmail.com", 
-            "password": "JustPassword",
+            "password": "JustPassword123",
             "first_name": "Uncle",
             "last_name": "Ben",
             "gender":"male",
@@ -46,7 +46,7 @@ class TrainingTest(APITestCase):
         url = reverse('api:account:user_sign_up-list')
         data2 = {
             "email": "uncleben2@gmail.com", 
-            "password": "JustPassword",
+            "password": "JustPassword123",
             "first_name": "Uncle2",
             "last_name": "Ben2",
             "gender":"male",
