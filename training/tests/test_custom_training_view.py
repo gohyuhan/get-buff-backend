@@ -23,6 +23,7 @@ from training.models import(
 )
 from user.models import TrainingSetCompletedRecord 
 from user.models import UserProfile
+from muscle.enums import MuscleGroup
 
 
 
@@ -58,11 +59,11 @@ class TrainingTest(APITestCase):
 
         self.muscle_category={
             "shoulder_and_back":MuscleCategoryFactory(
-                name = "shoulder and back",
+                name = MuscleGroup.BACKNSHOULDER,
                 image_url = "http://test"
             ),
             "legs":MuscleCategoryFactory(
-                name = "legs",
+                name = MuscleGroup.LEGS,
                 image_url = "http://test"
             )
         }
@@ -163,7 +164,7 @@ class TrainingTest(APITestCase):
             "level":"advance",
             "muscle_category":{
                 'id':self.muscle_category["shoulder_and_back"].id,
-                'name':self.muscle_category["shoulder_and_back"].name,
+                'name':self.muscle_category["shoulder_and_back"].name.label,
                 'image_url':self.muscle_category["shoulder_and_back"].image_url
             },
             "exercise":[
@@ -351,7 +352,7 @@ class TrainingTest(APITestCase):
             "level":"advance",
             "muscle_category":{
                 'id':self.muscle_category["shoulder_and_back"].id,
-                'name':self.muscle_category["shoulder_and_back"].name,
+                'name':self.muscle_category["shoulder_and_back"].name.label,
                 'image_url':self.muscle_category["shoulder_and_back"].image_url
             },
             "exercise":[

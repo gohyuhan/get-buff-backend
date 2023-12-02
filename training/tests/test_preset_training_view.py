@@ -14,6 +14,7 @@ from training.enums import (
     TrainingLevel, 
     CalculatedIn
 )
+from muscle.enums import MuscleGroup
 
 
 class TestPresetTraining(APITestCase):
@@ -22,11 +23,11 @@ class TestPresetTraining(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f'')
         self.muscle_category={
             "shoulder_and_back":MuscleCategoryFactory(
-                name = "shoulder and back",
+                name = MuscleGroup.BACKNSHOULDER,
                 image_url = "http://test"
             ),
-            "legs":MuscleCategoryFactory(
-                name = "legs",
+            MuscleGroup.LEGS.label:MuscleCategoryFactory(
+                name = MuscleGroup.LEGS,
                 image_url = "http://test"
             )
         }
@@ -42,7 +43,7 @@ class TestPresetTraining(APITestCase):
                 name = "calves",
                 front_image_url = "http://test-front",
                 back_image_url = "http://test-back",
-                muscle_category=self.muscle_category["legs"]
+                muscle_category=self.muscle_category[MuscleGroup.LEGS.label]
             )
         }
 
@@ -65,7 +66,7 @@ class TestPresetTraining(APITestCase):
         self.exercise['exercise_1'].muscle_category.add(self.muscle_category["shoulder_and_back"])
         self.exercise['exercise_1'].muscle.add(self.muscle["shoulder"])
         self.exercise['exercise_1'].save()
-        self.exercise['exercise_2'].muscle_category.add(self.muscle_category["legs"])
+        self.exercise['exercise_2'].muscle_category.add(self.muscle_category[MuscleGroup.LEGS.label])
         self.exercise['exercise_2'].muscle.add(self.muscle["calves"])
         self.exercise['exercise_2'].save()
 
@@ -78,7 +79,7 @@ class TestPresetTraining(APITestCase):
             "preset_training_set_2":PresetTrainingSetFactory(
                 name = 'set 2 (advance)',
                 level = TrainingLevel.INTERMEDIATE,
-                muscle_category =self.muscle_category["legs"]
+                muscle_category =self.muscle_category[MuscleGroup.LEGS.label]
             )
         }
 
@@ -127,7 +128,7 @@ class TestPresetTraining(APITestCase):
                 "level":"advanced",
                 "muscle_category":{
                     "id":1,
-                    "name":"shoulder and back",
+                    "name":MuscleGroup.BACKNSHOULDER.label,
                     "image_url":"http://test"
                 },
                 "exercise":[
@@ -153,7 +154,7 @@ class TestPresetTraining(APITestCase):
                             "muscle_category":[
                             {
                                 "id":1,
-                                "name":"shoulder and back",
+                                "name":MuscleGroup.BACKNSHOULDER.label,
                                 "image_url":"http://test"
                             }
                             ],
@@ -183,7 +184,7 @@ class TestPresetTraining(APITestCase):
                             "muscle_category":[
                             {
                                 "id":1,
-                                "name":"shoulder and back",
+                                "name":MuscleGroup.BACKNSHOULDER.label,
                                 "image_url":"http://test"
                             }
                             ],
@@ -199,7 +200,7 @@ class TestPresetTraining(APITestCase):
                 "level":"intermediate",
                 "muscle_category":{
                     "id":2,
-                    "name":"legs",
+                    "name":MuscleGroup.LEGS.label,
                     "image_url":"http://test"
                 },
                 "exercise":[
@@ -225,7 +226,7 @@ class TestPresetTraining(APITestCase):
                             "muscle_category":[
                             {
                                 "id":2,
-                                "name":"legs",
+                                "name":MuscleGroup.LEGS.label,
                                 "image_url":"http://test"
                             }
                             ],
@@ -255,7 +256,7 @@ class TestPresetTraining(APITestCase):
                             "muscle_category":[
                             {
                                 "id":2,
-                                "name":"legs",
+                                "name":MuscleGroup.LEGS.label,
                                 "image_url":"http://test"
                             }
                             ],

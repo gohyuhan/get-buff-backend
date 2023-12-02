@@ -24,6 +24,7 @@ from training.enums import (
     TrainingStatus
 )
 from user.enums import TargetStatus
+from muscle.enums import MuscleGroup
 
 
 class TestUserProfile(APITestCase):
@@ -158,7 +159,7 @@ class TestUserProfile(APITestCase):
 
     @freeze_time("2023-11-21 12:00:00")
     def test_training_history_view(self):
-        muscle_cat = MuscleCategory.objects.create(name="test category", image_url="http://test")
+        muscle_cat = MuscleCategory.objects.create(name=MuscleGroup.BACKNSHOULDER, image_url="http://test")
         CustomTrainingSet.objects.create(
             user_profile = UserProfile.objects.all().first(),
             name = "test custom preset",

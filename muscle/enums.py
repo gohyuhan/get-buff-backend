@@ -6,5 +6,5 @@ class MuscleGroup(ChoiceEnum):
     LEGS = ("LEG", "legs")
     CHEST = ("CST", "chest")
     ARMS = ("ARM", "arms")
-    BACKnSHOULDER = ("BNS", "back and shoulder")
+    BACKNSHOULDER = ("BNS", "back and shoulder")
     NONE = ("NON", "none")

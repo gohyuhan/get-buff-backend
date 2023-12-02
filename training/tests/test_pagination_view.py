@@ -12,6 +12,7 @@ from muscle.tests.factories import (
 from training.enums import (
     CalculatedIn
 )
+from muscle.enums import MuscleGroup
 
 
 class TestPaginationView(APITestCase):
@@ -20,7 +21,7 @@ class TestPaginationView(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f'')
         self.muscle_category={
             "shoulder_and_back":MuscleCategoryFactory(
-                name = "shoulder and back",
+                name = MuscleGroup.BACKNSHOULDER,
                 image_url = "http://test"
             )
         }
