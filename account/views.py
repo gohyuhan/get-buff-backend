@@ -43,8 +43,8 @@ class UserCreateViewSet(ModelViewSet):
                     height_in_cm=serializer.data['height_in_cm'],
                     target_weight_in_kg=serializer.data['weight_in_kg']
                 )
-            return Response(token.key, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success':True, 'token':token.key}, status=status.HTTP_201_CREATED)
+        return Response({'success':False, 'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ObtainAuthTokenView(ObtainAuthToken):
@@ -76,6 +76,7 @@ class ChangePasswordvView(APIView):
             request.user.save()
             return Response({'success':True}, status=status.HTTP_200_OK)
         return Response({'success':False, 'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]

@@ -72,11 +72,11 @@ class CustomPresetTrainingSetViewSet(ModelViewSet):
         try:
             custom_training_set = create_custom_preset_training_set(request)
             data = CustomTrainingSetSerializer(custom_training_set).data
-            return Response(data, status = status.HTTP_201_CREATED)
+            return Response({'success':True, 'data':data}, status = status.HTTP_201_CREATED)
         except TrainingSetError as e:
-            return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except UserProfileError as e:
-            return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CustomTrainingSetViewSet(ModelViewSet):
@@ -96,11 +96,11 @@ class CustomTrainingSetViewSet(ModelViewSet):
             data = CustomTrainingSetSerializer(custom_training_set).data
             return Response(data, status = status.HTTP_201_CREATED)
         except TrainingSetError as e:
-            return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except TrainingExerciseError as e:
-            return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except UserProfileError as e:
-            return Response({'message':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
 
 class TrainingSetPauseView(APIView):
@@ -112,9 +112,9 @@ class TrainingSetPauseView(APIView):
     def post(self, request, *args, **kwargs):
         try:
             pause_training_set(request)
-            return Response(status = status.HTTP_200_OK)
+            return Response({'success':True}, status = status.HTTP_200_OK)
         except:
-            return Response(status = status.HTTP_400_BAD_REQUEST)
+            return Response({'success':False}, status = status.HTTP_400_BAD_REQUEST)
 
 
 class TrainingSetConcludeView(APIView):
@@ -127,9 +127,9 @@ class TrainingSetConcludeView(APIView):
     def post(self, request, *args, **kwargs):
         try:
             conclude_training_set(request)
-            return Response(status = status.HTTP_200_OK)
+            return Response({'success':True}, status = status.HTTP_200_OK)
         except:
-            return Response(status = status.HTTP_400_BAD_REQUEST)
+             return Response({'success':False}, status = status.HTTP_400_BAD_REQUEST)
     
 
 class TrainingSetGiveUpView(APIView):
@@ -141,6 +141,6 @@ class TrainingSetGiveUpView(APIView):
     def post(self, request, *args, **kwargs):
         try:
             give_up_training_set(request)
-            return Response(status = status.HTTP_200_OK)
+            return Response({'success':True}, status = status.HTTP_200_OK)
         except:
-            return Response(status = status.HTTP_400_BAD_REQUEST)
+             return Response({'success':False}, status = status.HTTP_400_BAD_REQUEST)

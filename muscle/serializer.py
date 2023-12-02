@@ -15,6 +15,11 @@ class MuscleCategorySerializer(serializers.ModelSerializer):
             'image_url'
         )
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['name'] = instance.get_name_display()
+        return representation
+
 
 class MuscleSerializer(serializers.ModelSerializer): 
     class Meta:

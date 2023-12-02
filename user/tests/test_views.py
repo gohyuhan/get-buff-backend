@@ -94,7 +94,7 @@ class TestUserProfile(APITestCase):
         resp = self.client.post(self.USER_PROFILE_URL, data, format='json')
         self.assertEqual(resp.status_code, 200)
         self.assertDictEqual(
-            resp.json(),
+            resp.json()['data'],
             {
                 "first_name": "Uncle",
                 "last_name": "Ben",
@@ -110,7 +110,7 @@ class TestUserProfile(APITestCase):
     def test_training_setting_get(self):
         resp = self.client.get(self.TRAINING_SETTING_URL)
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.json()['rest_time'],25)
+        self.assertEqual(resp.json()['data']['rest_time'],25)
 
     def test_training_setting_update(self):
         data={
@@ -119,7 +119,7 @@ class TestUserProfile(APITestCase):
         }
         resp = self.client.post(self.TRAINING_SETTING_URL, data, format='json')
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.json()['rest_time'],15)
+        self.assertEqual(resp.json()['data']['rest_time'],15)
         self.assertEqual(
             TrainingSetting.objects.all().first().rest_time,
             15
@@ -132,7 +132,7 @@ class TestUserProfile(APITestCase):
         }
         resp = self.client.post(self.TRAINING_SETTING_URL, data, format='json')
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.json()['rest_time'],25)
+        self.assertEqual(resp.json()['data']['rest_time'],25)
         self.assertEqual(
             TrainingSetting.objects.all().first().rest_time,
             25
@@ -145,7 +145,7 @@ class TestUserProfile(APITestCase):
         }
         resp = self.client.post(self.TRAINING_SETTING_URL, data, format='json')
         self.assertEqual(resp.status_code, 400)
-        self.assertEqual(resp.json()['message'],"Invalid data format or type")
+        self.assertEqual(resp.json()['error'],"Invalid data format or type")
 
     def test_training_setting_invalid_profile_update(self):
         data={
@@ -154,7 +154,7 @@ class TestUserProfile(APITestCase):
         }
         resp = self.client.post(self.TRAINING_SETTING_URL, data, format='json')
         self.assertEqual(resp.status_code, 400)
-        self.assertEqual(resp.json()['message'],"Error on authentication, please logout and login again")
+        self.assertEqual(resp.json()['error'],"Error on authentication, please logout and login again")
 
     @freeze_time("2023-11-21 12:00:00")
     def test_training_history_view(self):

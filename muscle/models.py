@@ -1,5 +1,8 @@
 from django.db import models
 
+from enumfields import EnumField
+
+from .enums import MuscleGroup
 
 # Create your models here.
 class BaseModel(models.Model):
@@ -11,7 +14,7 @@ class BaseModel(models.Model):
 
 
 class MuscleCategory(BaseModel):
-    name = models.CharField(max_length=255)
+    name = EnumField(MuscleGroup, max_length=3)
     image_url = models.URLField(null=True, blank=True)
 
     def __str__(self):

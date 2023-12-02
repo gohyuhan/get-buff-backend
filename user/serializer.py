@@ -97,7 +97,7 @@ class TrainingSetHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomTrainingSet
-        fields = ('name', 'image_url', 'status', )
+        fields = ('id', 'name', 'image_url', 'status', )
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

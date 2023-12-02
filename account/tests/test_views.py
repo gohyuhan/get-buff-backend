@@ -53,7 +53,7 @@ class UserTest(APITestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
-            response.json()['password'][0], 
+            response.json()['error']['password'][0], 
             "Password Must Contain min. 8 chars with at least 1 lowercase, 1 uppercase and 1 number"
         )
 

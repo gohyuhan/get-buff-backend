@@ -390,7 +390,7 @@ class TrainingTest(APITestCase):
 
         resp = self.client.post(self.URL, data, format='json')
         self.assertEqual(resp.status_code, 400)
-        self.assertTrue(resp.json()['message'], "Exercise count should more than or equal 5")
+        self.assertTrue(resp.json()['error'], "Exercise count should more than or equal 5")
 
     def test_customization_training_view_set(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
@@ -511,7 +511,7 @@ class TrainingTest(APITestCase):
 
         resp = self.client.post(self.URL2, data, format='json')
         self.assertEqual(resp.status_code, 400)
-        self.assertEqual(resp.json()['message'], "Error on authentication, please logout and login again ")
+        self.assertEqual(resp.json()['error'], "Error on authentication, please logout and login again ")
 
     def test_pause_training_set(self):
         # create training set and exercise first
