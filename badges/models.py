@@ -12,7 +12,6 @@ from training.enums import (
 from .enums import (
     SpecialTargetType,
     TargetCountType,
-    SpecialTargetAction
 )
 from user.models import UserProfile
 
@@ -55,20 +54,10 @@ class Track(BaseModel):
         SpecialTargetType, 
         max_length=3,
         help_text=(
-            f"[membership - to track about membership (user pay to upgrade to a non free tier) ( not appliable now )]  "
             f"[streak - to track about a continuous action]  "
-            f"[weight - to track about user weight gain/loss]  "
-        )
-    )
-    special_target_action = EnumField(
-        SpecialTargetAction, 
-        max_length = 3,
-        help_text=(
-            f"[paid - track the paid action (user pay to upgrade to a non free tier) ( not appliable now )]  "
-            f"[loss - user loss target weight successfully]  "
-            f"[gain - user gain target weight successfully]  "
-        )
-        
+            f"[none - default for non streak target]  "
+        ),
+        default = SpecialTargetType.NONE
     )
 
     # these fields are for training and exercise 
