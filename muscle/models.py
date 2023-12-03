@@ -14,11 +14,12 @@ class BaseModel(models.Model):
 
 
 class MuscleCategory(BaseModel):
-    name = EnumField(MuscleGroup, max_length=3)
+    name = models.CharField(max_length=255)
+    type = EnumField(MuscleGroup, max_length=3, default = MuscleGroup.NONE)
     image_url = models.URLField(null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.type}"
     
 
 class Muscle(BaseModel):
@@ -33,3 +34,6 @@ class Muscle(BaseModel):
         null = True,
         on_delete=models.PROTECT
     )
+
+    def __str__(self):
+        return f"{self.name} - under category: {self.muscle_category.name}"
