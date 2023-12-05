@@ -180,6 +180,21 @@ def give_up_training_set(request):
     custom_training_set.save()
 
 
+def ongoing_training_or_exercise(user):
+    ongoing_training_set = CustomTrainingSet.objects.filter(user_profile__user = user, status = TrainingStatus.ONGOING)
+    for training in ongoing_training_set:
+        # check if the exercise tied with it has ongoing status else update the status with give up or completed
+        if not CustomTrainingExercise.objects.filter(belong_to_custom_training_set = training, status = TrainingStatus.ONGOING).exists():
+            if CustomTrainingExercise.objects.filter(belong_to_custom_training_set = training, status = TrainingStatus.GIVEUP).exists():
+                training.status = TrainingStatus.GIVEUP
+            else:
+                training.status = TrainingStatus.COMPLETED
+            training.save()
+    if CustomTrainingSet.objects.filter(user_profile__user = user, status = TrainingStatus.ONGOING).exists():
+        return True
+    return False
+
+
 def return_training_status(status):
     if status == TrainingStatus.COMPLETED.label:
         return TrainingStatus.COMPLETED

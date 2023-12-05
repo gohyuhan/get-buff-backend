@@ -59,11 +59,13 @@ class TrainingTest(APITestCase):
 
         self.muscle_category={
             "shoulder_and_back":MuscleCategoryFactory(
-                name = MuscleGroup.BACKNSHOULDER,
+                name= 'back and shoulder',
+                type = MuscleGroup.BACKNSHOULDER,
                 image_url = "http://test"
             ),
             "legs":MuscleCategoryFactory(
-                name = MuscleGroup.LEGS,
+                name = 'legs',
+                type = MuscleGroup.LEGS,
                 image_url = "http://test"
             )
         }
@@ -164,7 +166,8 @@ class TrainingTest(APITestCase):
             "level":"advance",
             "muscle_category":{
                 'id':self.muscle_category["shoulder_and_back"].id,
-                'name':self.muscle_category["shoulder_and_back"].name.label,
+                'name':self.muscle_category["shoulder_and_back"].name,
+                'type':self.muscle_category["shoulder_and_back"].type.label,
                 'image_url':self.muscle_category["shoulder_and_back"].image_url
             },
             "exercise":[
@@ -352,7 +355,8 @@ class TrainingTest(APITestCase):
             "level":"advance",
             "muscle_category":{
                 'id':self.muscle_category["shoulder_and_back"].id,
-                'name':self.muscle_category["shoulder_and_back"].name.label,
+                'name':self.muscle_category["shoulder_and_back"].name,
+                'type':self.muscle_category["shoulder_and_back"].type.label,
                 'image_url':self.muscle_category["shoulder_and_back"].image_url
             },
             "exercise":[
@@ -625,35 +629,28 @@ class TrainingTest(APITestCase):
         self.client.post(self.URL2, data, format='json')
         self.assertEqual(
             len(CustomTrainingExercise.objects.filter(status = TrainingStatus.ONGOING)),
-            10
+            5
         )
 
         custom_training_set_1 = CustomTrainingSet.objects.all().order_by('id').first()
-        custom_training_set_2 = CustomTrainingSet.objects.all().order_by('-id').first()
 
         data_1={
             "profile":self.user_profile.uuid,
             "custom_training_set":custom_training_set_1.id,
         }
-        data_2={
-            "profile":self.user_profile.uuid,
-            "custom_training_set":custom_training_set_2.id,
-        }
         resp = self.client.post(reverse("api:training:training_conclude"), data_1, format='json')
-        self.assertEqual(resp.status_code, 200)
-        resp = self.client.post(reverse("api:training:training_conclude"), data_2, format='json')
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
             len(CustomTrainingExercise.objects.filter(status = TrainingStatus.COMPLETED)),
-            10
+            5
         )
         self.assertEqual(
             len(CustomTrainingSet.objects.filter(status = TrainingStatus.COMPLETED)),
-            2
+            1
         )
         self.assertEqual(
             len(TrainingSetCompletedRecord.objects.all()),
-            2
+            1
         )
 
     def test_give_up_brand_new_training_set(self):
@@ -804,4 +801,559 @@ class TrainingTest(APITestCase):
         self.assertEqual(
             len(CustomTrainingSet.objects.filter(status = TrainingStatus.GIVEUP)),
             1
+        )
+
+    def test_custom_training_create_with_ongoing_training_set_error(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        data={
+            "profile":self.user_profile.uuid,
+            "name":"test custom training set",
+            "level":"advance",
+            "muscle_category":{
+                'id':self.muscle_category["shoulder_and_back"].id,
+                'name':self.muscle_category["shoulder_and_back"].name,
+                'type':self.muscle_category["shoulder_and_back"].type.label,
+                'image_url':self.muscle_category["shoulder_and_back"].image_url
+            },
+            "exercise":[
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":1,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":2,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":3,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":4,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":5,
+                },
+            ]
+        }
+
+        self.client.post(self.URL, data, format='json')
+        # it will be focusing on return result of the 2 creation request
+        resp = self.client.post(self.URL, data, format='json')
+
+        self.assertEqual(
+            resp.status_code,
+            400
+        )
+
+        self.assertEqual(
+            resp.json()['success'],
+            False
+        )
+        self.assertEqual(
+            resp.json()['error'],
+            'Ongoing Training Detected, Please Finish or Give Up The Exercise Before Creating A New One'
+        )
+
+    def test_check_ongoing_training_set_with_ongoing_training(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        data={
+            "profile":self.user_profile.uuid,
+            "name":"test custom training set",
+            "level":"advance",
+            "muscle_category":{
+                'id':self.muscle_category["shoulder_and_back"].id,
+                'name':self.muscle_category["shoulder_and_back"].name,
+                'type':self.muscle_category["shoulder_and_back"].type.label,
+                'image_url':self.muscle_category["shoulder_and_back"].image_url
+            },
+            "exercise":[
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":1,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":2,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":3,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":4,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":5,
+                },
+            ]
+        }
+
+        self.client.post(self.URL, data, format='json')
+
+        resp = self.client.get(reverse('api:training:training_on_going'))
+        self.assertEqual(
+            resp.status_code,
+            200
+        )
+        self.assertTrue(
+            resp.json()['data']
+        )
+        self.assertEqual(
+            resp.json()['success'],
+            True
+        )
+
+    def test_check_ongoing_training_set_without_ongoing_training(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        resp = self.client.get(reverse('api:training:training_on_going'))
+        self.assertEqual(
+            resp.status_code,
+            200
+        )
+        self.assertEqual(
+            resp.json()['success'],
+            False
+        )
+
+    def test_check_ongoing_training_set_with_ongoing_training_but_completed_exercise(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        data={
+            "profile":self.user_profile.uuid,
+            "name":"test custom training set",
+            "level":"advance",
+            "muscle_category":{
+                'id':self.muscle_category["shoulder_and_back"].id,
+                'name':self.muscle_category["shoulder_and_back"].name,
+                'type':self.muscle_category["shoulder_and_back"].type.label,
+                'image_url':self.muscle_category["shoulder_and_back"].image_url
+            },
+            "exercise":[
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":1,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":2,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":3,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":4,
+                },
+                {
+                    "id":self.preset_training_exercise["preset_exercise_3"].id,
+                    "calculate_in":"reps", 
+                    "required_value":self.preset_training_exercise["preset_exercise_3"].required_value,
+                    "level":'intermidiate',
+                    "exercise":{
+                        "id":self.preset_training_exercise["preset_exercise_3"].exercise.id,
+                        "name":self.preset_training_exercise["preset_exercise_3"].exercise.name,
+                        "explanation":self.preset_training_exercise["preset_exercise_3"].exercise.explanation,
+                        "calculate_in":"reps", 
+                        "animation":self.preset_training_exercise["preset_exercise_3"].exercise.animation,
+                        "muscle":[
+                            {
+                                "id":2,
+                                "name":"calves",
+                                "front_image_url":"http://test-front",
+                                "back_image_url":"http://test-back"
+                            }
+                        ],
+                        "muscle_category":[
+                            {
+                                "id":2,
+                                "name":"legs",
+                                "image_url":"http://test"
+                            }
+                        ],
+                        "min_count":self.preset_training_exercise["preset_exercise_3"].exercise.min_count
+                    },
+                    "order":5,
+                },
+            ]
+        }
+
+        self.client.post(self.URL, data, format='json')
+        CustomTrainingExercise.objects.all().update(status = TrainingStatus.COMPLETED)
+        resp = self.client.get(reverse('api:training:training_on_going'))
+        self.assertEqual(
+            resp.status_code,
+            200
+        )
+        self.assertEqual(
+            resp.json()['success'],
+            False
         )

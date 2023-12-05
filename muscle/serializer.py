@@ -12,12 +12,13 @@ class MuscleCategorySerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
+            'type',
             'image_url'
         )
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['name'] = instance.get_name_display()
+        representation['type'] = instance.get_type_display()
         return representation
 
 
