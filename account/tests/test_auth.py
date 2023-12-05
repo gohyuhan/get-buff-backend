@@ -1,18 +1,17 @@
 from unittest import mock
 
-from django.urls import reverse
-
 from rest_framework import exceptions
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory,APITestCase
 from django_mock_queries.query import MockModel,MockSet
 
 from account.authentication import CustomTokenAuthentication
+from account.models import User
 
 
 class AuthenticationTest(CustomTokenAuthentication):
     word="Test_Token"
-    def authenticate(self, request,token): 
+    def authenticate(self, request): 
         http = request.META.get("AUTH")
         if not http:
              raise exceptions.AuthenticationFailed("No AUTH in header")
@@ -30,43 +29,40 @@ class AuthenticationTest(CustomTokenAuthentication):
 
 class TestAuth(APITestCase):
     factory = APIRequestFactory()
-    url = reverse("api:account:user_sign_up-list")
+    url = ""
     def setUp(self):
         super().setUp()
-        users=MockSet(
-        MockModel(id=1,name="UncleBen"),
-        MockModel(id=2,name="UncleBob")
-            )
-        keys = MockSet(
-            MockModel(user = users.get(name="UncleBen"), key="UncleBen_Key"),
-            MockModel(user = users.get(name="UncleBob"), key="UncleBob_Key")
+        user=User.objects.create_user(
+            email= "uncleben@gmail.com", 
+            password= "JustPassword123",
+            first_name= "Uncle",
+            last_name= "Ben",
         )
-        self.user_objects=mock.patch("account.models.User.objects",users).start()
-        self.token_objects=mock.patch("rest_framework.authtoken.models.Token.objects",keys).start()
+        token=Token.objects.create(user=user, key="UncleBen_Key")
 
 
     def test_auth_success(self):
         request = self.factory.post(self.url,AUTH = "Test_Token UncleBen_Key")
         auth = AuthenticationTest()
-        user,token = auth.authenticate(request,self.token_objects)
-        self.assertEqual(user.name,"UncleBen")
+        user,token = auth.authenticate(request)
+        self.assertEqual(user.email,"uncleben@gmail.com")
         self.assertEqual(token.key,"UncleBen_Key")
     
     def test_auth_unsuccessfull_wrong_token(self):
         request = self.factory.post(self.url,AUTH = "Test_Token Uncleben_Key")
         auth = AuthenticationTest()
         with self.assertRaises(exceptions.AuthenticationFailed):
-            auth.authenticate(request,self.token_objects)
+            auth.authenticate(request)
     
     def test_auth_unsuccessfull_wrong_token_format(self):
         request = self.factory.post(self.url,AUTH = "Token UncleBen_Key")
         auth = AuthenticationTest()
         with self.assertRaises(exceptions.AuthenticationFailed):
-            auth.authenticate(request,self.token_objects)
+            auth.authenticate(request)
     
     def test_auth_unsuccessfull_no_token(self):
         request = self.factory.post(self.url)
         auth = AuthenticationTest()
         with self.assertRaises(exceptions.AuthenticationFailed):
-            auth.authenticate(request,self.token_objects)
+            auth.authenticate(request)
  

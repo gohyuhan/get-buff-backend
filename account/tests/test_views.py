@@ -9,7 +9,7 @@ from user.models import UserProfile
 
 class UserTest(APITestCase):
     def test_create_user_success(self):
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com", 
             "password": "JustPassword123",
@@ -24,7 +24,7 @@ class UserTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_user_with_negative_height(self):
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com", 
             "password": "JustPassword123",
@@ -40,7 +40,7 @@ class UserTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_user_with_weak_password(self):
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com", 
             "password": "JustPassword",
@@ -59,7 +59,7 @@ class UserTest(APITestCase):
 
     def test_user_login(self):
         # sign up
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com",
             "password": "JustPassword123",
@@ -80,7 +80,7 @@ class UserTest(APITestCase):
 
     def test_user_login_fail(self):
         # sign up
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com",
             "password": "JustPassword123",
@@ -102,7 +102,7 @@ class UserTest(APITestCase):
         
     def test_user_logout(self):
         # sign up
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com",
             "password": "JustPassword123",
@@ -130,7 +130,7 @@ class UserTest(APITestCase):
 
     def test_user_logout_fail(self):
         # sign up
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com",
             "password": "JustPassword123",
@@ -156,7 +156,7 @@ class UserTest(APITestCase):
 
     def test_user_change_password(self):
          # sign up
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com",
             "password": "JustPassword123",
@@ -184,7 +184,7 @@ class UserTest(APITestCase):
 
     def test_user_change_password_old_password_error(self):
          # sign up
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com",
             "password": "JustPassword123",
@@ -212,7 +212,7 @@ class UserTest(APITestCase):
 
     def test_user_change_password_new_password_weak_error(self):
          # sign up
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com",
             "password": "JustPassword123",

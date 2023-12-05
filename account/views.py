@@ -19,15 +19,14 @@ from get_buff.permission import IsPostOnly
 
 
 # Create your views here.
-class UserCreateViewSet(ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class UserCreateView(APIView):
     permission_classes = [AllowAny, IsPostOnly]
     authentication_classes=[]
 
-    def create(self, request):
+    def post(self, request):
         serializer = UserSignUpSerializer(data=request.data)
         if serializer.is_valid():
+            print('shit')
             user = User.objects.create_user(
                 email=serializer.data['email'],
                 password=serializer.data['password'],

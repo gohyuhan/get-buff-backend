@@ -31,7 +31,7 @@ class TrainingTest(APITestCase):
     URL = reverse("api:training:custom_preset_training_set-list")
     URL2 = reverse("api:training:custom_training_set-list")
     def setUp(self):
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com", 
             "password": "JustPassword123",
@@ -44,7 +44,7 @@ class TrainingTest(APITestCase):
         self.client.post(url, data)
         self.user_profile = UserProfile.objects.all().first()
         self.token = Token.objects.all().first()
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data2 = {
             "email": "uncleben2@gmail.com", 
             "password": "JustPassword123",

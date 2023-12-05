@@ -28,14 +28,14 @@ from muscle.enums import MuscleGroup
 
 
 class TestUserProfile(APITestCase):
-    SIGN_UP_USER_URL = reverse('api:account:user_sign_up-list')
+    SIGN_UP_USER_URL = reverse('api:account:user_sign_up')
     USER_PROFILE_URL = reverse('api:user:user_profile-list')
     TRAINING_SETTING_URL = reverse('api:user:training_setting')
     TRAINING_HISTORY = reverse('api:user:training_history')
     CALORIES = reverse('api:user:calories')
 
     def setUp(self):
-        url = reverse('api:account:user_sign_up-list')
+        url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com", 
             "password": "JustPassword123",
