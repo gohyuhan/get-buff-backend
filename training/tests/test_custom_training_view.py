@@ -15,7 +15,8 @@ from muscle.tests.factories import (
 from training.enums import (
     TrainingLevel, 
     CalculatedIn,
-    TrainingStatus
+    TrainingStatus,
+    TrainingOrExerciseType
 )
 from training.models import(
     CustomTrainingSet,
@@ -24,6 +25,16 @@ from training.models import(
 from user.models import TrainingSetCompletedRecord 
 from user.models import UserProfile
 from muscle.enums import MuscleGroup
+from badges.models import (
+    Badge, 
+    SkeletonAchivementBadge, 
+    Track,
+    UserAchivementBadge
+)
+from badges.enums import (
+    SpecialTargetType,
+    TargetCountType,
+)
 
 
 
@@ -31,6 +42,40 @@ class TrainingTest(APITestCase):
     URL = reverse("api:training:custom_preset_training_set-list")
     URL2 = reverse("api:training:custom_training_set-list")
     def setUp(self):
+        badges={
+            'badge_1':Badge.objects.create(name='1st Training Completed', image='https://1stbadges'),
+            'badge_2':Badge.objects.create(name='100 Exercise Completed', image='https://100exercise'),
+        }
+        tracks={
+            'track_1':Track.objects.create(
+                special_target = SpecialTargetType.NONE,
+                type_target = TrainingOrExerciseType.TRAINING,
+                level_target = TrainingLevel.NONE,
+                muscle_target = MuscleGroup.NONE,
+                count_type = TargetCountType.COUNT,
+                streak_count_required = 0
+            ),
+            'track_2':Track.objects.create(
+                special_target = SpecialTargetType.NONE,
+                type_target = TrainingOrExerciseType.EXERCISE,
+                level_target = TrainingLevel.NONE,
+                muscle_target = MuscleGroup.NONE,
+                count_type = TargetCountType.COUNT,
+                streak_count_required = 0
+            ),
+        }
+        SkeletonAchivementBadge.objects.create(
+            desp = "Completed Your 1st training of any level to earn this badge",
+            required_value = 1,
+            badge = badges['badge_1'],
+            track = tracks['track_1']
+        )
+        SkeletonAchivementBadge.objects.create(
+            desp = "Completed a total of 100 exercise of any level to earn this badge",
+            required_value = 100,
+            badge = badges['badge_2'],
+            track = tracks['track_2']
+        )
         url = reverse('api:account:user_sign_up')
         data = {
             "email": "uncleben@gmail.com", 
@@ -626,7 +671,6 @@ class TrainingTest(APITestCase):
         }
 
         self.client.post(self.URL2, data, format='json')
-        self.client.post(self.URL2, data, format='json')
         self.assertEqual(
             len(CustomTrainingExercise.objects.filter(status = TrainingStatus.ONGOING)),
             5
@@ -650,6 +694,16 @@ class TrainingTest(APITestCase):
         )
         self.assertEqual(
             len(TrainingSetCompletedRecord.objects.all()),
+            1
+        )
+        progress_count=[1,5]
+        for i, badge in enumerate(UserAchivementBadge.objects.filter(user_profile = self.user_profile).order_by('id')):
+            self.assertEqual(
+                badge.progress_count,
+                progress_count[i]
+            )
+        self.assertEqual(
+            len(UserAchivementBadge.objects.filter(user_profile = self.user_profile, is_obtained = True)),
             1
         )
 

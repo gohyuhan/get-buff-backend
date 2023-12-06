@@ -16,6 +16,7 @@ from .services import sign_out_user
 from .models import User
 from user.models import UserProfile
 from get_buff.permission import IsPostOnly
+from badges.services import user_achivement_badge_create
 
 
 # Create your views here.
@@ -26,7 +27,6 @@ class UserCreateView(APIView):
     def post(self, request):
         serializer = UserSignUpSerializer(data=request.data)
         if serializer.is_valid():
-            print('shit')
             user = User.objects.create_user(
                 email=serializer.data['email'],
                 password=serializer.data['password'],
@@ -42,6 +42,7 @@ class UserCreateView(APIView):
                     height_in_cm=serializer.data['height_in_cm'],
                     target_weight_in_kg=serializer.data['weight_in_kg']
                 )
+                user_achivement_badge_create(user_profile = user_profile.first())
             return Response({'success':True, 'token':token.key}, status=status.HTTP_201_CREATED)
         return Response({'success':False, 'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
