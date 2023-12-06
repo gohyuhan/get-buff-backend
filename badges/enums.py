@@ -5,6 +5,7 @@ class SpecialTargetType(ChoiceEnum):
     streak - to track about a continuous action 
     """
     STREAK = ("STK", "streak")
+    ALL = ("ALL","all other badge obtain")
     NONE = ("NON", "none")
     
 

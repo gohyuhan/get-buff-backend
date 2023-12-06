@@ -8,10 +8,11 @@ from training.models import (
     Exercise
 )
 from muscle.models import MuscleCategory
+from muscle.enums import MuscleGroup
 from training.enums import (
     TrainingLevel, 
     TrainingStatus, 
-    TrainingType
+    TrainingType,
 )
 from user.models import (
     UserProfile,
@@ -84,12 +85,17 @@ def create_custom_training_set(request):
     custom_exercise = request.data.pop('exercise')
     if len(custom_exercise)< settings.TRAINING_EXERCISE_MIN_COUNT:
         raise TrainingSetError("Exercise count should more than or equal 5")
-    
+    muscle_none, created = MuscleCategory.objects.get_or_create(
+        name = 'None',
+        type = MuscleGroup.CUSTOM,
+        image_url = ''
+    )
     with transaction.atomic():
         custom_training_set = CustomTrainingSet.objects.create(
             user_profile=UserProfile.objects.get(uuid=profile_uuid),
             name=request.data.get('name'),
             level=TrainingLevel.CUSTOM,
+            muscle_category = muscle_none,
             status=TrainingStatus.ONGOING,
             training_type=TrainingType.CUSTOM
         )
@@ -139,7 +145,8 @@ def pause_training_set(request):
 def conclude_training_set(request):
     user = request.user
     profile_uuid = request.data.pop('profile')
-    if not user.is_authenticated or not UserProfile.objects.filter(user=user, uuid=profile_uuid).exists():
+    user_profile = UserProfile.objects.filter(user=user, uuid=profile_uuid)
+    if not user.is_authenticated or not user_profile.exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
     custom_training_set_id = request.data.get('custom_training_set')
     custom_training_set = CustomTrainingSet.objects.get(
@@ -158,6 +165,7 @@ def conclude_training_set(request):
         user_profile = UserProfile.objects.get(uuid=profile_uuid),
         training_set = custom_training_set
     )
+    return user_profile.first(), custom_training_set
 
 
 def give_up_training_set(request):

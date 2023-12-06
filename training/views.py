@@ -34,6 +34,8 @@ from get_buff.permission import (
 )
 from get_buff.pagination import CustomPagination
 from .enums import TrainingStatus
+from badges.services import user_training_achivement_badge_progression_update
+from badges.serializer import UserAchivementBadgeSerializer
 
 
 """
@@ -139,8 +141,12 @@ class TrainingSetConcludeView(APIView):
 
     def post(self, request, *args, **kwargs):
         try:
-            conclude_training_set(request)
-            return Response({'success':True}, status = status.HTTP_200_OK)
+            user_profile,training_set = conclude_training_set(request)
+            obtained_badge = user_training_achivement_badge_progression_update(user_profile, training_set) 
+            if obtained_badge:
+                serializer = UserAchivementBadgeSerializer(obtained_badge, many = True)
+                return Response({'success':True, 'badges':serializer.data}, status = status.HTTP_200_OK)
+            return Response({'success':True, 'badges':[]}, status = status.HTTP_200_OK)
         except:
              return Response({'success':False}, status = status.HTTP_400_BAD_REQUEST)
     

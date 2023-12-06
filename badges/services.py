@@ -37,7 +37,7 @@ def user_achivement_badge_create(user_profile):
 
     # here the unown_badges didn't mean unobtained but didn't create for user to be tracked
     user_unown_badges = [
-        SkeletonAchivementBadge.objects.all().exclude(badge__id__in=existing_user_badges_id)
+        badges for badges in SkeletonAchivementBadge.objects.all().order_by('id').exclude(badge__id__in=existing_user_badges_id)
     ]
 
     UserAchivementBadge.objects.bulk_create(
@@ -58,10 +58,9 @@ def user_training_achivement_badge_progression_update(user_profile, training_set
     a services to update non special training/exercise tracked achivement badges
     """
     progression_updated_badges = []
-
-    exercise_count = len(CustomTrainingExercise.objects.filter(user_profile = user_profile, belong_to_custom_training_set = training_set))
-
+    exercise_count = len(CustomTrainingExercise.objects.filter(belong_to_custom_training_set = training_set))
     inprogress_user_badges = UserAchivementBadge.objects.filter(user_profile = user_profile, is_obtained=False)
+
     # 1) update normal training progression count
     normal_training_count_badge = inprogress_user_badges.filter(
         track__special_target = SpecialTargetType.NONE,
@@ -114,6 +113,10 @@ def user_training_achivement_badge_progression_update(user_profile, training_set
         progression_updated_badges.append(badge)
         badge.save()
 
+    # 5) track special target achivement ( should only consist of 1 model )
+    progression_updated_badges + track_special_badge_all_other_non_special_badges_obtain(inprogress_user_badges, user_profile)
+    
+
     return user_newly_obtained_achivement_badge(progression_updated_badges, True)
  
 
@@ -136,3 +139,20 @@ def user_newly_obtained_achivement_badge(badges_list, return_list=False):
             badge.set_obtained()
     if return_list:
         return newly_obtained_list
+    
+   
+def track_special_badge_all_other_non_special_badges_obtain(inprogress_user_badges, user_profile):
+    # update special badge progress
+    return_list=[]
+    special_training_count_badge = inprogress_user_badges.filter(
+        track__special_target = SpecialTargetType.ALL,
+        track__type_target = TrainingOrExerciseType.NONE,
+        track__level_target = TrainingLevel.NONE,
+        track__muscle_target = MuscleGroup.NONE,
+        track__count_type = TargetCountType.NONE,
+    )
+    for badge in special_training_count_badge:
+        badge.progress_count = len(UserAchivementBadge.objects.filter(user_profile = user_profile, is_obtained=False))
+        badge.save()
+        return_list.append(badge)
+    return return_list

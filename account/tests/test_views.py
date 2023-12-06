@@ -4,10 +4,61 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 from rest_framework import status
 from user.models import UserProfile
+from badges.models import (
+    Badge, 
+    SkeletonAchivementBadge, 
+    Track,
+    UserAchivementBadge
+)
+from muscle.enums import MuscleGroup
+from training.enums import (
+    TrainingLevel,
+    TrainingOrExerciseType
+)
+from badges.enums import (
+    SpecialTargetType,
+    TargetCountType,
+)
 
 
 
 class UserTest(APITestCase):
+    def setUp(self):
+        badges={
+            'badge_1':Badge.objects.create(name='1st Training Completed', image='https://1stbadges'),
+            'badge_2':Badge.objects.create(name='100 Exercise Completed', image='https://100exercise'),
+        }
+        tracks={
+            'track_1':Track.objects.create(
+                special_target = SpecialTargetType.NONE,
+                type_target = TrainingOrExerciseType.TRAINING,
+                level_target = TrainingLevel.NONE,
+                muscle_target = MuscleGroup.NONE,
+                count_type = TargetCountType.COUNT,
+                streak_count_required = 0
+            ),
+            'track_2':Track.objects.create(
+                special_target = SpecialTargetType.NONE,
+                type_target = TrainingOrExerciseType.EXERCISE,
+                level_target = TrainingLevel.NONE,
+                muscle_target = MuscleGroup.NONE,
+                count_type = TargetCountType.COUNT,
+                streak_count_required = 0
+            ),
+        }
+        SkeletonAchivementBadge.objects.create(
+            desp = "Completed Your 1st training of any level to earn this badge",
+            required_value = 1,
+            badge = badges['badge_1'],
+            track = tracks['track_1']
+        )
+        SkeletonAchivementBadge.objects.create(
+            desp = "Completed a total of 100 exercise of any level to earn this badge",
+            required_value = 100,
+            badge = badges['badge_2'],
+            track = tracks['track_2']
+        )
+
     def test_create_user_success(self):
         url = reverse('api:account:user_sign_up')
         data = {
@@ -241,4 +292,23 @@ class UserTest(APITestCase):
             "Password Must Contain min. 8 chars with at least 1 lowercase, 1 uppercase and 1 number"
         )
 
+    def test_create_user_success_check_badge(self):
+        url = reverse('api:account:user_sign_up')
+        data = {
+            "email": "uncleben@gmail.com", 
+            "password": "JustPassword123",
+            "first_name": "Uncle",
+            "last_name": "Ben",
+            "gender":"male",
+            "weight_in_kg":50.10,
+            "height_in_cm":173
+        }
+        response = self.client.post(url, data)
+        self.assertEqual(len(UserProfile.objects.all()), 1)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(
+            len(UserAchivementBadge.objects.filter(user_profile = UserProfile.objects.all().first())),
+            2
+        )
+        
     
