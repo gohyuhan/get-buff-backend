@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    expose:
+      - '5432'
+
+  redis:
+    image: "redis:latest"
+    expose:
+      - '6379'
+
+  nginx:
+    image: nginx:latest
+    container_name: your-nginx-container
+    ports:
+      - "80:80"
+    volumes:
+      - .:/code/static
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000"
+    depends_on:
+      - db
+      - redis
+
+  celery-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A get_buff worker -l info
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - redis
+    restart: always
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A get_buff beat -l info 
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - redis
+    restart: always
+    
+  flower:
+    image: mher/flower
+    container_name: flower
+    command: celery --broker=${REDIS_BROKER_URL} flower --port=5555
+    ports:
+    - "5555" # docker will expose this ports
+    volumes:
+      - .:/code/flower
+    depends_on:
+      - db
+      - redis

@@ -49,10 +49,14 @@ INSTALLED_APPS = [
     'training',
     'muscle',
     'badges',
+    'notifications',
 
     # third party library 
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'anymail',
+    'constance',
+    'constance.backends.database'
 ]
 
 
@@ -71,7 +75,7 @@ ROOT_URLCONF = 'get_buff.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,10 +96,31 @@ WSGI_APPLICATION = 'get_buff.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST"),  # or your PostgreSQL server address
+        'PORT': os.getenv("DB_PORT"), 
     }
 }
+
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+
+CONSTANCE_CONFIG = {
+    'DEFAULT_EMAIL_FROM': (os.getenv("DEFAULT_EMAIL_FROM"), 'default email that display when our systme send out an email'),
+    'DEFAULT_EMAIL_FROM_NAME': (os.getenv("DEFAULT_EMAIL_FROM_NAME"), 'default email that display when our systme send out an email'),
+    'TRAINING_EXERCISE_MIN_COUNT':(5, 'Min Count of exercise for a training set to be created')
+}
+
+# Celery Configuration
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND ")
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -140,6 +165,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# ANYMAIL
+EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
+ANYMAIL = {
+    "SENDGRID_API_KEY": os.getenv("SENDGRID_API"),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

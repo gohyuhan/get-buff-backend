@@ -8,8 +8,8 @@ class PasswordStrengthValidator(object):
     """
 
     def validate(password, user=None):
-        error_msg = "Password Must Contain min. 8 chars with at least 1 lowercase, 1 uppercase and 1 number"
-        if len(password) < 8:
+        error_msg = "Password Must Contain min. 9 chars with at least 1 lowercase, 1 uppercase and 1 number"
+        if len(password) < 9:
             raise ValidationError(error_msg)
         if not any (c.isalpha() for c in password):
              raise ValidationError(error_msg)

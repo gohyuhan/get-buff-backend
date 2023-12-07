@@ -1,5 +1,6 @@
 from django.urls import reverse
 from rest_framework.authtoken.models import Token
+from django.test.utils import override_settings
 
 from rest_framework.test import APITestCase
 from rest_framework import status
@@ -19,9 +20,10 @@ from badges.enums import (
     SpecialTargetType,
     TargetCountType,
 )
+from account.models import User
 
 
-
+@override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
 class UserTest(APITestCase):
     def setUp(self):
         badges={
@@ -105,22 +107,23 @@ class UserTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             response.json()['error']['password'][0], 
-            "Password Must Contain min. 8 chars with at least 1 lowercase, 1 uppercase and 1 number"
+            "Password Must Contain min. 9 chars with at least 1 lowercase, 1 uppercase and 1 number"
         )
 
     def test_user_login(self):
-        # sign up
-        url = reverse('api:account:user_sign_up')
-        data = {
-            "email": "uncleben@gmail.com",
-            "password": "JustPassword123",
-            "first_name": "Uncle",
-            "last_name": "Ben",
-            "gender": "male",
-            "weight_in_kg": 50.10,
-            "height_in_cm": 173
-        }
-        self.client.post(url, data)
+        user = User.objects.create_user(
+            email = "uncleben@gmail.com",
+            password = "JustPassword123",
+            first_name =  "Uncle",
+            last_name =  "Ben",
+        )
+        UserProfile.objects.filter(
+            user = user
+        ).update(
+            gender = "male",
+            weight_in_kg = 50.10,
+            height_in_cm = 173,
+            target_weight_in_kg=50.10)
         # login
         data={
             "email": "uncleben@gmail.com",
@@ -130,18 +133,19 @@ class UserTest(APITestCase):
         self.assertEqual(response.json()['token'], Token.objects.all().first().key)
 
     def test_user_login_fail(self):
-        # sign up
-        url = reverse('api:account:user_sign_up')
-        data = {
-            "email": "uncleben@gmail.com",
-            "password": "JustPassword123",
-            "first_name": "Uncle",
-            "last_name": "Ben",
-            "gender": "male",
-            "weight_in_kg": 50.10,
-            "height_in_cm": 173
-        }
-        self.client.post(url, data)
+        user = User.objects.create_user(
+            email = "uncleben@gmail.com",
+            password = "JustPassword123",
+            first_name =  "Uncle",
+            last_name =  "Ben",
+        )
+        UserProfile.objects.filter(
+            user = user
+        ).update(
+            gender = "male",
+            weight_in_kg = 50.10,
+            height_in_cm = 173,
+            target_weight_in_kg=50.10)
         # login
         data = {
             "email": "uncleben@gmail.com",
@@ -152,18 +156,19 @@ class UserTest(APITestCase):
               'Invalid user/password')
         
     def test_user_logout(self):
-        # sign up
-        url = reverse('api:account:user_sign_up')
-        data = {
-            "email": "uncleben@gmail.com",
-            "password": "JustPassword123",
-            "first_name": "Uncle",
-            "last_name": "Ben",
-            "gender": "male",
-            "weight_in_kg": 50.10,
-            "height_in_cm": 173
-        }
-        self.client.post(url, data)
+        user = User.objects.create_user(
+            email = "uncleben@gmail.com",
+            password = "JustPassword123",
+            first_name =  "Uncle",
+            last_name =  "Ben",
+        )
+        UserProfile.objects.filter(
+            user = user
+        ).update(
+            gender = "male",
+            weight_in_kg = 50.10,
+            height_in_cm = 173,
+            target_weight_in_kg=50.10)
         # login
         data = {
             "email": "uncleben@gmail.com",
@@ -180,18 +185,20 @@ class UserTest(APITestCase):
         self.assertEqual(len(Token.objects.all()),0)
 
     def test_user_logout_fail(self):
-        # sign up
-        url = reverse('api:account:user_sign_up')
-        data = {
-            "email": "uncleben@gmail.com",
-            "password": "JustPassword123",
-            "first_name": "Uncle",
-            "last_name": "Ben",
-            "gender": "male",
-            "weight_in_kg": 50.10,
-            "height_in_cm": 173
-        }
-        self.client.post(url, data)
+        user = User.objects.create_user(
+            email = "uncleben@gmail.com",
+            password = "JustPassword123",
+            first_name =  "Uncle",
+            last_name =  "Ben",
+        )
+        UserProfile.objects.filter(
+            user = user
+        ).update(
+            gender = "male",
+            weight_in_kg = 50.10,
+            height_in_cm = 173,
+            target_weight_in_kg=50.10)
+        self.token = Token.objects.create(user=user)
         # login
         data = {
             "email": "uncleben@gmail.com",
@@ -206,18 +213,20 @@ class UserTest(APITestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_user_change_password(self):
-         # sign up
-        url = reverse('api:account:user_sign_up')
-        data = {
-            "email": "uncleben@gmail.com",
-            "password": "JustPassword123",
-            "first_name": "Uncle",
-            "last_name": "Ben",
-            "gender": "male",
-            "weight_in_kg": 50.10,
-            "height_in_cm": 173
-        }
-        self.client.post(url, data)
+        user = User.objects.create_user(
+            email = "uncleben@gmail.com",
+            password = "JustPassword123",
+            first_name =  "Uncle",
+            last_name =  "Ben",
+        )
+        UserProfile.objects.filter(
+            user = user
+        ).update(
+            gender = "male",
+            weight_in_kg = 50.10,
+            height_in_cm = 173,
+            target_weight_in_kg=50.10)
+        self.token = Token.objects.create(user=user)
         # login
         data={
             "email": "uncleben@gmail.com",
@@ -234,18 +243,20 @@ class UserTest(APITestCase):
         self.assertEqual(response.json()['success'], True)
 
     def test_user_change_password_old_password_error(self):
-         # sign up
-        url = reverse('api:account:user_sign_up')
-        data = {
-            "email": "uncleben@gmail.com",
-            "password": "JustPassword123",
-            "first_name": "Uncle",
-            "last_name": "Ben",
-            "gender": "male",
-            "weight_in_kg": 50.10,
-            "height_in_cm": 173
-        }
-        self.client.post(url, data)
+        user = User.objects.create_user(
+            email = "uncleben@gmail.com",
+            password = "JustPassword123",
+            first_name =  "Uncle",
+            last_name =  "Ben",
+        )
+        UserProfile.objects.filter(
+            user = user
+        ).update(
+            gender = "male",
+            weight_in_kg = 50.10,
+            height_in_cm = 173,
+            target_weight_in_kg=50.10)
+        self.token = Token.objects.create(user=user)
         # login
         data={
             "email": "uncleben@gmail.com",
@@ -262,18 +273,20 @@ class UserTest(APITestCase):
         self.assertEqual(response.json()['error']['old_password'][0], "Invalid old password")
 
     def test_user_change_password_new_password_weak_error(self):
-         # sign up
-        url = reverse('api:account:user_sign_up')
-        data = {
-            "email": "uncleben@gmail.com",
-            "password": "JustPassword123",
-            "first_name": "Uncle",
-            "last_name": "Ben",
-            "gender": "male",
-            "weight_in_kg": 50.10,
-            "height_in_cm": 173
-        }
-        self.client.post(url, data)
+        user = User.objects.create_user(
+            email = "uncleben@gmail.com",
+            password = "JustPassword123",
+            first_name =  "Uncle",
+            last_name =  "Ben",
+        )
+        UserProfile.objects.filter(
+            user = user
+        ).update(
+            gender = "male",
+            weight_in_kg = 50.10,
+            height_in_cm = 173,
+            target_weight_in_kg=50.10)
+        self.token = Token.objects.create(user=user)
         # login
         data={
             "email": "uncleben@gmail.com",
@@ -289,7 +302,7 @@ class UserTest(APITestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(
             response.json()['error']['new_password'][0], 
-            "Password Must Contain min. 8 chars with at least 1 lowercase, 1 uppercase and 1 number"
+            "Password Must Contain min. 9 chars with at least 1 lowercase, 1 uppercase and 1 number"
         )
 
     def test_create_user_success_check_badge(self):

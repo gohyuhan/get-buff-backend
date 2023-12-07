@@ -1,9 +1,14 @@
+import importlib
+from datetime import datetime
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-import importlib
+from django.utils import timezone
+from django.utils.crypto import get_random_string
 
 
 # Create your models here.
+
 class UserManager(BaseUserManager):
     def create_user(
         self, 
@@ -41,7 +46,8 @@ class UserManager(BaseUserManager):
             training_setting.objects.create(
                 user_profile=user_prof
             )
-
+        print(user)
+        test_send_email(user)
         return user
 
     def create_superuser(
@@ -75,3 +81,54 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+def get_random_token():
+    return SecurityToken.generate_token()
+
+
+class SecurityToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=20, db_index=True, default = get_random_token)
+    created_date = models.DateTimeField(auto_now_add=True)
+    is_valid = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.token} - {self.is_valid}"
+    
+    def deactivate(self):
+        self.is_valid = False
+        self.save()
+
+    def is_token_valid(self):
+        result = False
+        start_date = datetime.now() - datetime.timedelta(days=1)
+        end_date = datetime.now() 
+        if self.is_valid and start_date<=self.created_date<=end_date:
+            result = True
+        return result
+    
+    @staticmethod
+    def generate_token():
+        token  = get_random_string(length = 20)
+        while SecurityToken.objects.filter(token = token).exists():
+            token = get_random_string(length=20)
+        return token
+    
+
+def test_send_email(user):
+    # test send mail
+        from notifications.services import send_notification_email
+        from notifications.models import Event
+        email_verification_event, created = Event.objects.get_or_create(
+            name = "email verification",
+            desp = "Event that verify user email account",
+            subject = "Email Verification"
+        )
+        token = SecurityToken.objects.create(user=user)
+        send_notification_email(
+            "account/verify_email.html",
+            {'token':token},
+            email_verification_event,
+            user
+        )
