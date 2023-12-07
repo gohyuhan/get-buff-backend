@@ -2,6 +2,7 @@ from django.urls import reverse
 
 from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
+from django.test.utils import override_settings
 
 from .factories import (
     ExerciseFactory,
@@ -35,9 +36,11 @@ from badges.enums import (
     SpecialTargetType,
     TargetCountType,
 )
+from badges.services import user_achivement_badge_create
+from account.models import User
 
 
-
+@override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
 class TrainingTest(APITestCase):
     URL = reverse("api:training:custom_preset_training_set-list")
     URL2 = reverse("api:training:custom_training_set-list")
@@ -76,31 +79,44 @@ class TrainingTest(APITestCase):
             badge = badges['badge_2'],
             track = tracks['track_2']
         )
-        url = reverse('api:account:user_sign_up')
-        data = {
-            "email": "uncleben@gmail.com", 
-            "password": "JustPassword123",
-            "first_name": "Uncle",
-            "last_name": "Ben",
-            "gender":"male",
-            "weight_in_kg":50.10,
-            "height_in_cm":173
-        } 
-        self.client.post(url, data)
-        self.user_profile = UserProfile.objects.all().first()
-        self.token = Token.objects.all().first()
-        url = reverse('api:account:user_sign_up')
-        data2 = {
-            "email": "uncleben2@gmail.com", 
-            "password": "JustPassword123",
-            "first_name": "Uncle2",
-            "last_name": "Ben2",
-            "gender":"male",
-            "weight_in_kg":52.10,
-            "height_in_cm":172        
-        }
-        self.client.post(url, data2)
-        self.token2 = Token.objects.all().order_by('user__id').last()
+        
+        user = User.objects.create_user(
+            email = "uncleben@gmail.com",
+            password = "JustPassword123",
+            first_name =  "Uncle",
+            last_name =  "Ben",
+        )
+        UserProfile.objects.filter(
+            user = user
+        ).update(
+            gender = "male",
+            weight_in_kg = 50.10,
+            height_in_cm = 173,
+            target_weight_in_kg=50.10)
+        self.token = Token.objects.create(user=user)
+        self.user_profile = UserProfile.objects.get(
+            user = user
+        )
+        user_achivement_badge_create(self.user_profile)
+
+        user2 = User.objects.create_user(
+            email = "uncleben2@gmail.com",
+            password = "JustPassword123",
+            first_name =  "Uncle2",
+            last_name =  "Ben2",
+        )
+        UserProfile.objects.filter(
+            user = user2
+        ).update(
+            gender = "male",
+            weight_in_kg = 52.10,
+            height_in_cm = 172,
+            target_weight_in_kg=52.10)
+        
+        self.token2 = Token.objects.create(user=user2)
+        user_achivement_badge_create(UserProfile.objects.get(
+            user = user2
+        ))
 
         self.muscle_category={
             "shoulder_and_back":MuscleCategoryFactory(

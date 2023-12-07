@@ -2,6 +2,7 @@ from datetime import datetime
 
 from urllib.parse import urljoin
 from django.urls import reverse
+from django.test.utils import override_settings
 
 from freezegun import freeze_time
 
@@ -25,8 +26,10 @@ from training.enums import (
 )
 from user.enums import TargetStatus
 from muscle.enums import MuscleGroup
+from account.models import User
 
 
+@override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
 class TestUserProfile(APITestCase):
     SIGN_UP_USER_URL = reverse('api:account:user_sign_up')
     USER_PROFILE_URL = reverse('api:user:user_profile-list')
@@ -35,18 +38,20 @@ class TestUserProfile(APITestCase):
     CALORIES = reverse('api:user:calories')
 
     def setUp(self):
-        url = reverse('api:account:user_sign_up')
-        data = {
-            "email": "uncleben@gmail.com", 
-            "password": "JustPassword123",
-            "first_name": "Uncle",
-            "last_name": "Ben",
-            "gender":"male",
-            "weight_in_kg":50.10,
-            "height_in_cm":173
-        }
-        self.client.post(url, data)
-        token = Token.objects.all().first()
+        user = User.objects.create_user(
+            email = "uncleben@gmail.com",
+            password = "JustPassword123",
+            first_name =  "Uncle",
+            last_name =  "Ben",
+        )
+        UserProfile.objects.filter(
+            user = user
+        ).update(
+            gender = "male",
+            weight_in_kg = 50.10,
+            height_in_cm = 173,
+            target_weight_in_kg=50.10)
+        token = Token.objects.create(user=user)
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
 
     def test_view_user_profile_list(self):
