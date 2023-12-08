@@ -2,6 +2,7 @@ import importlib
 from datetime import datetime
 
 from django.core.mail import EmailMultiAlternatives
+from django.utils import timezone
 
 from celery import shared_task
 from premailer import transform
@@ -36,8 +37,11 @@ def send_email(
     msg.attach_alternative(html_content,'text/html')
 
     msg.send()
-    email.callback_id = msg.anymail_status.message_id
-    email.sent = datetime.now()
+    try:
+        email.callback_id = msg.anymail_status.message_id
+    except AttributeError:
+        pass
+    email.sent = timezone.now()
     email.save()
 
     

@@ -1,10 +1,16 @@
 import importlib
-from datetime import datetime
+from datetime import timedelta
 
+from django.urls import reverse
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-from django.utils import timezone
 from django.utils.crypto import get_random_string
+from django.utils import timezone
+
+from enumfields import EnumField
+
+from .enums import AccountEmailStatus,SecurityTokenEventType
 
 
 # Create your models here.
@@ -46,8 +52,6 @@ class UserManager(BaseUserManager):
             training_setting.objects.create(
                 user_profile=user_prof
             )
-        print(user)
-        test_send_email(user)
         return user
 
     def create_superuser(
@@ -72,7 +76,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
-    is_email_verified = models.BooleanField(default=False)
+    email_verified_date = models.DateTimeField(null=True, blank=True)
+    email_status = EnumField(AccountEmailStatus, max_length=3, default = AccountEmailStatus.DISABLED)
 
     objects = UserManager()
 
@@ -81,6 +86,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+    def activate(self):
+        self.email_verified_date =timezone.now()
+        self.email_status = AccountEmailStatus.ACTIVE
+        self.save()
+    
+    def verification_pending(self):
+        self.email_status = AccountEmailStatus.PENDING
+        self.save()
 
 
 def get_random_token():
@@ -90,6 +104,7 @@ def get_random_token():
 class SecurityToken(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     token = models.CharField(max_length=20, db_index=True, default = get_random_token)
+    event = EnumField(SecurityTokenEventType,max_length=3,default =SecurityTokenEventType.NONE)
     created_date = models.DateTimeField(auto_now_add=True)
     is_valid = models.BooleanField(default=True)
 
@@ -102,8 +117,8 @@ class SecurityToken(models.Model):
 
     def is_token_valid(self):
         result = False
-        start_date = datetime.now() - datetime.timedelta(days=1)
-        end_date = datetime.now() 
+        start_date = timezone.now() - timedelta(days=1)
+        end_date = timezone.now() 
         if self.is_valid and start_date<=self.created_date<=end_date:
             result = True
         return result
@@ -116,19 +131,21 @@ class SecurityToken(models.Model):
         return token
     
 
-def test_send_email(user):
+def send_verification_email(user):
     # test send mail
-        from notifications.services import send_notification_email
-        from notifications.models import Event
-        email_verification_event, created = Event.objects.get_or_create(
-            name = "email verification",
-            desp = "Event that verify user email account",
-            subject = "Email Verification"
-        )
-        token = SecurityToken.objects.create(user=user)
-        send_notification_email(
-            "account/verify_email.html",
-            {'token':token},
-            email_verification_event,
-            user
-        )
+    from notifications.services import send_notification_email
+    from notifications.models import Event
+    email_verification_event, created = Event.objects.get_or_create(
+        name = "email verification",
+        desp = "Event that verify user email account",
+        subject = "Email Verification"
+    )
+    token = SecurityToken.objects.create(event = SecurityTokenEventType.EMAIL_VERIFICATION, user=user)
+    link = settings.HOST_DOMAIN+reverse("verify_email")+f"?token={token.token}"
+    user.verification_pending()
+    send_notification_email(
+        "email/verify_email.html", 
+        {'name':f'{user.first_name} {user.last_name}', 'link':link},
+        email_verification_event,
+        user
+    )

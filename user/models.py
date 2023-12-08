@@ -55,7 +55,7 @@ class UserProfile(BaseModel):
     class Meta:
         constraints = [
             CheckConstraint(
-                check=models.Q(height_in_cm__gt=0,
+                check=models.Q(height_in_cm__gt=50,
                                height_in_cm__lte=350),
                 name='height_in_cm_range_check'
             ),

@@ -2,7 +2,6 @@ from datetime import datetime
 
 from urllib.parse import urljoin
 from django.urls import reverse
-from django.test.utils import override_settings
 
 from freezegun import freeze_time
 
@@ -29,7 +28,6 @@ from muscle.enums import MuscleGroup
 from account.models import User
 
 
-@override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
 class TestUserProfile(APITestCase):
     SIGN_UP_USER_URL = reverse('api:account:user_sign_up')
     USER_PROFILE_URL = reverse('api:user:user_profile-list')
@@ -94,7 +92,7 @@ class TestUserProfile(APITestCase):
         data={
             "gender":"male",
             "weight_in_kg":600,
-            "height_in_cm":-173,
+            "height_in_cm":173,
             "target_weight_in_kg":80,
         }
         resp = self.client.post(self.USER_PROFILE_URL, data, format='json')
@@ -106,7 +104,7 @@ class TestUserProfile(APITestCase):
                 "last_name": "Ben",
                 "gender":"male",
                 "weight_in_kg":"60.00",
-                "height_in_cm":170,
+                "height_in_cm":173,
                 "target_weight_in_kg":"80.00",
                 "weight_target_status":"gain",
                 "uuid":str(UserProfile.objects.all().first().uuid)

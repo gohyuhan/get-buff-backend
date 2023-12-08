@@ -125,30 +125,30 @@ class TestPresetTraining(APITestCase):
     def test_preset_training_set_api_view(self):
         expected_results=[
             {
-                "id":1,
+                "id":self.preset_training_set['preset_training_set_1'].id,
                 "name":"set 1 (advance)",
                 "level":"advanced",
                 "muscle_category":{
-                    "id":1,
+                    "id":self.muscle_category["shoulder_and_back"].id,
                     "name":'back and shoulder',
                     "type":MuscleGroup.BACKNSHOULDER.label,
                     "image_url":"http://test"
                 },
                 "exercise":[
                     {
-                        "id":1,
+                        "id":self.preset_training_exercise["preset_exercise_1"].id,
                         "calculate_in":"seconds",
                         "required_value":30,
                         "level":"advanced",
                         "exercise":{
-                            "id":1,
+                            "id":self.exercise["exercise_1"].id,
                             "name":"exercise_1",
                             "explanation":"exercise 1 explanation",
                             "calculate_in":"seconds",
                             "animation":"https://test-animation",
                             "muscle":[
                             {
-                                "id":1,
+                                "id":self.muscle["shoulder"].id,
                                 "name":"shoulder",
                                 "front_image_url":"http://test-front",
                                 "back_image_url":"http://test-back"
@@ -156,7 +156,7 @@ class TestPresetTraining(APITestCase):
                             ],
                             "muscle_category":[
                             {
-                                "id":1,
+                                "id":self.muscle_category["shoulder_and_back"].id,
                                 "name":'back and shoulder',
                                 "type":MuscleGroup.BACKNSHOULDER.label,
                                 "image_url":"http://test"
@@ -167,19 +167,19 @@ class TestPresetTraining(APITestCase):
                         "order":1
                     },
                     {
-                        "id":2,
+                        "id":self.preset_training_exercise["preset_exercise_2"].id,
                         "calculate_in":"seconds",
                         "required_value":40,
                         "level":"advanced",
                         "exercise":{
-                            "id":1,
+                            "id":self.exercise["exercise_1"].id,
                             "name":"exercise_1",
                             "explanation":"exercise 1 explanation",
                             "calculate_in":"seconds",
                             "animation":"https://test-animation",
                             "muscle":[
                             {
-                                "id":1,
+                                "id":self.muscle["shoulder"].id,
                                 "name":"shoulder",
                                 "front_image_url":"http://test-front",
                                 "back_image_url":"http://test-back"
@@ -187,7 +187,7 @@ class TestPresetTraining(APITestCase):
                             ],
                             "muscle_category":[
                             {
-                                "id":1,
+                                "id":self.muscle_category["shoulder_and_back"].id,
                                 "name":'back and shoulder',
                                 "type":MuscleGroup.BACKNSHOULDER.label,
                                 "image_url":"http://test"
@@ -200,30 +200,30 @@ class TestPresetTraining(APITestCase):
                 ]
             },
             {
-                "id":2,
+                "id":self.preset_training_set['preset_training_set_2'].id,
                 "name":"set 2 (advance)",
                 "level":"intermediate",
                 "muscle_category":{
-                    "id":2,
+                    "id":self.muscle_category["legs"].id,
                     "name":'legs',
                     "type":MuscleGroup.LEGS.label,
                     "image_url":"http://test"
                 },
                 "exercise":[
                     {
-                        "id":3,
+                        "id":self.preset_training_exercise["preset_exercise_3"].id,
                         "calculate_in":"reps",
                         "required_value":20,
                         "level":"intermediate",
                         "exercise":{
-                            "id":2,
+                            "id":self.exercise["exercise_2"].id,
                             "name":"exercise_2",
                             "explanation":"exercise 2 explanation",
                             "calculate_in":"reps",
                             "animation":"https://test-animation",
                             "muscle":[
                             {
-                                "id":2,
+                                "id":self.muscle["calves"].id,
                                 "name":"calves",
                                 "front_image_url":"http://test-front",
                                 "back_image_url":"http://test-back"
@@ -231,7 +231,7 @@ class TestPresetTraining(APITestCase):
                             ],
                             "muscle_category":[
                             {
-                                "id":2,
+                                "id":self.muscle_category["legs"].id,
                                 "name":'legs',
                                 "type":MuscleGroup.LEGS.label,
                                 "image_url":"http://test"
@@ -242,19 +242,19 @@ class TestPresetTraining(APITestCase):
                         "order":1
                     },
                     {
-                        "id":4,
+                        "id":self.preset_training_exercise["preset_exercise_4"].id,
                         "calculate_in":"reps",
                         "required_value":25,
                         "level":"intermediate",
                         "exercise":{
-                            "id":2,
+                            "id":self.exercise["exercise_2"].id,
                             "name":"exercise_2",
                             "explanation":"exercise 2 explanation",
                             "calculate_in":"reps",
                             "animation":"https://test-animation",
                             "muscle":[
                             {
-                                "id":2,
+                                "id":self.muscle["calves"].id,
                                 "name":"calves",
                                 "front_image_url":"http://test-front",
                                 "back_image_url":"http://test-back"
@@ -262,7 +262,7 @@ class TestPresetTraining(APITestCase):
                             ],
                             "muscle_category":[
                             {
-                                "id":2,
+                                "id":self.muscle_category["legs"].id,
                                 "name":'legs',
                                 "type":MuscleGroup.LEGS.label,
                                 "image_url":"http://test"

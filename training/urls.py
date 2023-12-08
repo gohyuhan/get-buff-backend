@@ -9,7 +9,8 @@ from .views import (
     TrainingSetConcludeView,
     TrainingSetGiveUpView,
     ExerciseViewSet,
-    OngoingTrainingSetView
+    OngoingTrainingSetView,
+    TrainingRestTimeView
 )
 
 
@@ -27,5 +28,6 @@ urlpatterns=[
     path('training-conclude', TrainingSetConcludeView.as_view(), name='training_conclude'),
     path('training-give-up', TrainingSetGiveUpView.as_view(), name='training_give_up'),
     path('training-on-going', OngoingTrainingSetView.as_view(), name='training_on_going'),
+    path('training-rest-time', TrainingRestTimeView.as_view(), name='training_rest_time'),
 ]
 urlpatterns += router.urls

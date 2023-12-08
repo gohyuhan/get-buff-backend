@@ -18,13 +18,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserSignUpSerializer(serializers.Serializer):
     # it was use in sign up page, there are also other field in request.data
-    email = serializers.EmailField()
-    password = serializers.CharField(style={"input_type": "password"})
-    first_name = serializers.CharField(max_length=50)
-    last_name = serializers.CharField(max_length=50)
-    gender = serializers.CharField()
-    weight_in_kg = serializers.DecimalField(max_digits=5, decimal_places=2,)
-    height_in_cm = serializers.IntegerField()
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(style={"input_type": "password"},required=True)
+    first_name = serializers.CharField(max_length=50,required=True)
+    last_name = serializers.CharField(max_length=50,required=True)
+    gender = serializers.CharField(required=True)
+    weight_in_kg = serializers.DecimalField(max_digits=5, decimal_places=2,required=True)
+    height_in_cm = serializers.IntegerField(required=True)
 
     def validate_email(self, email):
         if User.objects.filter(email__iexact=email).exists():

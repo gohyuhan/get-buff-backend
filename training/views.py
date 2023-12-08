@@ -4,6 +4,8 @@ from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework.views import APIView
 
+from constance import config
+
 from training.serializer import (
     PresetTrainingSetSerializer,
     CustomTrainingSetSerializer,
@@ -184,3 +186,15 @@ class OngoingTrainingSetView(APIView):
             return Response({'success':True, 'data':data}, status = status.HTTP_200_OK)
         else:
             return Response({'success':False}, status = status.HTTP_200_OK)
+        
+
+class TrainingRestTimeView(APIView):
+    """
+    Retrieve rest time for anonymous users.
+    Login user will use the rest time associate with their profile
+    """
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def get(self, request, *args, **kwargs):
+        return Response({'success':True, 'data':config.TRAINING_DEFAULT_REST_TIME}, status = status.HTTP_200_OK)

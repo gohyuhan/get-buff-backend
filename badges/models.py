@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from django.utils import timezone
 from django.db import models
 
 from enumfields import EnumField
@@ -173,7 +172,7 @@ class UserAchivementBadge(BaseModel):
     
     def set_obtained(self):
         self.is_obtained = True
-        self.obtain_time = datetime.now()
+        self.obtain_time = timezone.now()
         self.save()
 
     def earn_streak(self):

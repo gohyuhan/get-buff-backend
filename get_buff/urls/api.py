@@ -7,7 +7,7 @@ from user.urls import urlpatterns as user_urlpattern
 app_name = "api"
 
 urlpatterns = [
-    path('',include((account_urlpattern, 'account'), namespace='account')),
-    path('',include((training_urlpattern, 'training'), namespace='training')),
-    path('',include((user_urlpattern, 'user'), namespace='user'))
+    path('account/',include((account_urlpattern, 'account'), namespace='account')),
+    path('training/',include((training_urlpattern, 'training'), namespace='training')),
+    path('user/',include((user_urlpattern, 'user'), namespace='user'))
 ]

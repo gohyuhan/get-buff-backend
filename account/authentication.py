@@ -14,7 +14,7 @@ class CustomTokenAuthentication(TokenAuthentication):
             # If a token is provided, authenticate using our CustomTokenAuthentication
             credentials = super().authenticate(request)
             if credentials is None:
-                raise AuthenticationFailed("Authentication Token Not Provided")
+                raise AuthenticationFailed("Authentication Token Not Provided/Invalid")
             user, token = credentials
             if user and not UserProfile.objects.filter(user=user).exists:
                 # create user profile if not exist during login

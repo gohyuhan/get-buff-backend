@@ -16,10 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib import admin
+from account.views import VerifyEmailView, PasswordResetView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('verify-email', VerifyEmailView.as_view(), name='verify_email'),
+    path('reset-password', PasswordResetView.as_view(), name='reset_password'),
     path('api/',include(("get_buff.urls.api", "api"), namespace='api')),
 ]
 

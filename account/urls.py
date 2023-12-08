@@ -5,7 +5,8 @@ from .views import (
     UserCreateView, 
     ObtainAuthTokenView, 
     LogoutView,
-    ChangePasswordvView
+    ChangePasswordView,
+    PasswordResetRequestView
 )
 
 
@@ -17,6 +18,7 @@ urlpatterns=[
     path('user-sign-up', UserCreateView.as_view(), name='user_sign_up'),
     path('user-login', ObtainAuthTokenView.as_view(), name='user_login'),
     path('user-logout', LogoutView.as_view(), name='user_logout'),
-    path('change-password', ChangePasswordvView.as_view(), name='change_password')
+    path('change-password', ChangePasswordView.as_view(), name='change_password'),
+    path('password-reset', PasswordResetRequestView.as_view(), name='password-reset')
 ]
 urlpatterns += router.urls

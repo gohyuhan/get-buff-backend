@@ -43,7 +43,7 @@ class UserProfileViewSet(ModelViewSet):
             user_profile = UserProfile.objects.get(user=request.user)
             serializer = UserProfileSerializer(user_profile, many=False)
             return Response({"success":True, "data":serializer.data}, status = status.HTTP_200_OK)
-        return Response({"success":False, "error":"Invalid data format or type"}, status = status.HTTP_400_BAD_REQUEST)
+        return Response({"success":False, "error":"Invalid data format or type (Please ensure not negative value and the value is within range)"}, status = status.HTTP_400_BAD_REQUEST)
 
 
 class UserTrainingSettingView(APIView):

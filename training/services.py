@@ -1,5 +1,6 @@
-from django.conf import settings
 from django.db import transaction
+
+from constance import config
 
 from training.models import (
     PresetTrainingExercise,
@@ -32,7 +33,7 @@ def create_custom_preset_training_set(request):
         raise UserProfileError("Error on authentication, please logout and login again ")
     preset_exercise = request.data.pop('exercise')
     lvl = request.data.get('level')
-    if len(preset_exercise)< settings.TRAINING_EXERCISE_MIN_COUNT:
+    if len(preset_exercise)< config.TRAINING_EXERCISE_MIN_COUNT:
         raise TrainingSetError("Exercise count should more than or equal 5")
     try:
         muscle_category = MuscleCategory.objects.get(id = request.data.get('muscle_category')['id'])
@@ -83,7 +84,7 @@ def create_custom_training_set(request):
     if not user.is_authenticated or not UserProfile.objects.filter(user=user, uuid=profile_uuid).exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
     custom_exercise = request.data.pop('exercise')
-    if len(custom_exercise)< settings.TRAINING_EXERCISE_MIN_COUNT:
+    if len(custom_exercise)< config.TRAINING_EXERCISE_MIN_COUNT:
         raise TrainingSetError("Exercise count should more than or equal 5")
     muscle_none, created = MuscleCategory.objects.get_or_create(
         name = 'None',

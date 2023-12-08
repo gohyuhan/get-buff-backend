@@ -1,6 +1,5 @@
 from django.urls import reverse
 from rest_framework.authtoken.models import Token
-from django.test.utils import override_settings
 
 from rest_framework.test import APITestCase
 from rest_framework import status
@@ -23,7 +22,6 @@ from badges.enums import (
 from account.models import User
 
 
-@override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
 class UserTest(APITestCase):
     def setUp(self):
         badges={

@@ -30,8 +30,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+HOST_DOMAIN = os.getenv('HOST_DOMAIN')
+CLIENT_DOMAIN = os.getenv('CLIENT_DOMAIN')
 
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -110,7 +112,8 @@ CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 CONSTANCE_CONFIG = {
     'DEFAULT_EMAIL_FROM': (os.getenv("DEFAULT_EMAIL_FROM"), 'default email that display when our systme send out an email'),
     'DEFAULT_EMAIL_FROM_NAME': (os.getenv("DEFAULT_EMAIL_FROM_NAME"), 'default email that display when our systme send out an email'),
-    'TRAINING_EXERCISE_MIN_COUNT':(5, 'Min Count of exercise for a training set to be created')
+    'TRAINING_EXERCISE_MIN_COUNT':(5, 'Min Count of exercise for a training set to be created'),
+    'TRAINING_DEFAULT_REST_TIME':(25, 'Rest time between exercise (in seconds) ')
 }
 
 # Celery Configuration
@@ -152,16 +155,7 @@ PASSWORD_HASHERS = [
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'account.validators.CustomPasswordStrengthValidator',
     },
 ]
 
@@ -190,9 +184,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-TRAINING_EXERCISE_MIN_COUNT = 5

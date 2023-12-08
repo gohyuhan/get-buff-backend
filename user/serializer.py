@@ -26,7 +26,7 @@ def _weight_in_kg_validate(value):
 
 def _height_in_cm_validate(value):
     # return 170 if user enter anything <0 or >350
-    if value<1 or value>350:
+    if value<50 or value>350:
         return 170
     return value
 

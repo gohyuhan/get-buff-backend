@@ -2,7 +2,6 @@ from django.urls import reverse
 
 from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
-from django.test.utils import override_settings
 
 from .factories import (
     ExerciseFactory,
@@ -40,7 +39,6 @@ from badges.services import user_achivement_badge_create
 from account.models import User
 
 
-@override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
 class TrainingTest(APITestCase):
     URL = reverse("api:training:custom_preset_training_set-list")
     URL2 = reverse("api:training:custom_training_set-list")
