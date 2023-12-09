@@ -33,7 +33,29 @@ DEBUG = True
 HOST_DOMAIN = os.getenv('HOST_DOMAIN')
 CLIENT_DOMAIN = os.getenv('CLIENT_DOMAIN')
 
-ALLOWED_HOSTS = []
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:5173",
+]
+
+CORS_ALLOWED_ALL_ORIGINS = True
+
+# Allow credentials (cookies, authentication headers) to be included in the CORS requests
+CORS_ALLOW_CREDENTIALS = True
+
+ALLOWED_HOSTS = [
+    "http://localhost",
+    "localhost"
+]
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
 
 # Application definition
 
@@ -58,7 +80,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'anymail',
     'constance',
-    'constance.backends.database'
+    'constance.backends.database',
+    'corsheaders'
 ]
 
 
@@ -70,6 +93,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'get_buff.urls'

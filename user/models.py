@@ -36,7 +36,7 @@ class UserProfile(BaseModel):
         decimal_places=2,
         default=60.00
     )
-    height_in_cm = models.PositiveIntegerField(
+    height_in_cm = models.IntegerField(
         null=True,
         blank=True,
         default=170

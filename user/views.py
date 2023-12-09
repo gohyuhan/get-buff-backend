@@ -8,16 +8,19 @@ from rest_framework import status
 
 from .models import (
     UserProfile,
-    TrainingSetting
+    TrainingSetting,
+    TrainingSetCompletedRecord
 )
 from training.models import (
-    CustomTrainingSet
+    CustomTrainingSet,
+    CustomTrainingExercise
 )
 from .serializer import (
     UserProfileSerializer,
     TrainingSettingSerializer,
     TrainingSetHistorySerializer
 )
+from training.enums import TrainingStatus
 from .services import (
     update_user_profile,
     update_user_training_setting,
@@ -111,3 +114,21 @@ class CaloriesView(APIView):
             return Response({"success":True, "calories":calories}, status=status.HTTP_200_OK)
         except UserProfileError as e:
             return Response({"success":False, "error":str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class UserTrainingExerciseCompletedCount(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        completed_training_set_id = [
+            completed.training_set.id for completed in
+            TrainingSetCompletedRecord.objects.select_related(
+                'training_set'
+                ).filter(
+                    user_profile__user = request.user
+                )
+        ]
+        completed_training_set_count=len(completed_training_set_id )
+        related_exercise = CustomTrainingExercise.objects.filter(belong_to_custom_training_set__id_in=completed_training_set_id, status=TrainingStatus.COMPLETED)
+        exercise_count = len(related_exercise)
+        return Response({"success":True, "data":{"training":completed_training_set_count, "exercise":exercise_count}}, status= status.HTTP_200_OK)

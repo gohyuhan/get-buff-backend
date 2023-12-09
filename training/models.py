@@ -43,7 +43,7 @@ class Exercise(BaseModel):
     )
 
     def __str__(self):
-        self.name
+        return self.name
 
 
 class PresetTrainingSet(BaseModel):

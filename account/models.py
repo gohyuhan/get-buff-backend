@@ -52,6 +52,7 @@ class UserManager(BaseUserManager):
             training_setting.objects.create(
                 user_profile=user_prof
             )
+            send_verification_email(user)
         return user
 
     def create_superuser(

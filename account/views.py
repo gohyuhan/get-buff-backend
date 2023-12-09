@@ -59,7 +59,6 @@ class UserCreateView(APIView):
 
 class ObtainAuthTokenView(ObtainAuthToken):
     permission_classes = [AllowAny]
-    authentication_classes=[]
 
     def post(self, request, *args, **kwargs):
         serializer = UserLoginSerializer(data=request.data)
@@ -70,6 +69,7 @@ class ObtainAuthTokenView(ObtainAuthToken):
                 UserProfile.objects.get(user=user)
             except UserProfile.DoesNotFound:
                 UserProfile.objects.create(user=user)
+            print(token.key)
             return Response({'success': True, 'token': token.key}, status = status.HTTP_200_OK)
         return Response({'success': False, 'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 

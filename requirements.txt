@@ -19,6 +19,7 @@ cssutils==2.9.0
 Django==4.2.7
 django-anymail==10.2
 django-constance==3.1.0
+django-cors-headers==4.3.1
 django-enumfield==3.1
 django-enumfields==2.1.1
 django-mock-queries==2.2.0
