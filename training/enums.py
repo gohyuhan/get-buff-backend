@@ -3,7 +3,7 @@ from get_buff.enums import ChoiceEnum
 class TrainingLevel(ChoiceEnum):
     BEGINNER = ("BEG","beginner")
     INTERMEDIATE = ("INT","intermediate")
-    ADVANCED = ("ADV","advanced")
+    ADVANCE = ("ADV","advance")
     CUSTOM = ("CUS", "custom")
     NONE = ("NON", "none")
 

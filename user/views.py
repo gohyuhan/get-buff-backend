@@ -129,6 +129,6 @@ class UserTrainingExerciseCompletedCount(APIView):
                 )
         ]
         completed_training_set_count=len(completed_training_set_id )
-        related_exercise = CustomTrainingExercise.objects.filter(belong_to_custom_training_set__id_in=completed_training_set_id, status=TrainingStatus.COMPLETED)
+        related_exercise = CustomTrainingExercise.objects.filter(belong_to_custom_training_set__id__in=completed_training_set_id, status=TrainingStatus.COMPLETED)
         exercise_count = len(related_exercise)
         return Response({"success":True, "data":{"training":completed_training_set_count, "exercise":exercise_count}}, status= status.HTTP_200_OK)

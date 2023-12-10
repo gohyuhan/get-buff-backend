@@ -42,6 +42,7 @@ class UserProfile(BaseModel):
         default=170
     )
     target_weight_in_kg = models.DecimalField(
+        default=60.00,
         null=True,
         blank=True,
         max_digits=5,

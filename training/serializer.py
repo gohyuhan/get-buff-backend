@@ -69,7 +69,7 @@ class PresetTrainingSetSerializer(serializers.ModelSerializer):
             "name",
             "level",
             "muscle_category",
-            'exercise'
+            'exercise',
         )
 
     def to_representation(self, instance):
@@ -115,7 +115,8 @@ class CustomTrainingSetSerializer(serializers.ModelSerializer):
             "muscle_category",
             "status",
             "training_type",
-            "exercise"
+            "exercise",
+            "created"
         )
 
     def to_representation(self, instance):

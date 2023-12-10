@@ -85,7 +85,7 @@ class CustomPresetTrainingSetViewSet(ModelViewSet):
         except TrainingSetError as e:
             return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except UserProfileError as e:
-            return Response({'success':False, 'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success':False, 'error':str(e), 'authentication_error':True}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CustomTrainingSetViewSet(ModelViewSet):

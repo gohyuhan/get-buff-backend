@@ -45,7 +45,7 @@ def create_custom_preset_training_set(request):
     elif lvl=="intermediate":
         level =TrainingLevel.INTERMEDIATE
     else:
-        level=TrainingLevel.ADVANCED
+        level=TrainingLevel.ADVANCE
 
     custom_training_set = CustomTrainingSet.objects.create(
         user_profile=UserProfile.objects.get(uuid=profile_uuid),

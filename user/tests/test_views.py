@@ -166,7 +166,7 @@ class TestUserProfile(APITestCase):
         CustomTrainingSet.objects.create(
             user_profile = UserProfile.objects.all().first(),
             name = "test custom preset",
-            level =TrainingLevel.ADVANCED,
+            level =TrainingLevel.ADVANCE,
             muscle_category = muscle_cat,
             status = TrainingStatus.COMPLETED,
             training_type = TrainingType.PRESET
@@ -174,7 +174,7 @@ class TestUserProfile(APITestCase):
         CustomTrainingSet.objects.create(
             user_profile = UserProfile.objects.all().first(),
             name = "test custom ",
-            level =TrainingLevel.ADVANCED,
+            level =TrainingLevel.ADVANCE,
             status = TrainingStatus.GIVEUP,
             training_type = TrainingType.CUSTOM
         )

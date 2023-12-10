@@ -182,27 +182,27 @@ prest_training_set={
     ),
     'prest_abs_advance':PresetTrainingSet.objects.create(
         name = "ABS ADVANCE",
-        level = TrainingLevel.ADVANCED,
+        level = TrainingLevel.ADVANCE,
         muscle_category = muscle_cat['abs']
     ),
     'prest_chest_advance':PresetTrainingSet.objects.create(
         name = "CHEST ADVANCE",
-        level = TrainingLevel.ADVANCED,
+        level = TrainingLevel.ADVANCE,
         muscle_category = muscle_cat['chest']
     ),
     'prest_leg_advance':PresetTrainingSet.objects.create(
         name = "LEG ADVANCE",
-        level = TrainingLevel.ADVANCED,
+        level = TrainingLevel.ADVANCE,
         muscle_category = muscle_cat['legs']
     ),
     'prest_arm_advance':PresetTrainingSet.objects.create(
         name = "ARM ADVANCE",
-        level = TrainingLevel.ADVANCED,
+        level = TrainingLevel.ADVANCE,
         muscle_category = muscle_cat['arms']
     ),
     'prest_back_and_shoulder_advance':PresetTrainingSet.objects.create(
         name = "BACK & SHOULDER ADVANCE",
-        level = TrainingLevel.ADVANCED,
+        level = TrainingLevel.ADVANCE,
         muscle_category = muscle_cat["back_and_shoulder"]
     )
 }
@@ -735,7 +735,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = jumping_jack.calculate_in,
     required_value = 40,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set['prest_abs_advance'],
     exercise = jumping_jack,
     order=1
@@ -743,7 +743,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = jumping_jack.calculate_in,
     required_value = 40,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set['prest_abs_advance'],
     exercise = jumping_jack,
     order=2
@@ -751,7 +751,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = jumping_jack.calculate_in,
     required_value = 40,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set['prest_abs_advance'],
     exercise = jumping_jack,
     order=3
@@ -759,7 +759,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = abdominal_crunches.calculate_in,
     required_value = 20,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set['prest_abs_advance'],
     exercise = abdominal_crunches,
     order=4
@@ -767,7 +767,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = abdominal_crunches.calculate_in,
     required_value = 20,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set['prest_abs_advance'],
     exercise = abdominal_crunches,
     order=5
@@ -777,7 +777,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = jumping_jack.calculate_in,
     required_value = 25,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_chest_advance"],
     exercise = jumping_jack,
     order=1
@@ -785,7 +785,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = jumping_jack.calculate_in,
     required_value = 25,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_chest_advance"],
     exercise = jumping_jack,
     order=2
@@ -793,7 +793,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = jumping_jack.calculate_in,
     required_value = 25,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_chest_advance"],
     exercise = jumping_jack,
     order=3
@@ -801,7 +801,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = incline_push.calculate_in,
     required_value = 18,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_chest_advance"],
     exercise = incline_push,
     order=4
@@ -809,7 +809,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = incline_push.calculate_in,
     required_value = 18,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_chest_advance"],
     exercise = incline_push,
     order=5
@@ -819,7 +819,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = arm_raise.calculate_in,
     required_value = 35,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_arm_advance"],
     exercise = arm_raise,
     order=1
@@ -827,7 +827,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = arm_raise.calculate_in,
     required_value = 35,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_arm_advance"],
     exercise = arm_raise,
     order=2
@@ -835,7 +835,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = arm_raise.calculate_in,
     required_value = 35,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_arm_advance"],
     exercise = arm_raise,
     order=3
@@ -843,7 +843,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = side_arm_raise.calculate_in,
     required_value = 35,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_arm_advance"],
     exercise = side_arm_raise,
     order=4
@@ -851,7 +851,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = side_arm_raise.calculate_in,
     required_value = 35,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_arm_advance"],
     exercise = side_arm_raise,
     order=5
@@ -861,7 +861,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = side_hop.calculate_in,
     required_value = 28,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_leg_advance"],
     exercise = side_hop,
     order=1
@@ -869,7 +869,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = side_hop.calculate_in,
     required_value = 28,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_leg_advance"],
     exercise = side_hop,
     order=2
@@ -877,7 +877,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = side_hop.calculate_in,
     required_value = 28,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_leg_advance"],
     exercise = side_hop,
     order=3
@@ -885,7 +885,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = squats.calculate_in,
     required_value = 22,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_leg_advance"],
     exercise = squats,
     order=4
@@ -893,7 +893,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = squats.calculate_in,
     required_value = 22,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_leg_advance"],
     exercise = squats,
     order=5
@@ -903,7 +903,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = jumping_jack.calculate_in,
     required_value = 30,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_back_and_shoulder_advance"],
     exercise = jumping_jack,
     order=1
@@ -911,7 +911,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = jumping_jack.calculate_in,
     required_value = 30,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_back_and_shoulder_advance"],
     exercise = jumping_jack,
     order=2
@@ -919,7 +919,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = jumping_jack.calculate_in,
     required_value = 30,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_back_and_shoulder_advance"],
     exercise = jumping_jack,
     order=3
@@ -927,7 +927,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = arm_raise.calculate_in,
     required_value = 22,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_back_and_shoulder_advance"],
     exercise = arm_raise,
     order=4
@@ -935,7 +935,7 @@ PresetTrainingExercise.objects.create(
 PresetTrainingExercise.objects.create(
     calculate_in = arm_raise.calculate_in,
     required_value = 22,
-    level = TrainingLevel.ADVANCED,
+    level = TrainingLevel.ADVANCE,
     belong_to_training_set = prest_training_set["prest_back_and_shoulder_advance"],
     exercise = arm_raise,
     order=5

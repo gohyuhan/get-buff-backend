@@ -75,7 +75,7 @@ class TestPresetTraining(APITestCase):
         self.preset_training_set={
             "preset_training_set_1":PresetTrainingSetFactory(
                 name = 'set 1 (advance)',
-                level = TrainingLevel.ADVANCED,
+                level = TrainingLevel.ADVANCE,
                 muscle_category =self.muscle_category["shoulder_and_back"]
             ),
             "preset_training_set_2":PresetTrainingSetFactory(
@@ -127,7 +127,7 @@ class TestPresetTraining(APITestCase):
             {
                 "id":self.preset_training_set['preset_training_set_1'].id,
                 "name":"set 1 (advance)",
-                "level":"advanced",
+                "level":"advance",
                 "muscle_category":{
                     "id":self.muscle_category["shoulder_and_back"].id,
                     "name":'back and shoulder',
@@ -139,7 +139,7 @@ class TestPresetTraining(APITestCase):
                         "id":self.preset_training_exercise["preset_exercise_1"].id,
                         "calculate_in":"seconds",
                         "required_value":30,
-                        "level":"advanced",
+                        "level":"advance",
                         "exercise":{
                             "id":self.exercise["exercise_1"].id,
                             "name":"exercise_1",
@@ -170,7 +170,7 @@ class TestPresetTraining(APITestCase):
                         "id":self.preset_training_exercise["preset_exercise_2"].id,
                         "calculate_in":"seconds",
                         "required_value":40,
-                        "level":"advanced",
+                        "level":"advance",
                         "exercise":{
                             "id":self.exercise["exercise_1"].id,
                             "name":"exercise_1",

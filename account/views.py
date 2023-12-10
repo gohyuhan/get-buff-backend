@@ -22,8 +22,8 @@ from .serializer import (
 from .services import sign_out_user
 from .models import User, SecurityToken
 from .enums import AccountEmailStatus,SecurityTokenEventType
-from user.models import UserProfile
-from get_buff.permission import IsPostOnly
+from user.models import UserProfile, TrainingSetting
+from get_buff.permission import IsPostOnly, IsGetOnly
 from badges.services import user_achivement_badge_create
 from notifications.services import send_notification_email
 from notifications.models import Event
@@ -55,6 +55,23 @@ class UserCreateView(APIView):
                 user_achivement_badge_create(user_profile = user_profile.first())
             return Response({'success':True, 'token':token.key}, status=status.HTTP_201_CREATED)
         return Response({'success':False, 'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class UserCheckView(APIView):
+    """
+    To check user token is valid, else we return an error so frontend client can prompt user to login again
+    """
+    permission_classes = [IsAuthenticated, IsGetOnly]
+
+    def get(self, request):
+        if request.user:
+            if not UserProfile.objects.filter(user=request.user).exists():
+                user_profile = UserProfile.objects.create(user=request.user)
+            user_profile = UserProfile.objects.get(user=request.user)
+            if not TrainingSetting.objects.filter(user_profile__user=request.user).exists():
+                TrainingSetting.objects.create(user_profile=user_profile)
+            user_achivement_badge_create(user_profile = user_profile)
+            return Response({'success':True}, status=status.HTTP_200_OK)
 
 
 class ObtainAuthTokenView(ObtainAuthToken):

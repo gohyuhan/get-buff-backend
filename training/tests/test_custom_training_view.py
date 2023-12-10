@@ -170,7 +170,7 @@ class TrainingTest(APITestCase):
         self.preset_training_set={
             "preset_training_set_1":PresetTrainingSetFactory(
                 name = 'set 1 (advance)',
-                level = TrainingLevel.ADVANCED,
+                level = TrainingLevel.ADVANCE,
                 muscle_category =self.muscle_category["shoulder_and_back"]
             ),
             "preset_training_set_2":PresetTrainingSetFactory(
