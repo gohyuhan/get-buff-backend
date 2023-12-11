@@ -35,7 +35,7 @@ class EmailMessage(models.Model):
         recipient = User.objects.get(id=self.recipient_id)
         cc = [self.cc] if self.cc else []
         bcc = [self.bcc] if self.bcc else [] 
-        send_email(
+        send_email.delay(
             email_message_id = self.pk,
             email_from = f"{config.DEFAULT_EMAIL_FROM_NAME}  <{config.DEFAULT_EMAIL_FROM}>",
             email_to = [recipient.email],

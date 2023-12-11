@@ -37,23 +37,24 @@ class UserCreateView(APIView):
     def post(self, request):
         serializer = UserSignUpSerializer(data=request.data)
         if serializer.is_valid():
-            user = User.objects.create_user(
-                email=serializer.data['email'],
-                password=serializer.data['password'],
-                first_name=serializer.data['first_name'],
-                last_name=serializer.data['last_name'],
-            )
-            if user:
-                token = Token.objects.create(user=user)
-                user_profile = UserProfile.objects.filter(user=user)
-                user_profile.update(
+            try:
+                user = User.objects.create_user(
+                    email=serializer.data['email'],
+                    password=serializer.data['password'],
+                    first_name=serializer.data['first_name'],
+                    last_name=serializer.data['last_name'],
                     gender=serializer.data['gender'],
-                    weight_in_kg=serializer.data['weight_in_kg'],
-                    height_in_cm=serializer.data['height_in_cm'],
-                    target_weight_in_kg=serializer.data['weight_in_kg']
-                )
-                user_achivement_badge_create(user_profile = user_profile.first())
-            return Response({'success':True, 'token':token.key}, status=status.HTTP_201_CREATED)
+                    weight=serializer.data['weight_in_kg'],
+                    height=serializer.data['height_in_cm'],
+                    target_weight=serializer.data['weight_in_kg']
+                )   
+                if user:
+                    token = Token.objects.create(user=user)
+                    user_profile = UserProfile.objects.filter(user=user)
+                    user_achivement_badge_create(user_profile = user_profile.first())
+                return Response({'success':True, 'token':token.key}, status=status.HTTP_201_CREATED)
+            except ValueError as e:
+                return Response({'success':False, 'error':{'non_field_errors':[str(e)]}}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'success':False, 'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
 

@@ -4,7 +4,7 @@ from datetime import timedelta
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-from django.db import models
+from django.db import models, transaction
 from django.utils.crypto import get_random_string
 from django.utils import timezone
 
@@ -22,38 +22,48 @@ class UserManager(BaseUserManager):
         password, 
         first_name, 
         last_name, 
+        gender, 
+        weight,
+        height, 
+        target_weight,
         **extra_fields
     ):
         if not email:
             raise ValueError('The Email field must be set')
-        email = self.normalize_email(email)
-        user = self.model(
-            email=email, 
-            first_name=first_name, 
-            last_name=last_name,
-            **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
+        try:
+            with transaction.atomic():
+                email = self.normalize_email(email)
+                user = self.model(
+                    email=email, 
+                    first_name=first_name, 
+                    last_name=last_name,
+                    **extra_fields)
+                user.set_password(password)
+                user.save(using=self._db)
 
-        # create assiociate user profile
-        # default gender is male, other will be left as blank 
-        user_models = importlib.import_module("user.models")
-        user_profile = getattr(
-            user_models, "UserProfile"
-        )
-        training_setting = getattr(
-            user_models, "TrainingSetting"
-        )
-        if user_profile and training_setting:
-            user_prof = user_profile.objects.create(
-                user=user,
-                gender = "male",
-            )
-            training_setting.objects.create(
-                user_profile=user_prof
-            )
-            send_verification_email(user)
-        return user
+                # create assiociate user profile
+                # default gender is male, other will be left as blank 
+                user_models = importlib.import_module("user.models")
+                user_profile = getattr(
+                    user_models, "UserProfile"
+                )
+                training_setting = getattr(
+                    user_models, "TrainingSetting"
+                )
+                user_prof = user_profile.objects.create(
+                    user=user,
+                    gender=gender,
+                    weight_in_kg=weight,
+                    height_in_cm=height,
+                    target_weight_in_kg=target_weight
+                )
+                training_setting.objects.create(
+                    user_profile=user_prof
+                )
+                send_verification_email(user)
+                return user
+        except Exception:
+            raise ValueError('please check all value to see if they are valid (Especially weight and height)')
 
     def create_superuser(
         self,

@@ -9,11 +9,13 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     expose:
       - '5432'
+    restart: always
 
   redis:
     image: "redis:latest"
     expose:
       - '6379'
+    restart: always
 
   nginx:
     image: nginx:latest
@@ -22,6 +24,7 @@ services:
       - "80:80"
     volumes:
       - .:/code/static
+    restart: always
 
   web:
     build:
@@ -35,6 +38,7 @@ services:
     depends_on:
       - db
       - redis
+    restart: always
 
   celery-worker:
     build:
@@ -71,3 +75,4 @@ services:
     depends_on:
       - db
       - redis
+    restart: always

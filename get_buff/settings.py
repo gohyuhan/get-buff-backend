@@ -185,9 +185,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # ANYMAIL
-EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
+EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
 ANYMAIL = {
-    "SENDGRID_API_KEY": os.getenv("SENDGRID_API"),
+    "SENDINBLUE_API_KEY":os.getenv("BREVO_API")
 }
 
 # Internationalization
