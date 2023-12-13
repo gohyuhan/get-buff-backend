@@ -75,7 +75,20 @@ class UserManager(BaseUserManager):
     ):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        return self.create_user(email, password,first_name,last_name, **extra_fields)
+        gender = 'male'
+        weight = 60
+        height = 170
+        target_weight = 60
+        return self.create_user(
+            email, 
+            password,
+            first_name,
+            last_name, 
+            gender, 
+            weight,
+            height, 
+            target_weight,
+            **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
