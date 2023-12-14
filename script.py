@@ -51,80 +51,80 @@ muscle_cat={
 muscle={
     "shoulders":Muscle.objects.create(
         name = "Shoulder",
-        front_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096178/front_mus/shoulder_qgiv1v.png",
-        back_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096908/back_mus/shoulder_htgsbt.png",
+        front_image_url = "v1702096178/front_mus/shoulder_qgiv1v.png",
+        back_image_url = "v1702096908/back_mus/shoulder_htgsbt.png",
         muscle_category = muscle_cat['back_and_shoulder']
     ),
     "quadriceps":Muscle.objects.create(
         name = "Quadriceps",
-        front_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096178/front_mus/quadriceps_k5dd3k.png",
+        front_image_url = "v1702096178/front_mus/quadriceps_k5dd3k.png",
         back_image_url = "",
         muscle_category = muscle_cat['legs']
     ),
     "adductors":Muscle.objects.create(
         name = "Adductors",
-        front_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096187/front_mus/adductors_qzgbvn.png",
+        front_image_url = "v1702096187/front_mus/adductors_qzgbvn.png",
         back_image_url = "",
         muscle_category = muscle_cat['legs']
     ),
     "calves":Muscle.objects.create(
         name = "Calves",
-        front_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096188/front_mus/calves_c93tid.png",
-        back_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096228/back_mus/calves_iks153.png",
+        front_image_url = "v1702096188/front_mus/calves_c93tid.png",
+        back_image_url = "v1702096228/back_mus/calves_iks153.png",
         muscle_category = muscle_cat['legs']
     ),
     "chest":Muscle.objects.create(
         name = "Chest",
-        front_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096189/front_mus/chest_bbarf5.png",
+        front_image_url = "v1702096189/front_mus/chest_bbarf5.png",
         back_image_url = "",
         muscle_category = muscle_cat['chest']
     ),
     "abs":Muscle.objects.create(
         name = "abs",
-        front_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096187/front_mus/abs_g05kvf.png",
-        back_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096227/back_mus/abs_eki5ks.png",
+        front_image_url = "v1702096187/front_mus/abs_g05kvf.png",
+        back_image_url = "v1702096227/back_mus/abs_eki5ks.png",
         muscle_category = muscle_cat['abs']
     ),
     "traps":Muscle.objects.create(
         name = "Traps",
-        front_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096178/front_mus/traps_hfpg03.png",
-        back_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096210/back_mus/traps_wtvvpn.png",
+        front_image_url = "v1702096178/front_mus/traps_hfpg03.png",
+        back_image_url = "v1702096210/back_mus/traps_wtvvpn.png",
         muscle_category = muscle_cat['back_and_shoulder']
     ),
     "biceps":Muscle.objects.create(
         name = "Biceps",
-        front_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096188/front_mus/biceps_d8tm5x.png",
+        front_image_url = "v1702096188/front_mus/biceps_d8tm5x.png",
         back_image_url = "",
         muscle_category = muscle_cat['arms']
     ),
     "forearms":Muscle.objects.create(
         name = "Forearms",
-        front_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096189/front_mus/forearm_ctwhlr.png",
-        back_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096229/back_mus/forearm_oigbse.png",
+        front_image_url = "v1702096189/front_mus/forearm_ctwhlr.png",
+        back_image_url = "v1702096229/back_mus/forearm_oigbse.png",
         muscle_category = muscle_cat['arms']
     ),
     "glutes":Muscle.objects.create(
         name = "Glutes",
         front_image_url = "",
-        back_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702103841/back_mus/glutes_p55x0j.png",
+        back_image_url = "v1702103841/back_mus/glutes_p55x0j.png",
         muscle_category = muscle_cat['legs']
     ),
     "hamstrings":Muscle.objects.create(
         name = "Hamstrings",
         front_image_url = "",
-        back_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096230/back_mus/hamstrings_i107aa.png",
+        back_image_url = "v1702096230/back_mus/hamstrings_i107aa.png",
         muscle_category = muscle_cat['legs']
     ),
     "triceps":Muscle.objects.create(
         name = "Triceps",
         front_image_url = "",
-        back_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096211/back_mus/triceps_jv9uop.png",
+        back_image_url = "v1702096211/back_mus/triceps_jv9uop.png",
         muscle_category = muscle_cat['arms']
     ),
     "back":Muscle.objects.create(
         name = "Back",
         front_image_url = "",
-        back_image_url = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702096227/back_mus/back_mpebeq.png",
+        back_image_url = "v1702096227/back_mus/back_mpebeq.png",
         muscle_category = muscle_cat["back_and_shoulder"]
     ),
 }
