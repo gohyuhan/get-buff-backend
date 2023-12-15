@@ -10,7 +10,8 @@ from .views import (
     TrainingSetGiveUpView,
     ExerciseViewSet,
     OngoingTrainingSetView,
-    TrainingRestTimeView
+    TrainingRestTimeView,
+    CheckIdenticalOngoingview
 )
 
 
@@ -29,5 +30,6 @@ urlpatterns=[
     path('training-give-up', TrainingSetGiveUpView.as_view(), name='training_give_up'),
     path('training-on-going', OngoingTrainingSetView.as_view(), name='training_on_going'),
     path('training-rest-time', TrainingRestTimeView.as_view(), name='training_rest_time'),
+    path('check-identical-ongoing', CheckIdenticalOngoingview.as_view(), name='check_identical_ongoing'),
 ]
 urlpatterns += router.urls

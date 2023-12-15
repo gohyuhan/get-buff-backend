@@ -9,7 +9,6 @@ from user.models import UserProfile, TrainingSetting
 class CustomTokenAuthentication(TokenAuthentication):
     def authenticate(self, request):
         auth_header = request.headers.get("Authorization")
-        print(request.headers)
         
         if auth_header:
             # If a token is provided, authenticate using our CustomTokenAuthentication

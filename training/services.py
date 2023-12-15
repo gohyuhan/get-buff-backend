@@ -11,6 +11,7 @@ from training.models import (
 from muscle.models import MuscleCategory
 from muscle.enums import MuscleGroup
 from training.enums import (
+    CalculatedIn,
     TrainingLevel, 
     TrainingStatus, 
     TrainingType,
@@ -31,9 +32,9 @@ def create_custom_preset_training_set(request):
     profile_uuid = request.data.pop('profile')
     if not user.is_authenticated or not UserProfile.objects.filter(user=user, uuid=profile_uuid).exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
-    preset_exercise = request.data.pop('exercise')
+    exercise = request.data.pop('exercise')
     lvl = request.data.get('level')
-    if len(preset_exercise)< config.TRAINING_EXERCISE_MIN_COUNT:
+    if len(exercise)< config.TRAINING_EXERCISE_MIN_COUNT:
         raise TrainingSetError("Exercise count should more than or equal 5")
     try:
         muscle_category = MuscleCategory.objects.get(id = request.data.get('muscle_category')['id'])
@@ -55,23 +56,24 @@ def create_custom_preset_training_set(request):
         status=TrainingStatus.ONGOING,
         training_type=TrainingType.PRESET
     )
-
-    preset_exercise_id = [exe['id'] for exe in preset_exercise]
-    for i, id in enumerate(preset_exercise_id):
+    exercise_array = [exe for exe in exercise]
+    print(exercise_array )
+    for i, exercise in enumerate(exercise_array):
         try:
-            exe = PresetTrainingExercise.objects.get(id=id)
+            exe = Exercise.objects.get(id=exercise['exercise']["id"])
+            print(exe)
             CustomTrainingExercise.objects.create(
-                calculate_in = exe.calculate_in,
-                required_value = exe.required_value,
-                level = exe.level,
+                calculate_in = return_calculated_in(exercise['calculate_in']),
+                required_value = exercise['required_value'],
+                level = return_level(exercise['level']),
                 belong_to_custom_training_set = custom_training_set,
-                exercise = exe.exercise,
+                exercise = exe,
                 order = i+1,
                 status = TrainingStatus.ONGOING,
             )
         except PresetTrainingExercise.DoesNotExist:
             pass
-
+            
     return custom_training_set
 
 
@@ -102,8 +104,8 @@ def create_custom_training_set(request):
         )
         for i, exercise_set in enumerate(custom_exercise):
             try:
-                exe = Exercise.objects.get(id=exercise_set['id'])
-                if exercise_set['count']<exe.min_count:
+                exe = Exercise.objects.get(id=exercise_set['exercise']['id'])
+                if exercise_set['exercise']['min_count']<exe.min_count:
                     raise TrainingExerciseError("Please make sure all exercise in you custom training meets the minimun reps/seconds")
                 CustomTrainingExercise.objects.create(
                     calculate_in = exe.calculate_in,
@@ -125,22 +127,31 @@ def pause_training_set(request):
     profile_uuid = request.data.pop('profile')
     if not user.is_authenticated or not UserProfile.objects.filter(user=user, uuid=profile_uuid).exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
-    custom_training_set_id = request.data.get('custom_training_set')
-    custom_training_set = CustomTrainingSet.objects.get(
-        id= custom_training_set_id,
-        user_profile__user = user
-    )
+    custom_training_id = request.data.get('id')
     custom_exercise = request.data.pop('exercise')
-    for exercise_set in custom_exercise:
-        try:
-            exe = CustomTrainingExercise.objects.get(
-                id = exercise_set['id'],
-                belong_to_custom_training_set = custom_training_set
-            )
-            exe.status = return_training_status(exercise_set['status'])
-            exe.save()
-        except CustomTrainingExercise.DoesNotExist:
-            pass
+    try:
+        print(CustomTrainingSet.objects.filter(
+            id= custom_training_id,
+        ))
+        custom_training_set = CustomTrainingSet.objects.get(
+            id= custom_training_id,
+            user_profile__user = user,
+            status= TrainingStatus.ONGOING
+        )
+        print(custom_training_set)
+        for exercise_set in custom_exercise:
+            try:
+                exe = CustomTrainingExercise.objects.get(
+                    id = exercise_set['id'],
+                    belong_to_custom_training_set = custom_training_set
+                )
+                exe.status = return_training_status(exercise_set['status'])
+                print(return_training_status(exercise_set['status']))
+                exe.save()
+            except CustomTrainingExercise.DoesNotExist:
+                pass
+    except CustomTrainingSet.DoesNotExist: 
+        raise TrainingSetError("training set on going not found")
 
 
 def conclude_training_set(request):
@@ -150,23 +161,26 @@ def conclude_training_set(request):
     if not user.is_authenticated or not user_profile.exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
     custom_training_set_id = request.data.get('custom_training_set')
-    custom_training_set = CustomTrainingSet.objects.get(
-        id= custom_training_set_id,
-        user_profile__user = user
-    )
-    CustomTrainingExercise.objects.filter(
-        status = TrainingStatus.ONGOING,
-        belong_to_custom_training_set=custom_training_set
-    ).update(
-        status = TrainingStatus.COMPLETED
-    )
-    custom_training_set.status = TrainingStatus.COMPLETED
-    custom_training_set.save()
-    TrainingSetCompletedRecord.objects.create(
-        user_profile = UserProfile.objects.get(uuid=profile_uuid),
-        training_set = custom_training_set
-    )
-    return user_profile.first(), custom_training_set
+    try:
+        custom_training_set = CustomTrainingSet.objects.get(
+            status = TrainingStatus.ONGOING,
+            id= custom_training_set_id,
+            user_profile__user = user
+        )
+        CustomTrainingExercise.objects.filter(
+            belong_to_custom_training_set=custom_training_set
+        ).update(
+            status = TrainingStatus.COMPLETED
+        )
+        custom_training_set.status = TrainingStatus.COMPLETED
+        custom_training_set.save()
+        TrainingSetCompletedRecord.objects.create(
+            user_profile = UserProfile.objects.get(uuid=profile_uuid),
+            training_set = custom_training_set
+        )
+        return user_profile.first(), custom_training_set
+    except CustomTrainingSet.DoesNotExist:
+        raise TrainingSetError('no ongoing training set match the id')
 
 
 def give_up_training_set(request):
@@ -175,18 +189,22 @@ def give_up_training_set(request):
     if not user.is_authenticated or not UserProfile.objects.filter(user=user, uuid=profile_uuid).exists():
         raise UserProfileError("Error on authentication, please logout and login again ")
     custom_training_set_id = request.data.get('custom_training_set')
-    custom_training_set = CustomTrainingSet.objects.get(
-        id= custom_training_set_id,
-        user_profile__user = user
-    )
-    CustomTrainingExercise.objects.filter(
-        status = TrainingStatus.ONGOING,
-        belong_to_custom_training_set=custom_training_set
-    ).update(
-        status = TrainingStatus.GIVEUP
-    )
-    custom_training_set.status = TrainingStatus.GIVEUP
-    custom_training_set.save()
+    try:
+        custom_training_set = CustomTrainingSet.objects.get(
+            status = TrainingStatus.ONGOING,
+            id= custom_training_set_id,
+            user_profile__user = user
+        )
+        CustomTrainingExercise.objects.filter(
+            status = TrainingStatus.ONGOING,
+            belong_to_custom_training_set=custom_training_set
+        ).update(
+            status = TrainingStatus.GIVEUP
+        )
+        custom_training_set.status = TrainingStatus.GIVEUP
+        custom_training_set.save()
+    except:
+        pass
 
 
 def ongoing_training_or_exercise(user):
@@ -203,6 +221,20 @@ def ongoing_training_or_exercise(user):
         return True
     return False
 
+def check_identical_ongoing(request):
+    user = request.user
+    profile_uuid = request.data.pop('profile')
+    if not user.is_authenticated or not UserProfile.objects.filter(user=user, uuid=profile_uuid).exists():
+        raise UserProfileError("Error on authentication, please logout and login again ")
+    custom_training_set_id = request.data.get('custom_training_set')
+    if CustomTrainingSet.objects.filter(
+        id= custom_training_set_id,
+        user_profile__uuid= profile_uuid,
+        status = TrainingStatus.ONGOING
+    ).exists():
+        return True
+    return False
+
 
 def return_training_status(status):
     if status == TrainingStatus.COMPLETED.label:
@@ -211,3 +243,21 @@ def return_training_status(status):
         return TrainingStatus.GIVEUP
     else:
         return TrainingStatus.ONGOING
+    
+
+def return_calculated_in(status):
+    if status == CalculatedIn.SECONDS.label:
+        return CalculatedIn.SECONDS
+    else:
+        return CalculatedIn.REPS
+
+
+def return_level(status):
+    if status == TrainingLevel.ADVANCE.label:
+        return TrainingLevel.ADVANCE
+    elif status == TrainingLevel.INTERMEDIATE.label:
+        return TrainingLevel.INTERMEDIATE
+    elif status == TrainingLevel.BEGINNER.label:
+        return TrainingLevel.BEGINNER
+    else:
+        return TrainingLevel.CUSTOM

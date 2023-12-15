@@ -17,6 +17,7 @@ from training.models import (
     Exercise
 )
 from .services import (
+    check_identical_ongoing,
     create_custom_preset_training_set, 
     create_custom_training_set,
     pause_training_set,
@@ -130,7 +131,7 @@ class TrainingSetPauseView(APIView):
         try:
             pause_training_set(request)
             return Response({'success':True}, status = status.HTTP_200_OK)
-        except:
+        except TrainingSetError:
             return Response({'success':False}, status = status.HTTP_400_BAD_REQUEST)
 
 
@@ -149,7 +150,7 @@ class TrainingSetConcludeView(APIView):
                 serializer = UserAchivementBadgeSerializer(obtained_badge, many = True)
                 return Response({'success':True, 'badges':serializer.data}, status = status.HTTP_200_OK)
             return Response({'success':True, 'badges':[]}, status = status.HTTP_200_OK)
-        except:
+        except TrainingSetError:
              return Response({'success':False}, status = status.HTTP_400_BAD_REQUEST)
     
 
@@ -198,3 +199,14 @@ class TrainingRestTimeView(APIView):
 
     def get(self, request, *args, **kwargs):
         return Response({'success':True, 'data':config.TRAINING_DEFAULT_REST_TIME}, status = status.HTTP_200_OK)
+    
+
+class CheckIdenticalOngoingview(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        identical = check_identical_ongoing(request)
+        if identical:
+            return Response({'success':True}, status = status.HTTP_200_OK)
+        else:
+            return Response({'success':False}, status = status.HTTP_200_OK)

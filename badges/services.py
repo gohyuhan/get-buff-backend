@@ -31,7 +31,7 @@ def user_achivement_badge_create(user_profile):
     for more detail about badges work see `badges.model`
     """
     existing_user_badges_id = [
-        badge.id for badge in
+        badge.badge.id for badge in
         UserAchivementBadge.objects.select_related('badge').filter(user_profile=user_profile)
     ] 
 
@@ -114,18 +114,14 @@ def user_training_achivement_badge_progression_update(user_profile, training_set
         badge.save()
 
     # 5) track special target achivement ( should only consist of 1 model )
-    progression_updated_badges + track_special_badge_all_other_non_special_badges_obtain(inprogress_user_badges, user_profile)
+    return_list = user_newly_obtained_achivement_badge(progression_updated_badges, True)
+    return_list + user_newly_obtained_achivement_badge(
+        track_special_badge_all_other_non_special_badges_obtain(inprogress_user_badges, user_profile)
+    , True)
     
 
-    return user_newly_obtained_achivement_badge(progression_updated_badges, True)
+    return return_list
  
-
-def user_training_streak_achivement_badge_progression_update(user_profile):
-    """
-    a services to update special (streak) training/exercise tracked achivement badges
-    """
-    pass
-
 
 def user_newly_obtained_achivement_badge(badges_list, return_list=False):
     """
@@ -152,7 +148,7 @@ def track_special_badge_all_other_non_special_badges_obtain(inprogress_user_badg
         track__count_type = TargetCountType.NONE,
     )
     for badge in special_training_count_badge:
-        badge.progress_count = len(UserAchivementBadge.objects.filter(user_profile = user_profile, is_obtained=False))
+        badge.progress_count = len(UserAchivementBadge.objects.filter(user_profile = user_profile, is_obtained=True))
         badge.save()
         return_list.append(badge)
     return return_list
