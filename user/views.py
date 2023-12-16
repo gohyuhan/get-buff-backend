@@ -16,6 +16,7 @@ from training.models import (
     CustomTrainingExercise
 )
 from .serializer import (
+    TrainingSetCompletedrecordSerializer,
     UserProfileSerializer,
     TrainingSettingSerializer,
     TrainingSetHistorySerializer
@@ -46,7 +47,7 @@ class UserProfileViewSet(ModelViewSet):
             user_profile = UserProfile.objects.get(user=request.user)
             serializer = UserProfileSerializer(user_profile, many=False)
             return Response({"success":True, "data":serializer.data}, status = status.HTTP_200_OK)
-        return Response({"success":False, "error":"Invalid data format or type (Please ensure not negative value and the value is within range)"}, status = status.HTTP_400_BAD_REQUEST)
+        return Response({"success":False, "error":"Invalid data format, type , null or empty value (Please ensure not negative value and the value is within range)"}, status = status.HTTP_400_BAD_REQUEST)
 
 
 class UserTrainingSettingView(APIView):
@@ -90,11 +91,10 @@ class TrainingSetHistoryView(APIView):
                 date_obj = datetime.strptime(date_param, "%Y-%m-%d").date()
                 
                 # Filter model objects based on the date parameter
-                queryset = CustomTrainingSet.objects.filter(
-                    created__year=date_obj.year,
-                    created__month=date_obj.month
-                ).order_by("created")
-                serializer = TrainingSetHistorySerializer(queryset, many=True)
+                queryset = TrainingSetCompletedRecord.objects.filter(
+                    completed_date_time__year=date_obj.year,
+                ).order_by("completed_date_time")
+                serializer = TrainingSetCompletedrecordSerializer(queryset, many=True)
                 return Response({"success":True, "data":serializer.data}, status= status.HTTP_200_OK)
             except ValueError:
                 # Handle invalid date format

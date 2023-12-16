@@ -57,11 +57,9 @@ def create_custom_preset_training_set(request):
         training_type=TrainingType.PRESET
     )
     exercise_array = [exe for exe in exercise]
-    print(exercise_array )
     for i, exercise in enumerate(exercise_array):
         try:
             exe = Exercise.objects.get(id=exercise['exercise']["id"])
-            print(exe)
             CustomTrainingExercise.objects.create(
                 calculate_in = return_calculated_in(exercise['calculate_in']),
                 required_value = exercise['required_value'],
@@ -130,15 +128,11 @@ def pause_training_set(request):
     custom_training_id = request.data.get('id')
     custom_exercise = request.data.pop('exercise')
     try:
-        print(CustomTrainingSet.objects.filter(
-            id= custom_training_id,
-        ))
         custom_training_set = CustomTrainingSet.objects.get(
             id= custom_training_id,
             user_profile__user = user,
             status= TrainingStatus.ONGOING
         )
-        print(custom_training_set)
         for exercise_set in custom_exercise:
             try:
                 exe = CustomTrainingExercise.objects.get(
@@ -146,7 +140,6 @@ def pause_training_set(request):
                     belong_to_custom_training_set = custom_training_set
                 )
                 exe.status = return_training_status(exercise_set['status'])
-                print(return_training_status(exercise_set['status']))
                 exe.save()
             except CustomTrainingExercise.DoesNotExist:
                 pass

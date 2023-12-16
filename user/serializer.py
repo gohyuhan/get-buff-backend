@@ -4,7 +4,8 @@ from rest_framework import serializers
 
 from .models import (
     UserProfile,
-    TrainingSetting
+    TrainingSetting,
+    TrainingSetCompletedRecord
 )
 from training.models import (
     CustomTrainingSet
@@ -43,8 +44,8 @@ def _gender_validate(value):
 
 # serializer
 class UserProfileSerializer(serializers.ModelSerializer):
-    first_name = serializers.CharField(source="user.first_name", read_only=True)
-    last_name = serializers.CharField(source="user.last_name",read_only=True)
+    first_name = serializers.CharField(source="user.first_name")
+    last_name = serializers.CharField(source="user.last_name")
 
     class Meta:
         model = UserProfile
@@ -58,7 +59,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "target_weight_in_kg",
             "weight_target_status"
         )
-        read_only_fields = ("first_name", "last_name", "uuid","weight_target_status",)
+        read_only_fields = ("uuid","weight_target_status",)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -113,3 +114,8 @@ class TrainingSetHistorySerializer(serializers.ModelSerializer):
             "return a image to indicate it was a custom training set"
             return None
     
+
+class TrainingSetCompletedrecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrainingSetCompletedRecord
+        fields=('completed_date_time',)

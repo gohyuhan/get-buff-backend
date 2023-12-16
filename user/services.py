@@ -14,6 +14,9 @@ def update_user_profile(request):
     serializer = UserProfileSerializer(data=request.data)
     user_profile = UserProfile.objects.get(user=request.user)
     if serializer.is_valid():
+        request.user.first_name = serializer.data["first_name"]
+        request.user.last_name = serializer.data["last_name"]
+        request.user.save()
         user_profile.gender=serializer.data['gender']
         user_profile.weight_in_kg=serializer.data['weight_in_kg']
         user_profile.height_in_cm=serializer.data['height_in_cm']
@@ -27,6 +30,8 @@ def update_user_profile(request):
             user_profile.weight_target_status = TargetStatus.MAINTAIN
         user_profile.save()
         return True
+    else:
+        print(serializer.error_messages)
     return False
 
 

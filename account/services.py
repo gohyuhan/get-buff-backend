@@ -11,7 +11,9 @@ def get_user(request):
 def sign_out_user(user):
     if user:
         try:
-            Token.objects.get(user=user)
+            token = Token.objects.get(user=user)
+            if token:
+                token.delete()
             return True
         except Token.DoesNotExist:
             return False

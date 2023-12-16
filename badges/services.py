@@ -115,11 +115,11 @@ def user_training_achivement_badge_progression_update(user_profile, training_set
 
     # 5) track special target achivement ( should only consist of 1 model )
     return_list = user_newly_obtained_achivement_badge(progression_updated_badges, True)
-    return_list + user_newly_obtained_achivement_badge(
-        track_special_badge_all_other_non_special_badges_obtain(inprogress_user_badges, user_profile)
-    , True)
-    
-
+    special_badge = track_special_badge_all_other_non_special_badges_obtain(inprogress_user_badges, user_profile)
+    special_badge_list = user_newly_obtained_achivement_badge(special_badge, True)
+    return_list.extend(special_badge_list)
+    print(special_badge_list)
+    print(return_list) 
     return return_list
  
 
