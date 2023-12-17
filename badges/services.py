@@ -118,8 +118,6 @@ def user_training_achivement_badge_progression_update(user_profile, training_set
     special_badge = track_special_badge_all_other_non_special_badges_obtain(inprogress_user_badges, user_profile)
     special_badge_list = user_newly_obtained_achivement_badge(special_badge, True)
     return_list.extend(special_badge_list)
-    print(special_badge_list)
-    print(return_list) 
     return return_list
  
 
