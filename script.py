@@ -835,3 +835,327 @@ child_pose= Exercise.objects.create(
 child_pose.muscle_category.add(muscle_cat['back_and_shoulder'])
 child_pose.muscle.add(muscle['back'])
 child_pose.save()
+
+crossover_crunch= Exercise.objects.create(
+    name = 'CROSSOVER CRUNCH',
+    explanation = "<p>Lie on your back with knees bent and your hands behind your ears.</p> <p>Raise and twist your torso so your right elbow moves to meet your left knee. Repeat with the other side.</p> ",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+crossover_crunch.muscle_category.add(muscle_cat['abs'])
+crossover_crunch.muscle_category.add(muscle_cat['legs'])
+crossover_crunch.muscle.add(muscle['abs'])
+crossover_crunch.muscle.add(muscle['glutes'])
+crossover_crunch.muscle.add(muscle['quadriceps'])
+crossover_crunch.save()
+
+side_bridges_left= Exercise.objects.create(
+    name = 'SIDE BRIDGES LEFT',
+    explanation = "<p>Lie on your right side. Put your right elbow directly under your shoulders and put your left hand on your waist. Place your left leg on your right leg.</p> <p>Raise your hips upward, hold for 2-4 seconds, then go back to the start position.</p> <p>Repeat this exercise.</p> <p># Dumbbell is optional</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+side_bridges_left.muscle_category.add(muscle_cat['abs'])
+side_bridges_left.muscle_category.add(muscle_cat['legs'])
+side_bridges_left.muscle.add(muscle['abs'])
+side_bridges_left.muscle.add(muscle['glutes'])
+side_bridges_left.muscle.add(muscle['adductors'])
+side_bridges_left.save()
+
+side_bridges_right= Exercise.objects.create(
+    name = 'SIDE BRIDGES RIGHT',
+    explanation = "<p>Lie on your left side. Put your left elbow directly under your shoulders and put your right hand on your waist. Place your right leg on your left leg.</p> <p>Raise your hips upward, hold for 2-4 seconds, then go back to the start position.</p> <p>Repeat this exercise.</p> <p># Dumbbell is optional</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+side_bridges_right.muscle_category.add(muscle_cat['abs'])
+side_bridges_right.muscle_category.add(muscle_cat['legs'])
+side_bridges_right.muscle.add(muscle['abs'])
+side_bridges_right.muscle.add(muscle['glutes'])
+side_bridges_right.muscle.add(muscle['adductors'])
+side_bridges_right.save()
+
+butt_bridges= Exercise.objects.create(
+    name = 'BUTT BRIDGES',
+    explanation = "<p>Lie on your back with knees bent and feet flat on the floor. Put your arms flat at your sides.</p> <p>Then lift your butt up and down.</p> <p># Dumbbell is optional</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+butt_bridges.muscle_category.add(muscle_cat['legs'])
+butt_bridges.muscle.add(muscle['glutes'])
+butt_bridges.muscle.add(muscle['hamstrings'])
+butt_bridges.save()
+
+bicycle_crunches= Exercise.objects.create(
+    name = 'BICYCLE CRUNCHES',
+    explanation = "<p>Lie on the floor with your hands behind your ears. Raise your knees and close your right elbow towards your left knee, then close your left elbow towards your right knee. Repeat the exercise.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+bicycle_crunches.muscle_category.add(muscle_cat['legs'])
+bicycle_crunches.muscle_category.add(muscle_cat['abs'])
+bicycle_crunches.muscle.add(muscle['glutes'])
+bicycle_crunches.muscle.add(muscle['abs'])
+bicycle_crunches.muscle.add(muscle['quadriceps'])
+bicycle_crunches.save()
+
+v_up= Exercise.objects.create(
+    name = 'V UP',
+    explanation = "<p>Lie on your back with your arms and legs extended and your legs squeezed together.</p> <p>Raise your upper body and legs, use your arms to touch your toes, then go back to the start position and repeat the exercise.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+v_up.muscle_category.add(muscle_cat['legs'])
+v_up.muscle_category.add(muscle_cat['abs'])
+v_up.muscle.add(muscle['abs'])
+v_up.muscle.add(muscle['quadriceps'])
+v_up.save()
+
+push_up_and_rotation= Exercise.objects.create(
+    name = 'PUSH-UP & ROTATION',
+    explanation = "<p>Start in the push-up position. Then go down for a push-up and as you come up, rotate your upper body and extend your right arm upwards.</p> <p>Repeat the exercise with the other arm, It's a great exercise for the chest, shoulders, arms and core.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+push_up_and_rotation.muscle_category.add(muscle_cat['legs'])
+push_up_and_rotation.muscle_category.add(muscle_cat['abs'])
+push_up_and_rotation.muscle_category.add(muscle_cat['arms'])
+push_up_and_rotation.muscle_category.add(muscle_cat['back_and_shoulder'])
+push_up_and_rotation.muscle_category.add(muscle_cat['chest'])
+push_up_and_rotation.muscle.add(muscle['chest'])
+push_up_and_rotation.muscle.add(muscle['abs'])
+push_up_and_rotation.muscle.add(muscle['shoulders'])
+push_up_and_rotation.muscle.add(muscle['triceps'])
+push_up_and_rotation.muscle.add(muscle['glutes'])
+push_up_and_rotation.save()
+
+side_plank_left= Exercise.objects.create(
+    name = 'SIDE PLANK LEFT',
+    explanation = "<p>Lie on your left side with your forearm supporting your body. Hold your body in a straight line.</p> <p>This exercise targets the abdominal muscles and obliques.</p>",
+    calculate_in = CalculatedIn.SECONDS,
+    animation = "",
+    min_count = 0
+)
+side_plank_left.muscle_category.add(muscle_cat['abs'])
+side_plank_left.muscle.add(muscle['abs'])
+side_plank_left.save()
+
+side_plank_right= Exercise.objects.create(
+    name = 'SIDE PLANK RIGHT',
+    explanation = "<p>Lie on your right side with your forearm supporting your body. Hold your body in a straight line.</p> <p>This exercise targets the abdominal muscles and obliques.</p>",
+    calculate_in = CalculatedIn.SECONDS,
+    animation = "",
+    min_count = 0
+)
+side_plank_right.muscle_category.add(muscle_cat['abs'])
+side_plank_right.muscle.add(muscle['abs'])
+side_plank_right.save()
+
+hindu_push_up= Exercise.objects.create(
+    name = 'HINDU PUSH-UP',
+    explanation = "<p>Start with your hands and feet touching the floor, do a normal push-up, then bend your body and butt up in an upside down 'V' shape.</p> <p>Then bent your elbow to return to original position.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+hindu_push_up.muscle_category.add(muscle_cat['legs'])
+hindu_push_up.muscle_category.add(muscle_cat['back_and_shoulder'])
+hindu_push_up.muscle_category.add(muscle_cat['arms'])
+hindu_push_up.muscle_category.add(muscle_cat['chest'])
+hindu_push_up.muscle.add(muscle['back'])
+hindu_push_up.muscle.add(muscle['chest'])
+hindu_push_up.muscle.add(muscle['triceps'])
+hindu_push_up.muscle.add(muscle['glutes'])
+hindu_push_up.muscle.add(muscle['hamstrings'])
+hindu_push_up.muscle.add(muscle['calves'])
+hindu_push_up.muscle.add(muscle['shoulders'])
+hindu_push_up.save()
+
+pike_push_up= Exercise.objects.create(
+    name = 'PIKE PUSH-UP',
+    explanation = "<p>Start with your hands and feet on the floor. Put your hands shoulder width apart. bend your body, and lift your hips up in an upside down 'V' shape.</p> <p>Bend your elbows, and bring your head close to the floor. Push your body back, and repeat the exercise.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+pike_push_up.muscle_category.add(muscle_cat['back_and_shoulder'])
+pike_push_up.muscle_category.add(muscle_cat['arms'])
+pike_push_up.muscle_category.add(muscle_cat['chest'])
+pike_push_up.muscle.add(muscle['chest'])
+pike_push_up.muscle.add(muscle['triceps'])
+pike_push_up.muscle.add(muscle['shoulders'])
+pike_push_up.save()
+
+decline_push_up= Exercise.objects.create(
+    name = 'DECLINE PUSH-UP',
+    explanation = "<p>Start on all fours with your knees under your butt and your hands under your shoulders.</p> <p>Then elevate your feet on a chair or bench, and push your body up and down mainly using your arm strength.</p> <p>Remember to keep your body straight.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+decline_push_up.muscle_category.add(muscle_cat['back_and_shoulder'])
+decline_push_up.muscle_category.add(muscle_cat['arms'])
+decline_push_up.muscle_category.add(muscle_cat['chest'])
+decline_push_up.muscle.add(muscle['chest'])
+decline_push_up.muscle.add(muscle['triceps'])
+decline_push_up.muscle.add(muscle['shoulders'])
+decline_push_up.save()
+
+right_hooks= Exercise.objects.create(
+    name = 'RIGHT HOOKS',
+    explanation = "<p>Stand with your feet shoulder-width apart, and place your dominant foor slightly forward. Slightly bend your knees, clench your fists and bend your elbows at 90 degrees.</p> <p>Raise your right arm to shoulder height and keep your forearm parallel to the ground. Rotate your shoulders and hips and punch towards the left.</p>",
+    calculate_in = CalculatedIn.SECONDS,
+    animation = "",
+    min_count = 0
+)
+right_hooks.muscle_category.add(muscle_cat['back_and_shoulder'])
+right_hooks.muscle_category.add(muscle_cat['abs'])
+right_hooks.muscle_category.add(muscle_cat['legs'])
+right_hooks.muscle_category.add(muscle_cat['chest'])
+right_hooks.muscle.add(muscle['chest'])
+right_hooks.muscle.add(muscle['back'])
+right_hooks.muscle.add(muscle['shoulders'])
+right_hooks.muscle.add(muscle['abs'])
+right_hooks.muscle.add(muscle['calves'])
+right_hooks.save()
+
+left_hooks= Exercise.objects.create(
+    name = 'LEFT HOOKS',
+    explanation = "<p>Stand with your feet shoulder-width apart, and place your dominant foor slightly forward. Slightly bend your knees, clench your fists and bend your elbows at 90 degrees.</p> <p>Raise your left arm to shoulder height and keep your forearm parallel to the ground. Rotate your shoulders and hips and punch towards the right.</p>",
+    calculate_in = CalculatedIn.SECONDS,
+    animation = "",
+    min_count = 0
+)
+left_hooks.muscle_category.add(muscle_cat['back_and_shoulder'])
+left_hooks.muscle_category.add(muscle_cat['abs'])
+left_hooks.muscle_category.add(muscle_cat['legs'])
+left_hooks.muscle_category.add(muscle_cat['chest'])
+left_hooks.muscle.add(muscle['chest'])
+left_hooks.muscle.add(muscle['back'])
+left_hooks.muscle.add(muscle['shoulders'])
+left_hooks.muscle.add(muscle['abs'])
+left_hooks.muscle.add(muscle['calves'])
+left_hooks.save()
+
+skipping_without_ropes= Exercise.objects.create(
+    name = 'SKIPPING WITHOUT ROPE',
+    explanation = "<p>Place your arms at your sides and pretend to hold a skipping rope handle in each hand.</p> <p>Jump and alternatly land on the balls of your feet, rotating your wrist at the same time as if you were spinning a rope.</p>",
+    calculate_in = CalculatedIn.SECONDS,
+    animation = "",
+    min_count = 0
+)
+skipping_without_ropes.muscle_category.add(muscle_cat['legs'])
+skipping_without_ropes.muscle.add(muscle['glutes'])
+skipping_without_ropes.muscle.add(muscle['quadriceps'])
+skipping_without_ropes.muscle.add(muscle['hamstrings'])
+skipping_without_ropes.muscle.add(muscle['calves'])
+skipping_without_ropes.save()
+
+fire_hydrant_left= Exercise.objects.create(
+    name = 'FIRE HYDRANT LEFT',
+    explanation = "<p>Start on all four with your knees under your butt and your hands under your shoulders.</p> <p>Then lift your left leg to the side at a 90 degree angle.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+fire_hydrant_left.muscle_category.add(muscle_cat['legs'])
+fire_hydrant_left.muscle.add(muscle['glutes'])
+fire_hydrant_left.save()
+
+fire_hydrant_right= Exercise.objects.create(
+    name = 'FIRE HYDRANT RIGHT',
+    explanation = "<p>Start on all four with your knees under your butt and your hands under your shoulders.</p> <p>Then lift your right leg to the side at a 90 degree angle.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+fire_hydrant_right.muscle_category.add(muscle_cat['legs'])
+fire_hydrant_right.muscle.add(muscle['glutes'])
+fire_hydrant_right.save()
+
+sumo_squat= Exercise.objects.create(
+    name = 'SUMO SQUAT',
+    explanation = "<p>Stand with your feet 6-12 inches apart. Place your hands at the opposite shoulder to form an 'X'.</p> <p>Lower your body until your thighs are parallel to the floor. Return to the starting position and repeat the exercise.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+sumo_squat.muscle_category.add(muscle_cat['legs'])
+sumo_squat.muscle.add(muscle['glutes'])
+sumo_squat.muscle.add(muscle['quadriceps'])
+sumo_squat.muscle.add(muscle['adductors'])
+sumo_squat.muscle.add(muscle['hamstrings'])
+sumo_squat.muscle.add(muscle['calves'])
+sumo_squat.save()
+
+flutter_kick= Exercise.objects.create(
+    name = 'FLUTTER KICKS',
+    explanation = "<p>Lie down on the floor, and place your hands on the sides.</p> <p>Lift your leg up as much as you can. When you start to lower the raised leg, start to raise the other and repeat.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+flutter_kick.muscle_category.add(muscle_cat['legs'])
+flutter_kick.muscle.add(muscle['glutes'])
+flutter_kick.muscle.add(muscle['hamstrings'])
+flutter_kick.save()
+
+wall_sit= Exercise.objects.create(
+    name = 'WALL SIT',
+    explanation = "<p>Start with your back against the wall, then slide down until your knees are at a 90 degree angle.</p> <p>Keep your back against the wall with your hands and arms away from the legs. Hold the position.</p> <p>The exercise is to strengthen the quadriceps muscles.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+wall_sit.muscle_category.add(muscle_cat['legs'])
+wall_sit.muscle.add(muscle['glutes'])
+wall_sit.muscle.add(muscle['quadriceps'])
+wall_sit.muscle.add(muscle['calves'])
+wall_sit.muscle.add(muscle['hamstrings'])
+wall_sit.save()
+
+triceps_kick_backs= Exercise.objects.create(
+    name = 'TRICEPS KICK BACKS',
+    explanation = "<p>Lean forward, bend your knees and your elbows.</p> <p>Extend your arms behind you and squeeze your triceps. Please make your arms parallel to the ground when extending them.</p> <p>Go back to the start position, and repeat this exercise.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+triceps_kick_backs.muscle_category.add(muscle_cat['arms'])
+triceps_kick_backs.muscle.add(muscle['triceps'])
+triceps_kick_backs.save()
+
+supine_push_ups= Exercise.objects.create(
+    name = 'SUPINE PUSH UP',
+    explanation = "<p>Lie on your back with your feet flat on the floor and your arms bent on two sides.</p> <p>Push your cheest up as far as youcan, and then slowly go back to the start position.</p> <p>Repeat the exercise.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+supine_push_ups.muscle_category.add(muscle_cat['back_and_shoulder'])
+supine_push_ups.muscle.add(muscle['back'])
+supine_push_ups.muscle.add(muscle['traps'])
+supine_push_ups.muscle.add(muscle['shoulders'])
+supine_push_ups.save()
+
+swimmer_and_superman= Exercise.objects.create(
+    name = 'SWIMMER & SUPERMAN',
+    explanation = "<p>Lie on your stomach with your arms extended straight overhead. Alternately lift your opposite arm and leg.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+swimmer_and_superman.muscle_category.add(muscle_cat['back_and_shoulder'])
+swimmer_and_superman.muscle_category.add(muscle_cat['legs'])
+swimmer_and_superman.muscle.add(muscle['back'])
+swimmer_and_superman.muscle.add(muscle['glutes'])
+swimmer_and_superman.muscle.add(muscle['hamstrings'])
+swimmer_and_superman.muscle.add(muscle['shoulders'])
+swimmer_and_superman.save()
