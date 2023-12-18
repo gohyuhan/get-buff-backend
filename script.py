@@ -1159,3 +1159,70 @@ swimmer_and_superman.muscle.add(muscle['glutes'])
 swimmer_and_superman.muscle.add(muscle['hamstrings'])
 swimmer_and_superman.muscle.add(muscle['shoulders'])
 swimmer_and_superman.save()
+
+sit_up= Exercise.objects.create(
+    name = 'SIT UP',
+    explanation = "<p>Lie on your back with hands behind your ears.</p> <p>Then lift your upper body off the floor and slowly up to the sitting position and turn left. Dont tug your neck when you get up.</p> <p>Slowly go back to the start position and repeat the exercise but turn right this time.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+sit_up.muscle_category.add(muscle_cat['abs'])
+sit_up.muscle.add(muscle['abs'])
+sit_up.muscle.add(muscle['quadriceps'])
+sit_up.save()
+
+arm_curls_crunch_left= Exercise.objects.create(
+    name = 'ARM CURLS CRUNCH LEFT',
+    explanation = "<p>Lie on your left side with your knees bent and lifted. Place your left hand on the floor and put your right hand behind your head.</p> <p>Then raise your upper body by putting force in both your hands.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+arm_curls_crunch_left.muscle_category.add(muscle_cat['abs'])
+arm_curls_crunch_left.muscle_category.add(muscle_cat['arms'])
+arm_curls_crunch_left.muscle.add(muscle['abs'])
+arm_curls_crunch_left.muscle.add(muscle['forearms'])
+arm_curls_crunch_left.muscle.add(muscle['biceps'])
+arm_curls_crunch_left.save()
+
+arm_curls_crunch_right= Exercise.objects.create(
+    name = 'ARM CURLS CRUNCH RIGHT',
+    explanation = "<p>Lie on your right side with your knees bent and lifted. Place your right hand on the floor and put your left hand behind your head.</p> <p>Then raise your upper body by putting force in both your hands.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+arm_curls_crunch_right.muscle_category.add(muscle_cat['abs'])
+arm_curls_crunch_right.muscle_category.add(muscle_cat['arms'])
+arm_curls_crunch_right.muscle.add(muscle['abs'])
+arm_curls_crunch_right.muscle.add(muscle['forearms'])
+arm_curls_crunch_right.muscle.add(muscle['biceps'])
+arm_curls_crunch_right.save()
+
+doorways_curls= Exercise.objects.create(
+    name = 'DOORWAY CURLS',
+    explanation = "<p>Stand in a doorway. Grasp the doorframe using both your hands, and put your feet close to the bottom of the door.</p> <p>Extend your left arm and lean back, then pull at the doorframe and come back to the starting position. Repeat the exercise.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+doorways_curls.muscle_category.add(muscle_cat['arms'])
+doorways_curls.muscle.add(muscle['forearms'])
+doorways_curls.muscle.add(muscle['biceps'])
+doorways_curls.save()
+
+curtsy_lunges= Exercise.objects.create(
+    name = 'CURTSY LUNGES',
+    explanation = "<p>Stand straight up. Then step back with your left leg to the right, bend your knees at the same time.</p> <p>Go back to the start position and switch to the other side.</p>",
+    calculate_in = CalculatedIn.REPS,
+    animation = "",
+    min_count = 0
+)
+curtsy_lunges.muscle_category.add(muscle_cat['legs'])
+curtsy_lunges.muscle.add(muscle['quadriceps'])
+curtsy_lunges.muscle.add(muscle['glutes'])
+curtsy_lunges.muscle.add(muscle['adductors'])
+curtsy_lunges.muscle.add(muscle['hamstrings'])
+curtsy_lunges.muscle.add(muscle['calves'])
+curtsy_lunges.save()
