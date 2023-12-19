@@ -211,7 +211,7 @@ jumping_jack = Exercise.objects.create(
     name = 'JUMPING JACKS',
     explanation = "<p>Start with your feet together and your arms by your sides, then jump up with your feet apart and your hands overhead.</p> <p>Return to the start position then do the next rep. This exercise provides a full-body workout and works all your large muscle groups.</p>",
     calculate_in = CalculatedIn.SECONDS,
-    animation = "",
+    animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702907338/gotBuff/workout_animation/jumping_jack_ntraxq.gif",
     min_count = 0
 )
 jumping_jack.muscle_category.add(muscle_cat['back_and_shoulder'])
@@ -230,7 +230,7 @@ abdominal_crunches = Exercise.objects.create(
     name = 'ABDOMINAL CRUNCHES',
     explanation = "<p>Lie on your back with your knees bent and your arms stretched forward.</p>  <p>Then lift your upper body off the floor. Hold for a few seconds and slowly return.</p> <p>It primarily works the rectus abdominis muscle and the obliques.</p>",
     calculate_in = CalculatedIn.REPS,
-    animation = "",
+    animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702907695/gotBuff/workout_animation/abdominal_crunches_wd2hym.gif",
     min_count = 0
 )
 abdominal_crunches.muscle_category.add(muscle_cat["abs"])
@@ -241,7 +241,7 @@ russian_twist = Exercise.objects.create(
     name = 'RUSSIAN TWISTS',
     explanation = "<p>Sit on the floor with your knees bent, feet lifted a little bit and back tilted backwards.</p>  <p>Then hold your hands together and twist from side to side.</p>",
     calculate_in = CalculatedIn.REPS,
-    animation = "",
+    animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702907798/gotBuff/workout_animation/russian_twist_rsx3fo.gif",
     min_count = 0
 )
 russian_twist.muscle_category.add(muscle_cat["abs"])
@@ -252,7 +252,7 @@ mountain_climber = Exercise.objects.create(
     name = 'MOUNTAIN CLIMBER',
     explanation = "<p>Start in the push-up position. Bend your right knees towards your left chest and keep your left leg straight, then quickly switch from one leg to yhe other.</p> <p>This exercise strengthens muscle groups.</p>",
     calculate_in = CalculatedIn.REPS,
-    animation = "",
+    animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702908476/gotBuff/workout_animation/mountain_climber_knpssl.gif",
     min_count = 0
 )
 mountain_climber.muscle_category.add(muscle_cat["back_and_shoulder"])
@@ -269,7 +269,7 @@ heel_touch = Exercise.objects.create(
     name = 'HEEL TOUCH',
     explanation = "<p>Lie on the ground with your legsbent and your arms by your sides.</p>  <p>Slightly lift your upper body off the floor and make sure your hands alternately reach your heels.</p>",
     calculate_in = CalculatedIn.SECONDS,
-    animation = "",
+    animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702954337/gotBuff/workout_animation/heel_touch_gszagv.gif",
     min_count = 0
 )
 heel_touch.muscle_category.add(muscle_cat["abs"])
@@ -280,7 +280,7 @@ leg_raises = Exercise.objects.create(
     name = 'LEG RAISES',
     explanation = "<p>Lie down on your back, and put your hands beneath your hips for support.</p>  <p>Then lift your legs up until they form a right angle with the floor.</p> <p>Slowly bring your legs back down and repest the exercise.</p>",
     calculate_in = CalculatedIn.REPS,
-    animation = "",
+    animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702954600/gotBuff/workout_animation/leg_raises_owpcjv.gif",
     min_count = 0
 )
 leg_raises.muscle_category.add(muscle_cat['abs'])
@@ -294,7 +294,7 @@ plank = Exercise.objects.create(
     name = 'PLANK',
     explanation = "<p>Lie on the floor with your toes and forearms on the ground. keep your body straight and hold this position as long as you can.</p>  <p>Don't hold your breath. Breathe normally from your abdomen instead of your chest</p> <p>This exercise strengthens the abdome, back and shoulders.</p>",
     calculate_in = CalculatedIn.SECONDS,
-    animation = "",
+    animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702954783/gotBuff/workout_animation/plank_v00ose.gif",
     min_count = 0
 )
 plank.muscle_category.add(muscle_cat['abs'])
@@ -309,7 +309,7 @@ cobra_stretch = Exercise.objects.create(
     name = 'COBRA STRETCH',
     explanation = "<p>Lie down on your stomach and bend your elbows with your hands beneath your shoulders.</p>  <p>Then push your chest up off the ground as far as possible. Hold this position for seconds.</p>",
     calculate_in = CalculatedIn.SECONDS,
-    animation = "",
+    animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702955206/gotBuff/workout_animation/cobra_stretch_dbf1yd.gif",
     min_count = 0
 )
 cobra_stretch.muscle_category.add(muscle_cat['abs'])
@@ -325,18 +325,7 @@ bent_leg_twist = Exercise.objects.create(
     name = 'BENT LEG TWIST',
     explanation = "<p>Lie on your back with your knees up at a 90 degree angle.</p>  <p>Extend your arms to the sides and put your palms down to the ground.</p> <p>Twists your legs to the left while keeping your upper body in place and your knees and feet together.</p> <p>Hold it for one second, then return and twist to the other side. Repeat the exercise.</p>",
     calculate_in = CalculatedIn.REPS,
-    animation = "",
-    min_count = 0
-)
-bent_leg_twist.muscle_category.add(muscle_cat['abs'])
-bent_leg_twist.muscle.add(muscle["abs"])
-bent_leg_twist.save()
-
-bent_leg_twist = Exercise.objects.create(
-    name = 'BENT LEG TWIST',
-    explanation = "<p>Lie on your back with your knees up at a 90 degree angle.</p>  <p>Extend your arms to the sides and put your palms down to the ground.</p> <p>Twists your legs to the left while keeping your upper body in place and your knees and feet together.</p> <p>Hold it for one second, then return and twist to the other side. Repeat the exercise.</p>",
-    calculate_in = CalculatedIn.REPS,
-    animation = "",
+    animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702956215/gotBuff/workout_animation/bent_leg_twist_buq6ma.gif",
     min_count = 0
 )
 bent_leg_twist.muscle_category.add(muscle_cat['abs'])
@@ -347,7 +336,7 @@ burpees = Exercise.objects.create(
     name = 'BURPEES',
     explanation = "<p>Stand with your feet together width apart, then put your hands on the ground and kick your feet backwards. Do a quick push-up and then jump up.</p>",
     calculate_in = CalculatedIn.SECONDS,
-    animation = "",
+    animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702956572/gotBuff/workout_animation/burpees_zvplgf.gif",
     min_count = 0
 )
 burpees.muscle_category.add(muscle_cat['back_and_shoulder'])
@@ -369,7 +358,7 @@ push_up = Exercise.objects.create(
     name = 'PUSH-UPS',
     explanation = "<p>Keep your body straight while raising and lowering your body with your arms.</p> <p>This exercise works the chest, shoulders, triceps, back and legs</p>",
     calculate_in = CalculatedIn.REPS,
-    animation = "",
+    animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702983050/gotBuff/workout_animation/push_up_dpgle6.gif",
     min_count = 0
 )
 push_up.muscle_category.add(muscle_cat['back_and_shoulder'])
