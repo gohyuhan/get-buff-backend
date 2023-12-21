@@ -1,15 +1,6 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    expose:
-      - '5432'
-    restart: always
 
   redis:
     image: "redis:latest"
@@ -18,13 +9,20 @@ services:
     restart: always
 
   nginx:
-    image: nginx:latest
-    container_name: your-nginx-container
+    image: nginx
     ports:
-      - "80:80"
+      - "443:80"
     volumes:
-      - .:/code/static
-    restart: always
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt
+    command: /bin/sh -c "nginx -g 'daemon off;'"
+  
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt
+    command: /bin/sh -c "trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;"
 
   web:
     build:
@@ -36,7 +34,6 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
       - redis
     restart: always
 
@@ -48,7 +45,6 @@ services:
     volumes:
       - .:/code
     depends_on:
-      - db
       - redis
     restart: always
 
@@ -60,7 +56,6 @@ services:
     volumes:
       - .:/code
     depends_on:
-      - db
       - redis
     restart: always
     
@@ -69,10 +64,9 @@ services:
     container_name: flower
     command: celery --broker=${REDIS_BROKER_URL} flower --port=5555
     ports:
-    - "5555" # docker will expose this ports
+    - "5555:5555" # docker will expose this ports
     volumes:
       - .:/code/flower
     depends_on:
-      - db
       - redis
     restart: always
