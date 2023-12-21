@@ -472,7 +472,7 @@ diamond_push_up.save()
 
 biceps_legs_curl_right = Exercise.objects.create(
     name = 'BICEPS LEGS CURL RIGHT',
-    explanation = "<p>Sit down and lift your right leg up. Use your left hand to grab your right leg.</p> <p>Bring your leg towards yourself as much as youcan, then lower it and repeat the exercise</p>",
+    explanation = "<p>Sit down and lift your right leg up. Use your left hand to grab your right leg.</p> <p>Bring your leg towards yourself as much as you can, then lower it and repeat the exercise</p>",
     calculate_in = CalculatedIn.REPS,
     animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702990885/gotBuff/workout_animation/biceps_legs_curl_right_wgzxvk.gif",
     min_count = 0
@@ -484,7 +484,7 @@ biceps_legs_curl_right.save()
 
 biceps_legs_curl_left = Exercise.objects.create(
     name = 'BICEPS LEGS CURL LEFT',
-    explanation = "<p>Sit down and lift your left leg up. Use your right hand to grab your left leg.</p> <p>Bring your leg towards yourself as much as youcan, then lower it and repeat the exercise</p>",
+    explanation = "<p>Sit down and lift your left leg up. Use your right hand to grab your left leg.</p> <p>Bring your leg towards yourself as much as you can, then lower it and repeat the exercise</p>",
     calculate_in = CalculatedIn.REPS,
     animation = "https://res.cloudinary.com/dmoa45uta/image/upload/v1702991043/gotBuff/workout_animation/biceps_legs_curl_left_wzlmvi.gif",
     min_count = 0
@@ -1202,3 +1202,1641 @@ curtsy_lunges.muscle.add(muscle['adductors'])
 curtsy_lunges.muscle.add(muscle['hamstrings'])
 curtsy_lunges.muscle.add(muscle['calves'])
 curtsy_lunges.save()
+
+# abs beginner exercise
+PresetTrainingExercise.objects.create(
+    calculate_in = jumping_jack.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = jumping_jack,
+    order=1
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = abdominal_crunches.calculate_in,
+    required_value = 16,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = abdominal_crunches,
+    order=2
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = russian_twist.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = russian_twist,
+    order=3
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = mountain_climber.calculate_in,
+    required_value = 16,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = mountain_climber,
+    order=4
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = heel_touch.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = heel_touch,
+    order=5
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = leg_raises.calculate_in,
+    required_value = 16,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = leg_raises,
+    order=6
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = plank.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = plank,
+    order=7
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = abdominal_crunches.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = abdominal_crunches,
+    order=8
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = russian_twist.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = russian_twist,
+    order=9
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = mountain_climber.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = mountain_climber,
+    order=10
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = heel_touch.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = heel_touch,
+    order=11
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = leg_raises.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = leg_raises,
+    order=12
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = plank.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = plank,
+    order=13
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = cobra_stretch.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = cobra_stretch,
+    order=14
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = bent_leg_twist.calculate_in,
+    required_value = 16,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = bent_leg_twist,
+    order=15
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = burpees.calculate_in,
+    required_value = 16,
+    level = preset_training_set['preset_abs_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_abs_beginner'],
+    exercise = burpees,
+    order=16
+)
+
+# chest beginner
+PresetTrainingExercise.objects.create(
+    calculate_in = jumping_jack.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_chest_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_chest_beginner'],
+    exercise = jumping_jack,
+    order=1
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up.calculate_in,
+    required_value = 6,
+    level = preset_training_set['preset_chest_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_chest_beginner'],
+    exercise = push_up,
+    order=2
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = diamond_push_up.calculate_in,
+    required_value = 6,
+    level = preset_training_set['preset_chest_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_chest_beginner'],
+    exercise = diamond_push_up,
+    order=3
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = wide_push_up.calculate_in,
+    required_value = 6,
+    level = preset_training_set['preset_chest_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_chest_beginner'],
+    exercise = wide_push_up,
+    order=4
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_dips.calculate_in,
+    required_value = 6,
+    level = preset_training_set['preset_chest_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_chest_beginner'],
+    exercise = triceps_dips,
+    order=5
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = wide_push_up.calculate_in,
+    required_value = 6,
+    level = preset_training_set['preset_chest_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_chest_beginner'],
+    exercise = wide_push_up,
+    order=6
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up.calculate_in,
+    required_value = 6,
+    level = preset_training_set['preset_chest_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_chest_beginner'],
+    exercise = push_up,
+    order=7
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_dips.calculate_in,
+    required_value = 6,
+    level = preset_training_set['preset_chest_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_chest_beginner'],
+    exercise = triceps_dips,
+    order=8
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = knee_push_up.calculate_in,
+    required_value = 6,
+    level = preset_training_set['preset_chest_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_chest_beginner'],
+    exercise = knee_push_up,
+    order=9
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = cobra_stretch.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_chest_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_chest_beginner'],
+    exercise = cobra_stretch,
+    order=10
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = chest_stretch.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_chest_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_chest_beginner'],
+    exercise = chest_stretch,
+    order=11
+)
+
+# arm beginner
+PresetTrainingExercise.objects.create(
+    calculate_in = side_arm_raise.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = side_arm_raise,
+    order=1
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_dips.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = triceps_dips,
+    order=2
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = arm_circle.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = arm_circle,
+    order=3
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = arm_circle.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = arm_circle,
+    order=4
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = diamond_push_up.calculate_in,
+    required_value = 6,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = diamond_push_up,
+    order=5
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = jumping_jack.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = jumping_jack,
+    order=6
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = chest_stretch.calculate_in,
+    required_value = 15,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = chest_stretch,
+    order=7
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = biceps_legs_curl_left.calculate_in,
+    required_value = 8,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = biceps_legs_curl_left,
+    order=8
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = biceps_legs_curl_right.calculate_in,
+    required_value = 8,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = biceps_legs_curl_right,
+    order=9
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = diagonal_plank.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = diagonal_plank,
+    order=10
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = punches.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = punches,
+    order=11
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = push_up,
+    order=12
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = inchworms.calculate_in,
+    required_value = 8,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = inchworms,
+    order=13
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = push_up,
+    order=14
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_stretch_left.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = triceps_stretch_left,
+    order=15
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_stretch_right.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_arm_beginner'],
+    exercise = triceps_stretch_right,
+    order=16
+)
+
+# leg beginner
+PresetTrainingExercise.objects.create(
+    calculate_in = jumping_squats.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = jumping_squats,
+    order=1
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = squats.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = squats,
+    order=2
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = squats.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = squats,
+    order=3
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_leg_lift_left.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = side_lying_leg_lift_left,
+    order=4
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_leg_lift_right.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = side_lying_leg_lift_right,
+    order=5
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_leg_lift_left.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = side_lying_leg_lift_left,
+    order=6
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_leg_lift_right.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = side_lying_leg_lift_right,
+    order=7
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = lunges.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = lunges,
+    order=8
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = lunges.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = lunges,
+    order=9
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = donkey_kick_left.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = donkey_kick_left,
+    order=10
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = donkey_kick_right.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = donkey_kick_right,
+    order=11
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = donkey_kick_left.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = donkey_kick_left,
+    order=12
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = donkey_kick_right.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = donkey_kick_right,
+    order=13
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = left_quad_stretch.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = left_quad_stretch,
+    order=14
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = right_quad_stretch.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = right_quad_stretch,
+    order=15
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = knee_to_chest_stretch_left.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = knee_to_chest_stretch_left,
+    order=16
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = knee_to_chest_stretch_right.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = knee_to_chest_stretch_right,
+    order=17
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = wall_calf_raise.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = wall_calf_raise,
+    order=18
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = wall_calf_raise.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_leg_beginner'],
+    exercise = wall_calf_raise,
+    order=19
+)
+
+# shoulder & back beginner
+PresetTrainingExercise.objects.create(
+    calculate_in = jumping_jack.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = jumping_jack,
+    order=1
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = superman_pulls.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = superman_pulls,
+    order=2
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_arm_raise.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = side_arm_raise,
+    order=3
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = knee_push_up.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = knee_push_up,
+    order=4
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_floor_stretch_left.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = side_lying_floor_stretch_left,
+    order=5
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_floor_stretch_right.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = side_lying_floor_stretch_right,
+    order=6
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = superman_pulls.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = superman_pulls,
+    order=7
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_arm_raise.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = side_arm_raise,
+    order=8
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = knee_push_up.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = knee_push_up,
+    order=9
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = cat_cow_pose.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = cat_cow_pose,
+    order=10
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_push_up.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = triceps_push_up,
+    order=11
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = rhomboid_squeeze.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = rhomboid_squeeze,
+    order=12
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_push_up.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = triceps_push_up,
+    order=13
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = rhomboid_squeeze.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = rhomboid_squeeze,
+    order=14
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = child_pose.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_back_and_shoulder_beginner'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_beginner'],
+    exercise = child_pose,
+    order=15
+)
+
+# abs intermediate
+PresetTrainingExercise.objects.create(
+    calculate_in = jumping_jack.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = jumping_jack,
+    order=1
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = heel_touch.calculate_in,
+    required_value = 26,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = heel_touch,
+    order=2
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = crossover_crunch.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = crossover_crunch,
+    order=3
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = mountain_climber.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = mountain_climber,
+    order=4
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_bridges_left.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = side_bridges_left,
+    order=5
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_bridges_right.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = side_bridges_right,
+    order=6
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = butt_bridges.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = butt_bridges,
+    order=7
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = bicycle_crunches.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = bicycle_crunches,
+    order=8
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = v_up.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = v_up,
+    order=9
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = heel_touch.calculate_in,
+    required_value = 26,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = heel_touch,
+    order=10
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = abdominal_crunches.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = abdominal_crunches,
+    order=11
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = plank.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = plank,
+    order=12
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = crossover_crunch.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = crossover_crunch,
+    order=13
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = leg_raises.calculate_in,
+    required_value = 16,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = leg_raises,
+    order=14
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = bicycle_crunches.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = bicycle_crunches,
+    order=15
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up_and_rotation.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = push_up_and_rotation,
+    order=16
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_plank_left.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = side_plank_left,
+    order=17
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_plank_right.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = side_plank_right,
+    order=18
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = cobra_stretch.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = cobra_stretch,
+    order=19
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = burpees.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = burpees,
+    order=20
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = bent_leg_twist.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_abs_intermediate'],
+    exercise = bent_leg_twist,
+    order=21
+)
+
+# chest intermediate
+PresetTrainingExercise.objects.create(
+    calculate_in = jumping_jack.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = jumping_jack,
+    order=1
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = knee_push_up.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = knee_push_up,
+    order=2
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = push_up,
+    order=3
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = wide_push_up.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = wide_push_up,
+    order=4
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = hindu_push_up.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = hindu_push_up,
+    order=5
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = pike_push_up.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = pike_push_up,
+    order=6
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up_and_rotation.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = push_up_and_rotation,
+    order=7
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = knee_push_up.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = knee_push_up,
+    order=8
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = hindu_push_up.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = hindu_push_up,
+    order=9
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = decline_push_up.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = decline_push_up,
+    order=10
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = pike_push_up.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = pike_push_up,
+    order=11
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = push_up,
+    order=12
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = cobra_stretch.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = cobra_stretch,
+    order=13
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = chest_stretch.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_chest_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_chest_intermediate'],
+    exercise = chest_stretch,
+    order=14
+)
+
+# arm intermediate
+PresetTrainingExercise.objects.create(
+    calculate_in = arm_circle.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = arm_circle,
+    order=1
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = arm_circle.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = arm_circle,
+    order=2
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_dips.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = triceps_dips,
+    order=3
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = push_up,
+    order=4
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = left_hooks.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = left_hooks,
+    order=5
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = right_hooks.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = right_hooks,
+    order=6
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up_and_rotation.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = push_up_and_rotation,
+    order=7
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = biceps_legs_curl_left.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = biceps_legs_curl_left,
+    order=8
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = biceps_legs_curl_right.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = biceps_legs_curl_right,
+    order=9
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_dips.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = triceps_dips,
+    order=10
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = push_up,
+    order=11
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up_and_rotation.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = push_up_and_rotation,
+    order=12
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = biceps_legs_curl_left.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = biceps_legs_curl_left,
+    order=13
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = biceps_legs_curl_right.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = biceps_legs_curl_right,
+    order=14
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = skipping_without_ropes.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = skipping_without_ropes,
+    order=15
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = push_up,
+    order=16
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = burpees.calculate_in,
+    required_value = 10,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = burpees,
+    order=17
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = skipping_without_ropes.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = skipping_without_ropes,
+    order=18
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = push_up,
+    order=19
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = burpees.calculate_in,
+    required_value = 8,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = burpees,
+    order=20
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_stretch_left.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = triceps_stretch_left,
+    order=21
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_stretch_right.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_arm_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_arm_intermediate'],
+    exercise = triceps_stretch_right,
+    order=22
+)
+
+# legs intermediate
+PresetTrainingExercise.objects.create(
+    calculate_in = jumping_jack.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = jumping_jack,
+    order=1
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = squats.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = squats,
+    order=2
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = squats.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = squats,
+    order=3
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = squats.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = squats,
+    order=4
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = fire_hydrant_left.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = fire_hydrant_left,
+    order=5
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = fire_hydrant_right.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = fire_hydrant_right,
+    order=6
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = fire_hydrant_left.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = fire_hydrant_left,
+    order=7
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = fire_hydrant_right.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = fire_hydrant_right,
+    order=8
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = fire_hydrant_left.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = fire_hydrant_left,
+    order=9
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = fire_hydrant_right.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = fire_hydrant_right,
+    order=10
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = lunges.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = lunges,
+    order=11
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = lunges.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = lunges,
+    order=12
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_leg_lift_left.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = side_lying_leg_lift_left,
+    order=13
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_floor_stretch_right.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = side_lying_floor_stretch_right,
+    order=14
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_leg_lift_left.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = side_lying_leg_lift_left,
+    order=15
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_floor_stretch_right.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = side_lying_floor_stretch_right,
+    order=16
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = sumo_squat.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = sumo_squat,
+    order=17
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = sumo_squat.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = sumo_squat,
+    order=18
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = sumo_squat.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = sumo_squat,
+    order=19
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = flutter_kick.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = flutter_kick,
+    order=20
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = flutter_kick.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = flutter_kick,
+    order=21
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = flutter_kick.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = flutter_kick,
+    order=22
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = wall_sit.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = wall_sit,
+    order=23
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = left_quad_stretch.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = left_quad_stretch,
+    order=24
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = right_quad_stretch.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = right_quad_stretch,
+    order=25
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = knee_to_chest_stretch_left.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = knee_to_chest_stretch_left,
+    order=26
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = right_quad_stretch.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = right_quad_stretch,
+    order=27
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = wall_calf_raise.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = wall_calf_raise,
+    order=28
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = wall_calf_raise.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = wall_calf_raise,
+    order=29
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = wall_calf_raise.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_leg_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_leg_intermediate'],
+    exercise = wall_calf_raise,
+    order=30
+)
+
+# back & shoulder intermediate
+PresetTrainingExercise.objects.create(
+    calculate_in = jumping_jack.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = jumping_jack,
+    order=1
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_kick_backs.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = triceps_kick_backs,
+    order=2
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = diamond_push_up.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = diamond_push_up,
+    order=3
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = superman_pulls.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = superman_pulls,
+    order=4
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_dips.calculate_in,
+    required_value = 16,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = triceps_dips,
+    order=5
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = cat_cow_pose.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = cat_cow_pose,
+    order=6
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_kick_backs.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = triceps_kick_backs,
+    order=7
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = push_up,
+    order=8
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = rhomboid_squeeze.calculate_in,
+    required_value = 12,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = rhomboid_squeeze,
+    order=9
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = triceps_dips.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = triceps_dips,
+    order=10
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_floor_stretch_left.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = side_lying_floor_stretch_left,
+    order=11
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_lying_floor_stretch_right.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = side_lying_floor_stretch_right,
+    order=12
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = hindu_push_up.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = hindu_push_up,
+    order=13
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = swimmer_and_superman.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = swimmer_and_superman,
+    order=14
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = hindu_push_up.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = hindu_push_up,
+    order=15
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = swimmer_and_superman.calculate_in,
+    required_value = 14,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = swimmer_and_superman,
+    order=16
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = child_pose.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_back_and_shoulder_intermediate'].level,
+    belong_to_training_set = preset_training_set['preset_back_and_shoulder_intermediate'],
+    exercise = child_pose,
+    order=17
+)
+
+# abs advance
+PresetTrainingExercise.objects.create(
+    calculate_in = jumping_jack.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = jumping_jack,
+    order=1
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = sit_up.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = sit_up,
+    order=2
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_bridges_left.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = side_bridges_left,
+    order=3
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_bridges_right.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = side_bridges_right,
+    order=4
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = abdominal_crunches.calculate_in,
+    required_value = 16,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = abdominal_crunches,
+    order=5
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = bicycle_crunches.calculate_in,
+    required_value = 24,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = bicycle_crunches,
+    order=6
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_plank_right.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = side_plank_right,
+    order=7
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = side_plank_left.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = side_plank_left,
+    order=8
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = v_up.calculate_in,
+    required_value = 18,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = v_up,
+    order=9
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = push_up_and_rotation.calculate_in,
+    required_value = 24,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = push_up_and_rotation,
+    order=10
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = russian_twist.calculate_in,
+    required_value = 16,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = russian_twist,
+    order=11
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = abdominal_crunches.calculate_in,
+    required_value = 16,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = abdominal_crunches,
+    order=12
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = butt_bridges.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = butt_bridges,
+    order=13
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = heel_touch.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = heel_touch,
+    order=14
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = mountain_climber.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = mountain_climber,
+    order=15
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = crossover_crunch.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = crossover_crunch,
+    order=16
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = v_up.calculate_in,
+    required_value = 16,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = v_up,
+    order=17
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = plank.calculate_in,
+    required_value = 60,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = plank,
+    order=18
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = cobra_stretch.calculate_in,
+    required_value = 30,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = cobra_stretch,
+    order=19
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = burpees.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = burpees,
+    order=20
+)
+PresetTrainingExercise.objects.create(
+    calculate_in = bent_leg_twist.calculate_in,
+    required_value = 20,
+    level = preset_training_set['preset_abs_advance'].level,
+    belong_to_training_set = preset_training_set['preset_abs_advance'],
+    exercise = bent_leg_twist,
+    order=21
+)
