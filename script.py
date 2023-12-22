@@ -19,7 +19,7 @@ from training.enums import (
     CalculatedIn
 )
 from muscle.enums import MuscleGroup
-
+print('start...')
 muscle_cat={
     "abs":MuscleCategory.objects.create(
         name = 'abs',
@@ -3648,3 +3648,4 @@ PresetTrainingExercise.objects.create(
     exercise = child_pose,
     order=17
 )
+print('end...')

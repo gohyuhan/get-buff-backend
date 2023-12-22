@@ -28,23 +28,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 HOST_DOMAIN = os.getenv('HOST_DOMAIN')
 CLIENT_DOMAIN = os.getenv('CLIENT_DOMAIN')
 
 CORS_ALLOWED_ORIGINS = [
-    "https://training.getbuff.net",
-    "https://getbuff.net",
+    "http://localhost:8000",
+    "http://localhost:5173",
 ]
+
+CORS_ALLOWED_ALL_ORIGINS = True
 
 # Allow credentials (cookies, authentication headers) to be included in the CORS requests
 CORS_ALLOW_CREDENTIALS = True
 
 ALLOWED_HOSTS = [
-    '3.26.146.122',
-    "https://training.getbuff.net",
-    "https://getbuff.net",
+    "http://localhost",
+    "localhost"
 ]
 
 CORS_ALLOW_HEADERS = (
