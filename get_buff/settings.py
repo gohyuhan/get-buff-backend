@@ -42,6 +42,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 ALLOWED_HOSTS = [
+    '3.26.146.122',
     "https://training.getbuff.net",
     "https://getbuff.net",
 ]
