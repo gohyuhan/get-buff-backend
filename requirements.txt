@@ -16,7 +16,7 @@ click-repl==0.3.0
 cryptography==41.0.7
 cssselect==1.2.0
 cssutils==2.9.0
-Django==4.2.7
+Django==4.2.10
 django-anymail==10.2
 django-constance==3.1.0
 django-cors-headers==4.3.1
